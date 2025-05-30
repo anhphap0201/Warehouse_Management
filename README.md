@@ -58,7 +58,7 @@ Dự án được xây dựng trên nền tảng các công nghệ hiện đại
 
 Đảm bảo môi trường phát triển của bạn đáp ứng các yêu cầu sau:
 
-* **PHP:** Phiên bản `>= 8.0` (Kiểm tra phiên bản Laravel cụ thể bạn đang dùng để biết yêu cầu chính xác).
+* **PHP:** Phiên bản `>= 8.0`.
 * **Composer:** Phiên bản mới nhất ([https://getcomposer.org/](https://getcomposer.org/)).
 * **Node.js & NPM:** Node.js LTS và NPM đi kèm ([https://nodejs.org/](https://nodejs.org/)).
 * **Cơ sở dữ liệu:** MySQL Server (>= 5.7) hoặc MariaDB Server (>= 10.3).
@@ -160,11 +160,7 @@ Dự án sử dụng **MySQL/MariaDB**.
     ```bash
     php artisan migrate
     ```
-* **Cách thay thế (sử dụng file .sql):**
-    1.  Tạo một cơ sở dữ liệu trống (ví dụ: `warehouse_management`) trên MySQL server của bạn (có thể dùng phpMyAdmin, HeidiSQL, MySQL Workbench, hoặc command line).
-    2.  Import file `database/warehouse_management.sql` (nếu file này được cung cấp và chứa cấu trúc + dữ liệu) vào cơ sở dữ liệu vừa tạo.
-        * **Qua phpMyAdmin:** Chọn database -> Tab `Import` -> Chọn file `.sql` -> Nhấn `Go`.
-        * **Qua command line:** `mysql -u [username] -p [database_name] < warehouse_management.sql`
+
 
 ## 📊 Sơ đồ hệ thống
 
@@ -174,19 +170,38 @@ Các sơ đồ giúp hình dung cấu trúc và luồng hoạt động của h�
 
 Mô tả cấu trúc các lớp, thuộc tính, phương thức và mối quan hệ giữa chúng.
 
-![Sơ đồ lớp](./Img/Warehouse_Management_Class_Diagram.drawio.png)
+![Sơ đồ lớp](./Img/Warehouse_Management_Class_Diagram.svg)
 
 ### Sơ đồ tuần tự (Sequence Diagram)
 
-Mô tả tương tác giữa các đối tượng theo trình tự thời gian cho một chức năng cụ thể (ví dụ: quy trình đăng nhập, thêm sản phẩm).
+Mô tả tương tác giữa các đối tượng theo trình tự thời gian cho các chức năng chính của hệ thống:
 
-![Sơ đồ tuần tự](./Img/Warehouse_Management_Sequence_Diagram.png)
+1. **UserAuthenticationSequence** - Quản lý xác thực người dùng
+   ![Sơ đồ xác thực](./Img/Warehouse_Management_Authentication_Sequence_Diagram.svg)
+
+2. **ProductManagementSequence** - Quản lý sản phẩm
+   ![Sơ đồ quản lý sản phẩm](./Img/Warehouse_Management_Product_Management_Squence_Diagram.svg)
+
+3. **InventoryManagementSequence** - Quản lý kho và hàng tồn kho
+   ![Sơ đồ quản lý tồn kho](./Img/Warehouse_Management_Inventory_Management_Sequence_Diagram.svg)
+
+4. **InventoryTransferSequence** - Chuyển hàng từ kho đến cửa hàng
+   ![Sơ đồ chuyển kho](./Img/Warehouse_Management_Inventory_Transfer_Sequence_Diagram.svg)
+
+5. **StockMovementSequence** - Quản lý chuyển động kho
+   ![Sơ đồ chuyển động kho](./Img/Warehouse_Management_Stock_Movement_Sequence_Diagram.svg)
+
+6. **StoreManagementSequence** - Quản lý cửa hàng
+   ![Sơ đồ quản lý cửa hàng](./Img/Warehouse_Management_Store_Management_Sequence_Diagram.svg)
+
+7. **SessionCacheManagementSequence** - Quản lý phiên làm việc và bộ nhớ đệm
+   ![Sơ đồ quản lý phiên làm việc](./Img/Warehouse_Management_Session_Cache_Management_Sequence_Diagram.svg)
 
 ### Sơ đồ Use Case (Use Case Diagram)
 
 Mô tả các chức năng chính của hệ thống và sự tương tác của người dùng (actors) với các chức năng đó.
 
-![Sơ đồ chức năng](./Img/Warehouse_Management_Use_Case_Diagram.drawio.png)
+![Sơ đồ chức năng](./Img/Warehouse_Management_Use_Case_Diagram.svg)
 
 
 ## 🤝 Đóng góp
