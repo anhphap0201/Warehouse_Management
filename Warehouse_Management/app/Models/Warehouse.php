@@ -20,7 +20,7 @@ class Warehouse extends Model
      */
     public function inventory(): HasMany
     {
-        return $this->hasMany(Inventory::class);
+        return $this->hasMany(Inventory:: class);
     }
 
     /**

@@ -29,8 +29,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $warehouses = \App\Models\Warehouse::latest()->take(5)->get();
     $stores = \App\Models\Store::latest()->take(5)->get();
-    $products = \App\Models\Product::with('category')->latest()->take(5)->get();
-    return view('dashboard', compact('warehouses', 'stores', 'products'));
+    return view('dashboard', compact('warehouses', 'stores'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Xác thực

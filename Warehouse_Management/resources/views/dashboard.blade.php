@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Grid Layout 3 cột -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Grid Layout 2 cột -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
                 <!-- Cột 1: Quản lý Kho Hàng -->
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -170,94 +170,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Cột 3: Quản lý Sản Phẩm -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold mb-4 flex items-center">
-                                <svg class="w-6 h-6 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                </svg>
-                                {{ __('Quản lý Sản Phẩm') }}
-                            </h3>
-                            
-                            @if($products->count() > 0)
-                                <div class="space-y-3 mb-4">
-                                    @foreach($products as $product)
-                                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <div class="flex items-center">
-                                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100">
-                                                        {{ $product->name }}
-                                                    </h4>
-                                                    @if($product->category)
-                                                    <span class="ml-2 px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                                                        {{ $product->category->name }}
-                                                    </span>
-                                                    @endif
-                                                </div>
-                                                <p class="text-sm text-gray-500 dark:text-gray-300 mt-1">
-                                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
-                                                    </svg>
-                                                    SKU: {{ $product->sku }}
-                                                </p>
-                                                @if($product->unit)
-                                                <p class="text-sm text-gray-500 dark:text-gray-300 mt-1">
-                                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                                                    </svg>
-                                                    Đơn vị: {{ $product->unit }}
-                                                </p>
-                                                @endif
-                                                <p class="text-xs text-gray-400 mt-1">
-                                                    Tạo: {{ $product->created_at->format('d/m/Y') }}
-                                                </p>
-                                            </div>
-                                            <div class="flex space-x-2">
-                                                <a href="{{ route('products.show', $product) }}" 
-                                                   class="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 text-sm">
-                                                    Chi tiết
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                                
-                                <div class="flex justify-center">
-                                    <a href="{{ route('products.index') }}" 
-                                       class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-md transition-colors">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                                        </svg>
-                                        Xem tất cả sản phẩm
-                                    </a>
-                                </div>
-                            @else
-                                <div class="text-center py-8">
-                                    <div class="inline-flex items-center justify-center w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full mb-3">
-                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                        </svg>
-                                    </div>
-                                    <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-                                        Chưa có sản phẩm nào
-                                    </h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-3">
-                                        Liên hệ quản trị viên để thêm sản phẩm.
-                                    </p>
-                                    <a href="{{ route('products.index') }}" 
-                                       class="inline-flex items-center px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-md">
-                                        Xem trang sản phẩm
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Thông báo chào mừng -->
@@ -273,7 +185,7 @@
                             Chào mừng đến với Hệ thống Quản lý Kho hàng
                         </h3>
                         <p class="mt-2 text-blue-700 dark:text-blue-300">
-                            Bạn đã đăng nhập thành công! Sử dụng menu điều hướng để truy cập các chức năng quản lý sản phẩm, kho hàng, cửa hàng và báo cáo.
+                            Bạn đã đăng nhập thành công! Sử dụng menu điều hướng để truy cập các chức năng quản lý kho hàng, cửa hàng và báo cáo.
                         </p>
                         <div class="mt-4">
                             <div class="flex flex-wrap gap-3">
@@ -288,12 +200,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                     </svg>
                                     Quản lý Cửa hàng
-                                </a>
-                                <a href="{{ route('products.index') }}" class="inline-flex items-center px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-md transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                    </svg>
-                                    Quản lý Sản phẩm
                                 </a>
                             </div>
                         </div>
