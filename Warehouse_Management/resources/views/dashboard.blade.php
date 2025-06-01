@@ -71,9 +71,6 @@
                                     <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-2">
                                         Chưa có kho hàng nào
                                     </h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-3">
-                                        Liên hệ quản trị viên để thêm kho hàng.
-                                    </p>
                                     <a href="{{ route('warehouses.index') }}" 
                                        class="inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md">
                                         Xem trang kho hàng
@@ -158,9 +155,6 @@
                                     <h4 class="text-md font-medium text-gray-900 dark:text-gray-100 mb-2">
                                         Chưa có cửa hàng nào
                                     </h4>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-3">
-                                        Liên hệ quản trị viên để thêm cửa hàng.
-                                    </p>
                                     <a href="{{ route('stores.index') }}" 
                                        class="inline-flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md">
                                         Xem trang cửa hàng
