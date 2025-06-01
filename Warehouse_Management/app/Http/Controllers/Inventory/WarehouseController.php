@@ -39,14 +39,13 @@ class WarehouseController extends Controller
 
         return redirect()->route('warehouses.index')
             ->with('success', 'Kho hàng đã được tạo thành công!');
-    }
-
-    /**
+    }    /**
      * Display the specified warehouse.
      */
     public function show(Warehouse $warehouse)
     {
-        $warehouse->load('inventory.product');
+        // Load inventory relationship, but don't fail if no inventory exists
+        $warehouse->load('inventory');
         return view('warehouses.show', compact('warehouse'));
     }
 
