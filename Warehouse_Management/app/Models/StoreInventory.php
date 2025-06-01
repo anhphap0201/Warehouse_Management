@@ -6,23 +6,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Inventory extends Model
+class StoreInventory extends Model
 {
     use HasFactory;
 
     /**
      * The table associated with the model.
      */
-    protected $table = 'inventory';
+    protected $table = 'store_inventories';
 
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = [
+        'store_id',
         'product_id',
-        'warehouse_id',
         'quantity',
+        'min_stock',
+        'max_stock',
     ];
+
+    /**
+     * Get the store that owns the inventory.
+     */
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
+    }
 
     /**
      * Get the product that owns the inventory.
@@ -33,10 +43,18 @@ class Inventory extends Model
     }
 
     /**
-     * Get the warehouse that owns the inventory.
+     * Check if the stock is low
      */
-    public function warehouse(): BelongsTo
+    public function isLowStock(): bool
     {
-        return $this->belongsTo(Warehouse::class);
+        return $this->quantity <= $this->min_stock;
+    }
+
+    /**
+     * Check if the stock is overstocked
+     */
+    public function isOverstocked(): bool
+    {
+        return $this->quantity >= $this->max_stock;
     }
 }
