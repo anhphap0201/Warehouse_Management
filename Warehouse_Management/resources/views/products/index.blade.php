@@ -29,10 +29,42 @@
                     @if(session('error'))
                         <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                             {{ session('error') }}
-                        </div>
-                    @endif
+                        </div>                    @endif
 
                     @if($products->count() > 0)
+                        <!-- Search Section -->
+                        <div class="mb-6">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </div>
+                                <input type="text" 
+                                       id="searchInput" 
+                                       class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Tìm kiếm sản phẩm theo tên, SKU, danh mục hoặc mô tả...">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <div id="searchLoader" class="hidden">
+                                        <svg class="animate-spin h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </div>
+                                    <button id="clearSearch" class="hidden text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Search Results Summary -->
+                            <div id="searchResults" class="hidden mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                <span id="searchResultsText"></span>
+                            </div>
+                        </div>
+
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
@@ -56,10 +88,14 @@
                                             Hành động
                                         </th>
                                     </tr>
-                                </thead>
-                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                </thead>                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach($products as $product)
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <tr class="product-row hover:bg-gray-50 dark:hover:bg-gray-700" 
+                                        data-name="{{ strtolower($product->name) }}" 
+                                        data-sku="{{ strtolower($product->sku) }}" 
+                                        data-category="{{ strtolower($product->category->name ?? '') }}" 
+                                        data-description="{{ strtolower($product->description ?? '') }}" 
+                                        data-search="{{ strtolower($product->name . ' ' . $product->sku . ' ' . ($product->category->name ?? '') . ' ' . ($product->description ?? '')) }}">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 {{ $product->name }}
@@ -110,9 +146,17 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @endforeach
-                                </tbody>
+                                    @endforeach                                </tbody>
                             </table>
+                        </div>
+
+                        <!-- Empty Search State -->
+                        <div id="emptySearchState" class="hidden text-center py-12">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Không tìm thấy sản phẩm nào</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Không có sản phẩm nào khớp với từ khóa tìm kiếm. Hãy thử từ khóa khác.</p>
                         </div>
                     @else
                         <div class="text-center py-12">
@@ -133,7 +177,158 @@
                         </div>
                     @endif
                 </div>
-            </div>
-        </div>
+            </div>        </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchLoader = document.getElementById('searchLoader');
+        const clearSearch = document.getElementById('clearSearch');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsText = document.getElementById('searchResultsText');
+        const tableContainer = document.querySelector('.overflow-x-auto');
+        const emptySearchState = document.getElementById('emptySearchState');
+        
+        let searchTimeout;
+        let allProductRows = [];
+        
+        // Store all product rows
+        if (tableContainer) {
+            allProductRows = Array.from(tableContainer.querySelectorAll('.product-row'));
+        }
+        
+        function showLoader() {
+            if (searchLoader) searchLoader.classList.remove('hidden');
+        }
+        
+        function hideLoader() {
+            if (searchLoader) searchLoader.classList.add('hidden');
+        }
+        
+        function updateClearButton() {
+            if (clearSearch) {
+                if (searchInput.value.trim()) {
+                    clearSearch.classList.remove('hidden');
+                } else {
+                    clearSearch.classList.add('hidden');
+                }
+            }
+        }
+        
+        function updateSearchResults(query, resultCount, totalCount) {
+            if (!searchResults || !searchResultsText) return;
+            
+            if (query.trim()) {
+                searchResults.classList.remove('hidden');
+                if (resultCount === 0) {
+                    searchResultsText.textContent = `Không tìm thấy kết quả nào cho "${query}"`;
+                } else if (resultCount === totalCount) {
+                    searchResults.classList.add('hidden');
+                } else {
+                    searchResultsText.textContent = `Tìm thấy ${resultCount} trong ${totalCount} sản phẩm cho "${query}"`;
+                }
+            } else {
+                searchResults.classList.add('hidden');
+            }
+        }
+        
+        function performSearch(query) {
+            showLoader();
+            
+            setTimeout(() => {
+                if (!tableContainer || allProductRows.length === 0) {
+                    hideLoader();
+                    return;
+                }
+                
+                const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(term => term.length > 0);
+                let visibleCount = 0;
+                
+                if (searchTerms.length === 0) {
+                    // Show all rows
+                    allProductRows.forEach(row => {
+                        row.style.display = '';
+                        visibleCount++;
+                    });
+                    
+                    if (emptySearchState) {
+                        emptySearchState.style.display = 'none';
+                    }
+                    tableContainer.style.display = '';
+                } else {
+                    // Filter rows based on search terms
+                    allProductRows.forEach(row => {
+                        const searchText = row.getAttribute('data-search') || '';
+                        const shouldShow = searchTerms.every(term => searchText.includes(term));
+                        
+                        if (shouldShow) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                    
+                    // Handle empty state
+                    if (visibleCount === 0) {
+                        if (emptySearchState) {
+                            emptySearchState.style.display = '';
+                        }
+                        tableContainer.style.display = 'none';
+                    } else {
+                        if (emptySearchState) {
+                            emptySearchState.style.display = 'none';
+                        }
+                        tableContainer.style.display = '';
+                    }
+                }
+                
+                updateSearchResults(query, visibleCount, allProductRows.length);
+                hideLoader();
+            }, 100);
+        }
+        
+        // Search input event handler with debounce
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value;
+                updateClearButton();
+                
+                // Clear previous timeout
+                if (searchTimeout) {
+                    clearTimeout(searchTimeout);
+                }
+                
+                // Set new timeout for 300ms
+                searchTimeout = setTimeout(() => {
+                    performSearch(query);
+                }, 300);
+            });
+        }
+        
+        // Clear search button
+        if (clearSearch) {
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                updateClearButton();
+                performSearch('');
+            });
+        }
+        
+        // Handle search input focus and blur for better UX
+        if (searchInput) {
+            searchInput.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-blue-500', 'border-blue-500');
+            });
+            
+            searchInput.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-blue-500', 'border-blue-500');
+            });
+        }
+        
+        // Initialize
+        updateClearButton();
+    });
+    </script>
 </x-app-layout>
