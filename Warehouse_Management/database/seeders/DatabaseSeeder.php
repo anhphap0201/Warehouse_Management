@@ -19,11 +19,18 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        // Seed stores, categories, and products
+        // Seed in correct order to maintain foreign key relationships
         $this->call([
-            StoreSeeder::class,
+            // Basic entities first
+            WarehouseSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
+            StoreSeeder::class,
+            
+            // Then inventory-related data
+            InventorySeeder::class,
+            StoreInventorySeeder::class,
+            StockMovementSeeder::class,
         ]);
     }
 }

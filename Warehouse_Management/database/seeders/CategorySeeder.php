@@ -15,45 +15,20 @@ class CategorySeeder extends Seeder
     {
         // Create predefined categories
         $categories = [
-            [
-                'name' => 'Điện tử',
-                'description' => 'Các sản phẩm điện tử như điện thoại, laptop, máy tính bảng, thiết bị âm thanh'
-            ],
-            [
-                'name' => 'Thời trang',
-                'description' => 'Quần áo, giày dép, phụ kiện thời trang cho nam, nữ và trẻ em'
-            ],
-            [
-                'name' => 'Gia dụng',
-                'description' => 'Đồ gia dụng, nội thất, thiết bị nhà bếp, dụng cụ sinh hoạt'
-            ],
-            [
-                'name' => 'Thực phẩm',
-                'description' => 'Thực phẩm tươi sống, đồ khô, đồ uống, gia vị và nguyên liệu nấu ăn'
-            ],
-            [
-                'name' => 'Sách & Văn phòng phẩm',
-                'description' => 'Sách, vở, bút viết, đồ dùng văn phòng, thiết bị học tập'
-            ],
-            [
-                'name' => 'Sức khỏe & Làm đẹp',
-                'description' => 'Thuốc, mỹ phẩm, thiết bị chăm sóc sức khỏe, sản phẩm làm đẹp'
-            ],
-            [
-                'name' => 'Thể thao & Du lịch',
-                'description' => 'Dụng cụ thể thao, đồ du lịch, camping, thiết bị outdoor'
-            ],
-            [
-                'name' => 'Mẹ & Bé',
-                'description' => 'Đồ dùng cho mẹ và bé, đồ chơi trẻ em, sữa bột, tã em bé'
-            ],
+            ['name' => 'Điện tử'],
+            ['name' => 'Thời trang'],
+            ['name' => 'Gia dụng'],
+            ['name' => 'Thực phẩm'],
+            ['name' => 'Sách & Văn phòng phẩm'],
+            ['name' => 'Sức khỏe & Làm đẹp'],
+            ['name' => 'Thể thao & Du lịch'],
+            ['name' => 'Mẹ & Bé'],
         ];
 
         foreach ($categories as $category) {
-            Category::firstOrCreate(
-                ['name' => $category['name']],
-                $category
-            );
+            Category::firstOrCreate($category);
         }
+
+        $this->command->info('Created ' . count($categories) . ' categories.');
     }
 }

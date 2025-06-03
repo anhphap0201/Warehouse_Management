@@ -42,11 +42,27 @@ class WarehouseController extends Controller
     }    /**
      * Display the specified warehouse.
      */
-    public function show(Warehouse $warehouse)
+    public function show(Request $request, Warehouse $warehouse)
     {
-        // Load inventory relationship, but don't fail if no inventory exists
-        $warehouse->load('inventory');
-        return view('warehouses.show', compact('warehouse'));
+        // Load inventory with product and category relationships
+        $warehouse->load(['inventory.product.category']);
+        
+        // Get all categories that have products in this warehouse
+        $categories = \App\Models\Category::whereHas('products.inventory', function($query) use ($warehouse) {
+            $query->where('warehouse_id', $warehouse->id);
+        })->get();
+        
+        // Filter inventory by category if requested
+        $categoryFilter = $request->get('category_id');
+        $filteredInventory = $warehouse->inventory;
+        
+        if ($categoryFilter) {
+            $filteredInventory = $warehouse->inventory->filter(function($inventory) use ($categoryFilter) {
+                return $inventory->product->category_id == $categoryFilter;
+            });
+        }
+        
+        return view('warehouses.show', compact('warehouse', 'categories', 'filteredInventory', 'categoryFilter'));
     }
 
     /**

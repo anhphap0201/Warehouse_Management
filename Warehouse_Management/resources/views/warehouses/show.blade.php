@@ -74,11 +74,157 @@
                                     </svg>
                                     Xóa Kho
                                 </button>
-                            </form>
+                            </form>                    </div>
+                </div>
+            </div>
+
+            <!-- Warehouse Inventory Section -->
+            <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">Tồn kho trong Kho hàng</h3>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                            Tổng: {{ $warehouse->inventory->count() }} loại sản phẩm
                         </div>
                     </div>
+
+                    <!-- Category Filter -->
+                    @if($categories->count() > 0)
+                    <div class="mb-6">
+                        <div class="flex flex-wrap gap-2">
+                            <a href="{{ route('warehouses.show', $warehouse) }}" 
+                               class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors {{ !$categoryFilter ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                </svg>
+                                Tất cả
+                                @if(!$categoryFilter)
+                                    <span class="ml-2 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
+                                        {{ $warehouse->inventory->count() }}
+                                    </span>
+                                @endif
+                            </a>
+                            
+                            @foreach($categories as $category)
+                            <a href="{{ route('warehouses.show', [$warehouse, 'category_id' => $category->id]) }}" 
+                               class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors {{ $categoryFilter == $category->id ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
+                                {{ $category->name }}
+                                <span class="ml-2 bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
+                                    {{ $warehouse->inventory->where('product.category_id', $category->id)->count() }}
+                                </span>
+                            </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Inventory Table -->
+                    @if($filteredInventory->count() > 0)
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Sản phẩm
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            SKU
+                                        </th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Danh mục
+                                        </th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Số lượng
+                                        </th>
+                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Hành động
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                    @foreach($filteredInventory as $inventory)
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                {{ $inventory->product->name }}
+                                            </div>
+                                            @if($inventory->product->description)
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">
+                                                {{ Str::limit($inventory->product->description, 50) }}
+                                            </div>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">
+                                                {{ $inventory->product->sku }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if($inventory->product->category)
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                                                    {{ $inventory->product->category->name }}
+                                                </span>
+                                            @else
+                                                <span class="text-gray-400 text-sm">Chưa phân loại</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium {{ $inventory->quantity > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
+                                                {{ number_format($inventory->quantity) }} {{ $inventory->product->unit ?? '' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                            <a href="{{ route('products.show', $inventory->product) }}" 
+                                               class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                                Xem chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <td colspan="3" class="px-6 py-3 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            @if($categoryFilter)
+                                                Tổng trong danh mục:
+                                            @else
+                                                Tổng tồn kho:
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-3 text-right text-sm font-bold">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                                {{ number_format($filteredInventory->sum('quantity')) }} sản phẩm
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-3"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center py-12">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                @if($categoryFilter)
+                                    Không có sản phẩm nào trong danh mục này
+                                @else
+                                    Kho hàng chưa có sản phẩm nào
+                                @endif
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                @if($categoryFilter)
+                                    Hãy thử lọc theo danh mục khác hoặc xem tất cả sản phẩm.
+                                @else
+                                    Bắt đầu bằng cách thêm sản phẩm vào kho hàng này.
+                                @endif
+                            </p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </x-app-layout>
