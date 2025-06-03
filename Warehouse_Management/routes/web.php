@@ -8,6 +8,7 @@ use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Inventory\WarehouseController;
 use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Inventory\StockMovementController;
+use App\Http\Controllers\PurchaseOrderController;
 // Auth controllers
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -73,10 +74,25 @@ Route::middleware('auth')->group(function () {
     // Lịch sử nhập xuất kho
     Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
     
+    // Hóa đơn nhập kho - CRUD đầy đủ
+    Route::get('/purchase-orders', [PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+    Route::get('/purchase-orders/create', [PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
+    Route::post('/purchase-orders', [PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
+    Route::get('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
+    Route::get('/purchase-orders/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])->name('purchase-orders.edit');
+    Route::put('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'update'])->name('purchase-orders.update');
+    Route::delete('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
+    Route::post('/purchase-orders/{purchaseOrder}/confirm', [PurchaseOrderController::class, 'confirm'])->name('purchase-orders.confirm');
+    
     // Store inventory and stock operations
     Route::get('/stores/{store}/receive', [StoreController::class, 'showReceiveForm'])->name('stores.receive.form');
     Route::post('/stores/{store}/receive', [StoreController::class, 'receiveStock'])->name('stores.receive');
     Route::get('/stores/{store}/return', [StoreController::class, 'showReturnForm'])->name('stores.return.form');
     Route::post('/stores/{store}/return', [StoreController::class, 'returnStock'])->name('stores.return');
+    
+    // API routes for real-time search
+    Route::get('/api/products/search', [PurchaseOrderController::class, 'searchProducts'])->name('api.products.search');
+    Route::get('/api/warehouses/search', [PurchaseOrderController::class, 'searchWarehouses'])->name('api.warehouses.search'); 
+    Route::get('/api/suppliers/search', [PurchaseOrderController::class, 'searchSuppliers'])->name('api.suppliers.search');
 });
 require __DIR__.'/auth.php';

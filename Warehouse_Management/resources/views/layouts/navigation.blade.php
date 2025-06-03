@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
                         {{ __('Cửa hàng') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
+                        {{ __('Hóa đơn nhập') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('stock-movements.index')" :active="request()->routeIs('stock-movements.*')">
                         {{ __('Nhập Xuất Kho') }}
                     </x-nav-link>
@@ -96,6 +99,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
                 Cửa hàng
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
+                Hóa đơn nhập
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('stock-movements.index')" :active="request()->routeIs('stock-movements.*')">
                 Nhập Xuất Kho
