@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
                         {{ __('Cửa hàng') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('stock-movements.index')" :active="request()->routeIs('stock-movements.*')">
+                        {{ __('Nhập Xuất Kho') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -82,11 +85,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                Danh mục
+            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                 Sản phẩm
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                Danh mục
+            <x-responsive-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.*')">
+                Kho hàng
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
+                Cửa hàng
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('stock-movements.index')" :active="request()->routeIs('stock-movements.*')">
+                Nhập Xuất Kho
             </x-responsive-nav-link>
         </div>
 

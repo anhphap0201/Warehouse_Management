@@ -7,6 +7,7 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Inventory\WarehouseController;
 use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Inventory\StockMovementController;
 // Auth controllers
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -68,6 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
     Route::put('/stores/{store}', [StoreController::class, 'update'])->name('stores.update');
     Route::delete('/stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
+    
+    // Lịch sử nhập xuất kho
+    Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
     
     // Store inventory and stock operations
     Route::get('/stores/{store}/receive', [StoreController::class, 'showReceiveForm'])->name('stores.receive.form');
