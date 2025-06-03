@@ -1,0 +1,620 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Tạo hóa đơn nhập kho') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">Tạo hóa đơn nhập kho</h3>
+                        <a href="{{ route('purchase-orders.index') }}" 
+                           class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-md transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            Quay lại
+                        </a>
+                    </div>
+
+                    @if(session('success'))
+                        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('purchase-orders.store') }}" method="POST" id="purchaseOrderForm">
+                        @csrf
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Thông tin cơ bản -->
+                            <div class="space-y-4">                                <div>
+                                    <label for="warehouse_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Kho hàng <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <input type="text" 
+                                               id="warehouse_search" 
+                                               placeholder="Tìm kiếm kho hàng..."
+                                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('warehouse_id') border-red-500 @enderror"
+                                               autocomplete="off">
+                                        <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ old('warehouse_id') }}">                                        <div id="warehouse_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
+                                            <div id="warehouse_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
+                                                <div class="flex items-center">
+                                                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+                                                    Đang tìm kiếm...
+                                                </div>
+                                            </div>
+                                            <div id="warehouse_results"></div>
+                                        </div>
+                                    </div>
+                                    @error('warehouse_id')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>                                <div>
+                                    <label for="supplier_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Số điện thoại</label>
+                                    <input type="text" name="supplier_phone" id="supplier_phone" 
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_phone') border-red-500 @enderror" 
+                                           value="{{ old('supplier_phone') }}">
+                                    @error('supplier_phone')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Số hóa đơn
+                                    </label>
+                                    <div class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-gray-50 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-sm">
+                                        Sẽ được tự động tạo khi lưu hóa đơn
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="supplier_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Tên nhà cung cấp <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <input type="text" 
+                                               id="supplier_search" 
+                                               placeholder="Tìm kiếm nhà cung cấp..."
+                                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_name') border-red-500 @enderror"
+                                               autocomplete="off">
+                                        <input type="hidden" name="supplier_name" id="supplier_name" value="{{ old('supplier_name') }}">                                        <div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
+                                            <div id="supplier_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
+                                                <div class="flex items-center">
+                                                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+                                                    Đang tìm kiếm...
+                                                </div>
+                                            </div>
+                                            <div id="supplier_results"></div>
+                                        </div>
+                                    </div>
+                                    @error('supplier_name')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="supplier_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Địa chỉ nhà cung cấp</label>
+                                    <textarea name="supplier_address" id="supplier_address" 
+                                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_address') border-red-500 @enderror" 
+                                              rows="3">{{ old('supplier_address') }}</textarea>
+                                    @error('supplier_address')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ghi chú</label>
+                                    <textarea name="notes" id="notes" 
+                                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('notes') border-red-500 @enderror" 
+                                              rows="2">{{ old('notes') }}</textarea>
+                                    @error('notes')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-200 dark:border-gray-700 my-6"></div>
+
+                        <!-- Chi tiết sản phẩm -->
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Chi tiết sản phẩm</h4>
+                                <button type="button" 
+                                        class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md transition-colors" 
+                                        id="addItemBtn">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Thêm sản phẩm
+                                </button>
+                            </div>                            <div class="overflow-x-auto" style="overflow: visible;">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg" id="itemsTable">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-2/5">
+                                                Sản phẩm
+                                            </th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/6">
+                                                Số lượng
+                                            </th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/5">
+                                                Đơn giá
+                                            </th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/5">
+                                                Thành tiền
+                                            </th>
+                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-1/12">
+                                                Thao tác
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="itemsBody">
+                                        <!-- Items will be added here by JavaScript -->
+                                    </tbody>
+                                    <tfoot class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th colspan="3" class="px-6 py-3 text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                Tổng cộng:
+                                            </th>
+                                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900 dark:text-gray-100" id="totalAmount">
+                                                0 VNĐ
+                                            </th>
+                                            <th class="px-6 py-3"></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <!-- Global Product Dropdown Container -->
+                            <div id="globalProductDropdown" class="fixed z-[10000] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl max-h-60 overflow-y-auto hidden" style="z-index: 10000 !important; min-width: 300px;">
+                                <div id="globalProductLoading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
+                                    <div class="flex items-center">
+                                        <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+                                        Đang tìm kiếm...
+                                    </div>
+                                </div>
+                                <div id="globalProductResults"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" 
+                                    class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-md transition-colors">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                                </svg>
+                                Lưu hóa đơn
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+
+<script>
+let itemIndex = 0;
+let searchTimeout;
+
+// Get CSRF token from meta tag
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize real-time search functionality
+    initializeWarehouseSearch();
+    initializeSupplierSearch();
+    
+    // Add first item by default
+    addItem();
+    
+    document.getElementById('addItemBtn').addEventListener('click', function() {
+        addItem();
+    });
+    
+    // Global click handler to hide product dropdown
+    document.addEventListener('click', function(e) {
+        const globalDropdown = document.getElementById('globalProductDropdown');
+        const isClickInsideDropdown = globalDropdown && globalDropdown.contains(e.target);
+        const isClickOnProductInput = e.target && e.target.id && e.target.id.startsWith('product_search_');
+        
+        if (!isClickInsideDropdown && !isClickOnProductInput) {
+            globalDropdown && globalDropdown.classList.add('hidden');
+        }
+        
+        // Close other dropdowns when clicking outside
+        if (!e.target.closest('.relative')) {
+            document.querySelectorAll('[id$="_dropdown"]').forEach(dropdown => {
+                dropdown.classList.add('hidden');
+            });
+        }
+    });
+    
+    // Handle window scroll and resize to reposition dropdown
+    let repositionTimeout;
+    function handleRepositioning() {
+        clearTimeout(repositionTimeout);
+        repositionTimeout = setTimeout(() => {
+            const globalDropdown = document.getElementById('globalProductDropdown');
+            if (!globalDropdown.classList.contains('hidden')) {
+                globalDropdown.classList.add('hidden');
+            }
+        }, 100);
+    }
+    
+    window.addEventListener('scroll', handleRepositioning);
+    window.addEventListener('resize', handleRepositioning);
+});
+
+function initializeWarehouseSearch() {
+    const searchInput = document.getElementById('warehouse_search');
+    const hiddenInput = document.getElementById('warehouse_id');
+    const dropdown = document.getElementById('warehouse_dropdown');
+    const loading = document.getElementById('warehouse_loading');
+    const results = document.getElementById('warehouse_results');
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        if (query.length < 1) {
+            dropdown.classList.add('hidden');
+            hiddenInput.value = '';
+            return;
+        }
+        
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            searchWarehouses(query);
+        }, 300);
+    });
+      async function searchWarehouses(query) {
+        loading.classList.remove('hidden');
+        results.innerHTML = '';
+        dropdown.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(`/api/warehouses/search?q=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            loading.classList.add('hidden');
+            
+            if (data.length === 0) {
+                results.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy kho hàng nào</div>';
+            } else {
+                results.innerHTML = data.map(warehouse => `
+                    <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
+                         onclick="selectWarehouse(${warehouse.id}, '${warehouse.name}')">
+                        <div class="font-medium text-gray-900 dark:text-gray-100">${warehouse.name}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">${warehouse.address || 'Không có địa chỉ'}</div>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Warehouse search error:', error);
+            loading.classList.add('hidden');
+            results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
+        }
+    }
+    
+    window.selectWarehouse = function(id, name) {
+        hiddenInput.value = id;
+        searchInput.value = name;
+        dropdown.classList.add('hidden');
+    };
+}
+
+function initializeSupplierSearch() {
+    const searchInput = document.getElementById('supplier_search');
+    const hiddenInput = document.getElementById('supplier_name');
+    const dropdown = document.getElementById('supplier_dropdown');
+    const loading = document.getElementById('supplier_loading');
+    const results = document.getElementById('supplier_results');
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        hiddenInput.value = query; // Always update the hidden input
+        
+        if (query.length < 2) {
+            dropdown.classList.add('hidden');
+            return;
+        }
+        
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            searchSuppliers(query);
+        }, 300);
+    });
+      async function searchSuppliers(query) {
+        loading.classList.remove('hidden');
+        results.innerHTML = '';
+        dropdown.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(`/api/suppliers/search?q=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            loading.classList.add('hidden');
+            
+            if (data.length === 0) {
+                results.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy nhà cung cấp nào</div>';
+            } else {
+                results.innerHTML = data.map(supplier => `
+                    <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
+                         onclick="selectSupplier('${supplier.name}')">
+                        <div class="font-medium text-gray-900 dark:text-gray-100">${supplier.name}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">${supplier.phone || 'Không có SĐT'}</div>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Supplier search error:', error);
+            loading.classList.add('hidden');
+            results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
+        }
+    }
+    
+    window.selectSupplier = function(name) {
+        hiddenInput.value = name;
+        searchInput.value = name;
+        dropdown.classList.add('hidden');
+    };
+}
+
+function createProductSearchSelect(index) {
+    return `
+        <div class="relative">
+            <input type="text" 
+                   id="product_search_${index}" 
+                   placeholder="Tìm kiếm sản phẩm..."
+                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                   autocomplete="off">
+            <input type="hidden" name="items[${index}][product_id]" id="product_id_${index}" required>
+        </div>
+    `;
+}
+
+function initializeProductSearch(index) {
+    const searchInput = document.getElementById(`product_search_${index}`);
+    const hiddenInput = document.getElementById(`product_id_${index}`);
+    const globalDropdown = document.getElementById('globalProductDropdown');
+    const globalLoading = document.getElementById('globalProductLoading');
+    const globalResults = document.getElementById('globalProductResults');
+    
+    let currentSearchIndex = null;
+    
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        currentSearchIndex = index;
+        
+        if (query.length < 1) {
+            globalDropdown.classList.add('hidden');
+            hiddenInput.value = '';
+            return;
+        }
+        
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            searchProducts(query, index);
+        }, 300);
+    });
+    
+    searchInput.addEventListener('focus', function() {
+        currentSearchIndex = index;
+        if (this.value.trim().length >= 1) {
+            searchProducts(this.value.trim(), index);
+        }
+    });
+    
+    searchInput.addEventListener('blur', function() {
+        // Hide dropdown after a short delay to allow for clicks
+        setTimeout(() => {
+            if (currentSearchIndex === index) {
+                globalDropdown.classList.add('hidden');
+            }
+        }, 200);
+    });
+    
+    async function searchProducts(query, index) {
+        // Position the dropdown relative to the input
+        const rect = searchInput.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        
+        globalDropdown.style.top = (rect.bottom + scrollTop + 2) + 'px';
+        globalDropdown.style.left = (rect.left + scrollLeft) + 'px';
+        globalDropdown.style.width = rect.width + 'px';
+        
+        globalLoading.classList.remove('hidden');
+        globalResults.innerHTML = '';
+        globalDropdown.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(`/api/products/search?q=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            globalLoading.classList.add('hidden');
+            
+            if (data.length === 0) {
+                globalResults.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy sản phẩm nào</div>';
+            } else {
+                globalResults.innerHTML = data.map(product => `
+                    <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
+                         onclick="selectProduct(${product.id}, '${product.name}', ${index})"
+                         onmousedown="event.preventDefault()">
+                        <div class="font-medium text-gray-900 dark:text-gray-100">${product.name}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Mã: ${product.code || 'N/A'}</div>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Product search error:', error);
+            globalLoading.classList.add('hidden');
+            globalResults.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
+        }
+    }
+    
+    window.selectProduct = function(id, name, index) {
+        document.getElementById(`product_id_${index}`).value = id;
+        document.getElementById(`product_search_${index}`).value = name;
+        globalDropdown.classList.add('hidden');
+    };
+}
+
+function addItem() {
+    const itemHtml = `
+        <tr class="item-row hover:bg-gray-50 dark:hover:bg-gray-700" data-index="${itemIndex}">
+            <td class="px-6 py-4">
+                ${createProductSearchSelect(itemIndex)}
+            </td>
+            <td class="px-6 py-4">
+                <input type="number" 
+                       name="items[${itemIndex}][quantity]" 
+                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 quantity-input" 
+                       min="1" required>
+            </td>
+            <td class="px-6 py-4">
+                <input type="number" 
+                       name="items[${itemIndex}][unit_price]" 
+                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 price-input" 
+                       min="0" step="0.01" required>
+            </td>
+            <td class="px-6 py-4 total-price text-sm font-medium text-gray-900 dark:text-gray-100">0 VNĐ</td>
+            <td class="px-6 py-4 text-center">
+                <button type="button" 
+                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 remove-item ${itemIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" 
+                        ${itemIndex === 0 ? 'disabled' : ''}>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </td>
+        </tr>
+    `;
+    
+    document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHtml);
+    
+    // Initialize product search for this row
+    initializeProductSearch(itemIndex);
+    
+    // Bind events to new row
+    const newRow = document.querySelector(`tr[data-index="${itemIndex}"]`);
+    bindItemEvents(newRow);
+    
+    itemIndex++;
+    updateRemoveButtons();
+}
+
+function bindItemEvents(row) {
+    const quantityInput = row.querySelector('.quantity-input');
+    const priceInput = row.querySelector('.price-input');
+    const removeButton = row.querySelector('.remove-item');
+    
+    [quantityInput, priceInput].forEach(input => {
+        input.addEventListener('input', function() {
+            updateRowTotal(row);
+            updateGrandTotal();
+        });
+    });
+    
+    removeButton.addEventListener('click', function() {
+        if (!removeButton.disabled) {
+            row.remove();
+            updateRemoveButtons();
+            updateGrandTotal();
+        }
+    });
+}
+
+function updateRowTotal(row) {
+    const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+    const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
+    const total = quantity * unitPrice;
+    
+    row.querySelector('.total-price').textContent = formatCurrency(total);
+}
+
+function updateGrandTotal() {
+    let grandTotal = 0;
+    
+    document.querySelectorAll('.item-row').forEach(row => {
+        const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+        const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
+        grandTotal += quantity * unitPrice;
+    });
+    
+    document.getElementById('totalAmount').textContent = formatCurrency(grandTotal);
+}
+
+function updateRemoveButtons() {
+    const rows = document.querySelectorAll('.item-row');
+    rows.forEach(row => {
+        const removeButton = row.querySelector('.remove-item');
+        if (rows.length === 1) {
+            removeButton.disabled = true;
+            removeButton.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            removeButton.disabled = false;
+            removeButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    });
+}
+
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(amount);
+}
+</script>

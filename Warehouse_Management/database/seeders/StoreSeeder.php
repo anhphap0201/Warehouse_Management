@@ -10,9 +10,10 @@ class StoreSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        // Clear existing store data
+    {        // Clear existing store data
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Store::truncate();
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Create main flagship stores (guaranteed active)
         Store::factory()

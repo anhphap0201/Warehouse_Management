@@ -7,6 +7,8 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Inventory\WarehouseController;
 use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Inventory\StockMovementController;
+use App\Http\Controllers\PurchaseOrderController;
 // Auth controllers
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -33,13 +35,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Sản phẩm - Chỉ xem
+    // Sản phẩm - CRUD đầy đủ
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     
-    // Danh mục - Chỉ xem
+    // Danh mục - CRUD đầy đủ
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     
     // Kho hàng - CRUD đầy đủ
     Route::get('/warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
@@ -59,10 +71,28 @@ Route::middleware('auth')->group(function () {
     Route::put('/stores/{store}', [StoreController::class, 'update'])->name('stores.update');
     Route::delete('/stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
     
+    // Lịch sử nhập xuất kho
+    Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
+    
+    // Hóa đơn nhập kho - CRUD đầy đủ
+    Route::get('/purchase-orders', [PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+    Route::get('/purchase-orders/create', [PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
+    Route::post('/purchase-orders', [PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
+    Route::get('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
+    Route::get('/purchase-orders/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])->name('purchase-orders.edit');
+    Route::put('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'update'])->name('purchase-orders.update');
+    Route::delete('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
+    Route::post('/purchase-orders/{purchaseOrder}/confirm', [PurchaseOrderController::class, 'confirm'])->name('purchase-orders.confirm');
+    
     // Store inventory and stock operations
     Route::get('/stores/{store}/receive', [StoreController::class, 'showReceiveForm'])->name('stores.receive.form');
     Route::post('/stores/{store}/receive', [StoreController::class, 'receiveStock'])->name('stores.receive');
     Route::get('/stores/{store}/return', [StoreController::class, 'showReturnForm'])->name('stores.return.form');
     Route::post('/stores/{store}/return', [StoreController::class, 'returnStock'])->name('stores.return');
+    
+    // API routes for real-time search
+    Route::get('/api/products/search', [PurchaseOrderController::class, 'searchProducts'])->name('api.products.search');
+    Route::get('/api/warehouses/search', [PurchaseOrderController::class, 'searchWarehouses'])->name('api.warehouses.search'); 
+    Route::get('/api/suppliers/search', [PurchaseOrderController::class, 'searchSuppliers'])->name('api.suppliers.search');
 });
 require __DIR__.'/auth.php';
