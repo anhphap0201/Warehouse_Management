@@ -384,15 +384,13 @@ Mô tả các chức năng chính của hệ thống và tương tác người d
 
 ## 📞 Liên Hệ
 
-- **Người Duy Trì Dự Án**: PKA Development Team
+- **Người Duy Trì Dự Án**: AnhPhap
 - **GitHub**: [https://github.com/anhphap0201](https://github.com/anhphap0201)
 - **Repository**: [Warehouse Management System](https://github.com/anhphap0201/Warehouse_Management)
 
 ## 📄 Tài Nguyên Bổ Sung
 
 - **Issues**: [Báo cáo lỗi hoặc yêu cầu tính năng](https://github.com/anhphap0201/Warehouse_Management/issues)
-- **Discussions**: [Thảo luận cộng đồng và Q&A](https://github.com/anhphap0201/Warehouse_Management/discussions)
-- **Wiki**: [Tài liệu và hướng dẫn chi tiết](https://github.com/anhphap0201/Warehouse_Management/wiki)
 
 ---
 
