@@ -1,76 +1,77 @@
-# 📦 Warehouse Management System
+# 📦 Hệ Thống Quản Lý Kho
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PHP Version](https://img.shields.io/badge/PHP-%3E%3D8.0-8892BF.svg)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/Laravel-10.x-FF2D20.svg)](https://laravel.com)
 
-A comprehensive warehouse management system built with Laravel and MySQL, designed to streamline inventory operations, purchase order management, and stock tracking for modern businesses.
+Hệ thống quản lý kho toàn diện được xây dựng bằng Laravel và MySQL, được thiết kế để tối ưu hóa các hoạt động quản lý tồn kho, quản lý đơn hàng mua và theo dõi kho hàng cho các doanh nghiệp hiện đại.
 
-## ✨ Features
+## ✨ Tính Năng
 
-### 🛒 Purchase Order Management
-- **Complete Order Lifecycle**: Create, manage, and track purchase orders from creation to completion
-- **Dynamic Product Search**: Real-time AJAX-powered search for products, warehouses, and suppliers
-- **Status Workflow**: Automated status transitions (Pending → Confirmed → Completed)
-- **Order Details**: Comprehensive order tracking with item quantities, prices, and totals
-- **Supplier Integration**: Seamless supplier management within purchase orders
+### 🛒 Quản Lý Đơn Hàng Mua
+- **Chu Trình Đơn Hàng Hoàn Chỉnh**: Tạo, quản lý và theo dõi đơn hàng mua từ lúc tạo đến hoàn thành
+- **Tìm Kiếm Sản Phẩm Động**: Tìm kiếm theo thời gian thực hỗ trợ AJAX cho sản phẩm, kho và nhà cung cấp
+- **Quy Trình Trạng Thái**: Chuyển đổi trạng thái tự động (Chờ xử lý → Đã xác nhận → Hoàn thành)
+- **Chi Tiết Đơn Hàng**: Theo dõi đơn hàng toàn diện với số lượng, giá cả và tổng tiền
+- **Tích Hợp Nhà Cung Cấp**: Quản lý nhà cung cấp liền mạch trong đơn hàng mua
 
-### 📦 Inventory Management
-- **Multi-Warehouse Support**: Manage inventory across multiple warehouse locations
-- **Stock Movement Tracking**: Complete audit trail of all inventory movements
-- **Real-time Stock Updates**: Automatic inventory adjustments based on purchase orders
-- **Stock Level Monitoring**: Track current stock levels and movement history
-- **Category-based Organization**: Hierarchical product categorization system
+### 📦 Quản Lý Tồn Kho
+- **Hỗ Trợ Đa Kho**: Quản lý tồn kho trên nhiều địa điểm kho khác nhau
+- **Theo Dõi Di Chuyển Kho**: Kiểm toán hoàn chỉnh tất cả các chuyển động tồn kho
+- **Cập Nhật Kho Theo Thời Gian Thực**: Điều chỉnh tồn kho tự động dựa trên đơn hàng mua
+- **Giám Sát Mức Tồn Kho**: Theo dõi mức tồn kho hiện tại và lịch sử di chuyển
+- **Tổ Chức Theo Danh Mục**: Hệ thống phân loại sản phẩm theo cấp bậc
 
-### 🏢 Store & Warehouse Operations
-- **Store Management**: Comprehensive store/branch management system
-- **Warehouse Operations**: Full warehouse CRUD operations with location tracking
-- **Inter-warehouse Transfers**: Support for stock transfers between locations
-- **Location-based Inventory**: Track stock levels by specific warehouse locations
+### 🏢 Hoạt Động Cửa Hàng & Kho
+- **Quản Lý Cửa Hàng**: Hệ thống quản lý cửa hàng/chi nhánh toàn diện
+- **Hoạt Động Kho**: Hoạt động CRUD kho đầy đủ với theo dõi vị trí
+- **Chuyển Kho Liên Kho**: Hỗ trợ chuyển kho giữa các địa điểm
+- **Tồn Kho Theo Vị Trí**: Theo dõi mức tồn kho theo vị trí kho cụ thể
 
-### 🔍 Advanced Search Functionality
-- **Real-time Search**: AJAX-powered search across products, warehouses, and suppliers
-- **Multiple Search Endpoints**: Dedicated API endpoints for different entity types
-- **Search Filtering**: Advanced filtering options for efficient data retrieval
-- **Instant Results**: Fast, responsive search with minimal latency
+### 🔍 Chức Năng Tìm Kiếm Nâng Cao
+- **Tìm Kiếm Theo Thời Gian Thực**: Tìm kiếm hỗ trợ AJAX trên sản phẩm, kho và nhà cung cấp
+- **Nhiều Điểm Tìm Kiếm**: Các điểm API chuyên dụng cho các loại thực thể khác nhau
+- **Lọc Tìm Kiếm**: Tùy chọn lọc nâng cao để truy xuất dữ liệu hiệu quả
+- **Kết Quả Tức Thì**: Tìm kiếm nhanh, phản hồi với độ trễ tối thiểu
 
-### 👥 User Management & Authentication
-- **Secure Authentication**: Laravel-based authentication system
-- **Role-based Access**: User role management and permission controls
-- **Session Management**: Secure session handling and user state management
-- **Password Security**: Encrypted password storage and secure login processes
+### 👥 Quản Lý Người Dùng & Xác Thực
+- **Xác Thực An Toàn**: Hệ thống xác thực dựa trên Laravel
+- **Truy Cập Dựa Trên Vai Trò**: Quản lý vai trò người dùng và kiểm soát quyền
+- **Quản Lý Phiên**: Xử lý phiên an toàn và quản lý trạng thái người dùng
+- **Bảo Mật Mật Khẩu**: Lưu trữ mật khẩu được mã hóa và quy trình đăng nhập an toàn
 
-### 📊 Reporting & Analytics
-- **Purchase Order Reports**: Comprehensive reporting on purchase order activities
-- **Inventory Reports**: Stock level reports and movement analytics
-- **Supplier Performance**: Track supplier delivery and performance metrics
-- **Financial Summaries**: Order value tracking and cost analysis
+### 📊 Báo Cáo & Phân Tích
+- **Báo Cáo Đơn Hàng Mua**: Báo cáo toàn diện về hoạt động đơn hàng mua
+- **Báo Cáo Tồn Kho**: Báo cáo mức tồn kho và phân tích di chuyển
+- **Hiệu Suất Nhà Cung Cấp**: Theo dõi giao hàng và các chỉ số hiệu suất của nhà cung cấp
+- **Tóm Tắt Tài Chính**: Theo dõi giá trị đơn hàng và phân tích chi phí
 
-## 🚀 Technology Stack
+## 🚀 Ngăn Xếp Công Nghệ
 
-| Component | Technology |
+| Thành Phần | Công Nghệ |
 |-----------|------------|
-| **Backend Framework** | Laravel 10.x |
-| **Language** | PHP 8.0+ |
-| **Database** | MySQL 8.0+ |
+| **Framework Backend** | Laravel 10.x |
+| **Ngôn Ngữ** | PHP 8.0+ |
+| **Cơ Sở Dữ Liệu** | MySQL 8.0+ |
 | **Frontend** | Blade Templates, HTML5, CSS3 |
-| **JavaScript** | jQuery, AJAX for real-time features |
-| **Authentication** | Laravel Breeze/Sanctum |
+| **JavaScript** | jQuery, AJAX cho tính năng thời gian thực |
+| **Xác Thực** | Laravel Breeze/Sanctum |
 | **CSS Framework** | Bootstrap 5 |
-## 📋 System Requirements
 
-Ensure your development environment meets the following requirements:
+## 📋 Yêu Cầu Hệ Thống
 
-- **PHP:** Version `>= 8.0` with required extensions
-- **Composer:** Latest version ([getcomposer.org](https://getcomposer.org/))
-- **Node.js & NPM:** Node.js LTS with NPM ([nodejs.org](https://nodejs.org/))
-- **Database:** MySQL Server (>= 8.0) or MariaDB (>= 10.3)
-- **Web Server:** Apache or Nginx (recommended for production)
-- **Git:** For version control ([git-scm.com](https://git-scm.com/))
+Đảm bảo môi trường phát triển của bạn đáp ứng các yêu cầu sau:
 
-## ⚙️ Installation
+- **PHP:** Phiên bản `>= 8.0` với các extension cần thiết
+- **Composer:** Phiên bản mới nhất ([getcomposer.org](https://getcomposer.org/))
+- **Node.js & NPM:** Node.js LTS với NPM ([nodejs.org](https://nodejs.org/))
+- **Cơ Sở Dữ Liệu:** MySQL Server (>= 8.0) hoặc MariaDB (>= 10.3)
+- **Web Server:** Apache hoặc Nginx (khuyến nghị cho production)
+- **Git:** Để kiểm soát phiên bản ([git-scm.com](https://git-scm.com/))
 
-Follow these steps to install the project locally:
+## ⚙️ Cài Đặt
+
+Thực hiện theo các bước sau để cài đặt dự án cục bộ:
 
 ### 1. Clone Repository
 ```bash
@@ -78,24 +79,24 @@ git clone https://github.com/anhphap0201/Warehouse_Management.git
 cd Warehouse_Management/Warehouse_Management
 ```
 
-### 2. Install PHP Dependencies
+### 2. Cài Đặt Dependencies PHP
 ```bash
 composer install
 ```
 
-### 3. Install Node.js Dependencies
+### 3. Cài Đặt Dependencies Node.js
 ```bash
 npm install
 ```
 
-### 4. Environment Configuration
+### 4. Cấu Hình Environment
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-### 5. Database Configuration
-Edit the `.env` file with your database credentials:
+### 5. Cấu Hình Cơ Sở Dữ Liệu
+Chỉnh sửa file `.env` với thông tin đăng nhập cơ sở dữ liệu của bạn:
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -105,144 +106,154 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
-### 6. Database Migration
+### 6. Migration Cơ Sở Dữ Liệu
 ```bash
 php artisan migrate
 php artisan db:seed
 ```
 
 ### 7. Build Frontend Assets
-For development:
+Cho phát triển:
 ```bash
 npm run dev
 ```
 
-For production:
+Cho production:
 ```bash
 npm run build
 ```
 
-### 8. Start Development Server
+### 8. Khởi Động Development Server
 ```bash
 php artisan serve
 ```
 
-Access the application at `http://localhost:8000`
+Truy cập ứng dụng tại `http://localhost:8000`
 
-## 🗃️ Database Schema
+## 🗃️ Cấu Trúc Cơ Sở Dữ Liệu
 
-The system uses a well-structured relational database with the following key entities:
+Hệ thống sử dụng cơ sở dữ liệu quan hệ có cấu trúc tốt với các thực thể chính sau:
 
-### Core Tables
-- **users** - System user authentication and profiles
-- **products** - Product catalog with categories and specifications
-- **categories** - Hierarchical product categorization
-- **warehouses** - Warehouse location and details management
-- **stores** - Store/branch location management
-- **suppliers** - Supplier information and contact details
+### Bảng Cốt Lõi
+- **users** - Xác thực người dùng hệ thống và hồ sơ
+- **products** - Danh mục sản phẩm với danh mục và thông số kỹ thuật
+- **categories** - Phân loại sản phẩm theo cấp bậc
+- **warehouses** - Quản lý vị trí và chi tiết kho
+- **stores** - Quản lý vị trí cửa hàng/chi nhánh
+- **suppliers** - Thông tin nhà cung cấp và chi tiết liên hệ
 
-### Purchase Order System
-- **purchase_orders** - Main purchase order records
-- **purchase_order_items** - Individual items within purchase orders
-- **order_statuses** - Purchase order status tracking
+### Hệ Thống Đơn Hàng Mua
+- **purchase_orders** - Bản ghi đơn hàng mua chính với liên kết đến nhà cung cấp
+- **purchase_order_items** - Các mặt hàng riêng lẻ trong đơn hàng mua
+- **order_statuses** - Theo dõi trạng thái đơn hàng mua
 
-### Inventory Management
-- **stock_movements** - Complete audit trail of inventory changes
-- **inventory_levels** - Current stock levels by warehouse
-- **transfers** - Inter-warehouse transfer records
+### Quản Lý Tồn Kho
+- **stock_movements** - Kiểm toán hoàn chỉnh các thay đổi tồn kho
+- **inventory_levels** - Mức tồn kho hiện tại theo kho
+- **transfers** - Bản ghi chuyển kho liên kho
 
-### Key Relationships
-- Products belong to Categories (Many-to-One)
-- Purchase Orders contain multiple Items (One-to-Many)
-- Stock Movements track Product changes across Warehouses
-- Users can create and manage Purchase Orders
+### Mối Quan Hệ Chính
+- Sản phẩm thuộc về Danh mục (Nhiều-đến-Một)
+- Đơn hàng Mua chứa nhiều Mặt hàng (Một-đến-Nhiều)
+- Đơn hàng Mua thuộc về Nhà cung cấp (Nhiều-đến-Một)
+- Chuyển động Kho theo dõi thay đổi Sản phẩm trên các Kho
+- Người dùng có thể tạo và quản lý Đơn hàng Mua
 
 ## 🔄 API Endpoints
 
 ### Search Endpoints
-The system provides real-time search functionality through AJAX endpoints:
+Hệ thống cung cấp chức năng tìm kiếm theo thời gian thực thông qua các AJAX endpoints:
 
 ```
-GET /search/products?q={query}          # Search products
-GET /search/warehouses?q={query}        # Search warehouses  
-GET /search/suppliers?q={query}         # Search suppliers
+GET /search/products?q={query}          # Tìm kiếm sản phẩm
+GET /search/warehouses?q={query}        # Tìm kiếm kho
+GET /search/suppliers?q={query}         # Tìm kiếm nhà cung cấp
 ```
 
-### Purchase Order Management
+### Quản Lý Đơn Hàng Mua
 ```
-GET    /purchase-orders                 # List all purchase orders
-POST   /purchase-orders                 # Create new purchase order
-GET    /purchase-orders/{id}            # View purchase order details
-PUT    /purchase-orders/{id}            # Update purchase order
-DELETE /purchase-orders/{id}            # Delete purchase order
-POST   /purchase-orders/{id}/confirm    # Confirm purchase order
-POST   /purchase-orders/{id}/complete   # Mark order as completed
-```
-
-### Product Management
-```
-GET    /products                        # List all products
-POST   /products                        # Create new product
-GET    /products/{id}                   # View product details
-PUT    /products/{id}                   # Update product
-DELETE /products/{id}                   # Delete product
+GET    /purchase-orders                 # Liệt kê tất cả đơn hàng mua
+POST   /purchase-orders                 # Tạo đơn hàng mua mới
+GET    /purchase-orders/{id}            # Xem chi tiết đơn hàng mua
+PUT    /purchase-orders/{id}            # Cập nhật đơn hàng mua
+DELETE /purchase-orders/{id}            # Xóa đơn hàng mua
+POST   /purchase-orders/{id}/confirm    # Xác nhận đơn hàng mua
+POST   /purchase-orders/{id}/complete   # Đánh dấu đơn hàng đã hoàn thành
 ```
 
-### Warehouse Operations
+### Quản Lý Sản Phẩm
 ```
-GET    /warehouses                      # List all warehouses
-POST   /warehouses                      # Create new warehouse
-GET    /warehouses/{id}                 # View warehouse details
-PUT    /warehouses/{id}                 # Update warehouse
-DELETE /warehouses/{id}                 # Delete warehouse
-GET    /warehouses/{id}/stock           # View warehouse stock levels
+GET    /products                        # Liệt kê tất cả sản phẩm
+POST   /products                        # Tạo sản phẩm mới
+GET    /products/{id}                   # Xem chi tiết sản phẩm
+PUT    /products/{id}                   # Cập nhật sản phẩm
+DELETE /products/{id}                   # Xóa sản phẩm
 ```
 
-## 🏗️ Architecture Overview
+### Hoạt Động Kho
+```
+GET    /warehouses                      # Liệt kê tất cả kho
+POST   /warehouses                      # Tạo kho mới
+GET    /warehouses/{id}                 # Xem chi tiết kho
+PUT    /warehouses/{id}                 # Cập nhật kho
+DELETE /warehouses/{id}                 # Xóa kho
+GET    /warehouses/{id}/stock           # Xem mức tồn kho của kho
+```
 
-### MVC Architecture
-The system follows Laravel's MVC (Model-View-Controller) pattern:
+### Quản Lý Nhà Cung Cấp
+```
+GET    /suppliers                       # Liệt kê tất cả nhà cung cấp
+POST   /suppliers                       # Tạo nhà cung cấp mới
+GET    /suppliers/{id}                  # Xem chi tiết nhà cung cấp
+PUT    /suppliers/{id}                  # Cập nhật nhà cung cấp
+DELETE /suppliers/{id}                  # Xóa nhà cung cấp
+```
 
-- **Models**: Handle data logic and database interactions
-- **Views**: Blade templates for user interface rendering
-- **Controllers**: Process user requests and coordinate between models and views
+## 🏗️ Tổng Quan Kiến Trúc
 
-### Key Components
+### Kiến Trúc MVC
+Hệ thống tuân theo mô hình MVC (Model-View-Controller) của Laravel:
+
+- **Models**: Xử lý logic dữ liệu và tương tác cơ sở dữ liệu
+- **Views**: Blade templates để render giao diện người dùng
+- **Controllers**: Xử lý yêu cầu người dùng và phối hợp giữa models và views
+
+### Các Thành Phần Chính
 
 #### Controllers
-- `PurchaseOrderController` - Manages purchase order lifecycle
-- `ProductController` - Handles product CRUD operations
-- `WarehouseController` - Manages warehouse operations
-- `StoreController` - Handles store/branch management
-- `SearchController` - Provides real-time search functionality
+- `PurchaseOrderController` - Quản lý chu trình đơn hàng mua
+- `ProductController` - Xử lý các hoạt động CRUD sản phẩm
+- `WarehouseController` - Quản lý hoạt động kho
+- `StoreController` - Xử lý quản lý cửa hàng/chi nhánh
+- `SearchController` - Cung cấp chức năng tìm kiếm theo thời gian thực
 
 #### Models
-- `PurchaseOrder` - Purchase order management with status tracking
-- `PurchaseOrderItem` - Individual items within orders
-- `Product` - Product catalog with category relationships
-- `Warehouse` - Warehouse location and capacity management
-- `StockMovement` - Inventory movement audit trail
+- `PurchaseOrder` - Quản lý đơn hàng mua với theo dõi trạng thái
+- `PurchaseOrderItem` - Các mặt hàng riêng lẻ trong đơn hàng
+- `Product` - Danh mục sản phẩm với mối quan hệ danh mục
+- `Warehouse` - Quản lý vị trí và công suất kho
+- `StockMovement` - Kiểm toán di chuyển tồn kho
 
-#### Key Features Implementation
-- **Real-time Search**: AJAX-powered search with jQuery
-- **Dynamic Forms**: Interactive purchase order creation
-- **Status Management**: Automated workflow for order processing
-- **Inventory Tracking**: Comprehensive stock movement logging
+#### Triển Khai Tính Năng Chính
+- **Tìm Kiếm Theo Thời Gian Thực**: Tìm kiếm hỗ trợ AJAX với jQuery
+- **Forms Động**: Tạo đơn hàng mua tương tác
+- **Quản Lý Trạng Thái**: Quy trình tự động để xử lý đơn hàng
+- **Theo Dõi Tồn Kho**: Ghi log chuyển động kho toàn diện
 
-## 🚀 Deployment
+## 🚀 Triển Khai
 
-### Production Setup
-1. Configure your web server to point to the `public` directory
-2. Set appropriate file permissions:
+### Thiết Lập Production
+1. Cấu hình web server để trỏ đến thư mục `public`
+2. Đặt quyền file thích hợp:
    ```bash
    chmod -R 755 storage bootstrap/cache
    ```
-3. Configure environment variables:
+3. Cấu hình biến môi trường:
    ```bash
    APP_ENV=production
    APP_DEBUG=false
    ```
-4. Optimize for production:
+4. Tối ưu cho production:
    ```bash
    php artisan config:cache
    php artisan route:cache
@@ -250,141 +261,139 @@ The system follows Laravel's MVC (Model-View-Controller) pattern:
    composer install --optimize-autoloader --no-dev
    ```
 
-### Security Considerations
-- Keep `.env` file secure and never commit to version control
-- Use HTTPS in production environments
-- Regularly update dependencies for security patches
-- Implement proper backup strategies for database
+### Cân Nhắc Bảo Mật
+- Giữ file `.env` an toàn và không bao giờ commit vào version control
+- Sử dụng HTTPS trong môi trường production
+- Thường xuyên cập nhật dependencies để vá lỗ hổng bảo mật
+- Triển khai chiến lược backup thích hợp cho cơ sở dữ liệu
 
-## 🧪 Testing
+## 🧪 Kiểm Thử
 
-Run the test suite to ensure system functionality:
+Chạy bộ test để đảm bảo chức năng hệ thống:
 
 ```bash
-# Run all tests
+# Chạy tất cả tests
 php artisan test
 
-# Run specific test types
+# Chạy các loại test cụ thể
 php artisan test --testsuite=Feature
 php artisan test --testsuite=Unit
 
-# Generate test coverage report
+# Tạo báo cáo test coverage
 php artisan test --coverage
 ```
 
-## 📚 Documentation
+## 📚 Tài Liệu
 
-### Code Documentation
-- All controllers include comprehensive docblocks
-- Database migrations are self-documenting
-- API endpoints follow RESTful conventions
+### Tài Liệu Code
+- Tất cả controllers bao gồm docblocks toàn diện
+- Database migrations tự tài liệu hóa
+- API endpoints tuân theo quy ước RESTful
 
-### User Guide
-- Admin dashboard provides intuitive navigation
-- Purchase order creation includes step-by-step workflow
-- Search functionality offers real-time suggestions
-- Inventory tracking provides detailed movement history
+### Hướng Dẫn Người Dùng
+- Dashboard admin cung cấp điều hướng trực quan
+- Tạo đơn hàng mua bao gồm quy trình từng bước
+- Chức năng tìm kiếm cung cấp gợi ý theo thời gian thực
+- Theo dõi tồn kho cung cấp lịch sử di chuyển chi tiết
 
-## 🤝 Contributing
+## 🤝 Đóng Góp
 
-We welcome contributions from the community! To contribute:
+Chúng tôi hoan nghênh sự đóng góp từ cộng đồng! Để đóng góp:
 
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/new-feature`
-3. **Commit** your changes: `git commit -m 'Add new feature'`
-4. **Push** to the branch: `git push origin feature/new-feature`
-5. **Submit** a Pull Request
+1. **Fork** repository
+2. **Tạo** một feature branch: `git checkout -b feature/new-feature`
+3. **Commit** các thay đổi của bạn: `git commit -m 'Add new feature'`
+4. **Push** lên branch: `git push origin feature/new-feature`
+5. **Gửi** một Pull Request
 
-### Coding Standards
-- Follow PSR-12 PHP coding standards
-- Use meaningful variable and function names
-- Add appropriate comments for complex logic
-- Write tests for new functionality
+### Tiêu Chuẩn Coding
+- Tuân theo tiêu chuẩn coding PSR-12 PHP
+- Sử dụng tên biến và hàm có ý nghĩa
+- Thêm comment thích hợp cho logic phức tạp
+- Viết tests cho chức năng mới
 
-### Commit Message Format
-Use conventional commits format:
-- `feat:` for new features
-- `fix:` for bug fixes
-- `docs:` for documentation changes
-- `refactor:` for code refactoring
+### Định Dạng Commit Message
+Sử dụng định dạng conventional commits:
+- `feat:` cho tính năng mới
+- `fix:` cho sửa lỗi
+- `docs:` cho thay đổi tài liệu
+- `refactor:` cho refactoring code
 
-## 📄 License
+## 📄 Giấy Phép
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Dự án này được cấp phép theo Giấy phép MIT. Xem file [LICENSE](LICENSE) để biết chi tiết.
 
-## 🙋‍♂️ Support
+## 🙋‍♂️ Hỗ Trợ
 
-For support and questions:
-- Create an issue on GitHub
-- Check existing documentation
-- Review the codebase for implementation examples
+Để được hỗ trợ và có câu hỏi:
+- Tạo một issue trên GitHub
+- Kiểm tra tài liệu hiện có
+- Xem lại codebase để có ví dụ triển khai
 
-## 📊 System Architecture & UML Diagrams
+## 📊 Kiến Trúc Hệ Thống & Biểu Đồ UML
 
-This section provides comprehensive UML diagrams to help understand the system's architecture, workflows, and component relationships.
+Phần này cung cấp các biểu đồ UML toàn diện để giúp hiểu kiến trúc hệ thống, quy trình làm việc và mối quan hệ giữa các thành phần.
 
-### 📋 Class Diagram
-Illustrates the structure of classes, their attributes, methods, and relationships between them.
+### 📋 Biểu Đồ Class
+Minh họa cấu trúc của các class, thuộc tính, phương thức và mối quan hệ giữa chúng.
 
 ![Class Diagram](./Img/Warehouse_Management_Class_Diagram.svg)
 
-### 🔄 Sequence Diagrams
-Show interactions between objects in time sequence for key system functionalities:
+### 🔄 Biểu Đồ Sequence
+Hiển thị tương tác giữa các đối tượng theo trình tự thời gian cho các chức năng chính của hệ thống:
 
-#### 1. User Authentication Sequence
-Manages user authentication and authorization processes.
+#### 1. Sequence Xác Thực Người Dùng
+Quản lý quy trình xác thực và ủy quyền người dùng.
 
 ![Authentication Sequence](./Img/Warehouse_Management_Authentication_Sequence_Diagram.svg)
 
-#### 2. Product Management Sequence
-Handles product catalog operations and management.
+#### 2. Sequence Quản Lý Sản Phẩm
+Xử lý các hoạt động và quản lý danh mục sản phẩm.
 
 ![Product Management Sequence](./Img/Warehouse_Management_Product_Management_Squence_Diagram.svg)
 
-#### 3. Inventory Management Sequence
-Manages warehouse inventory and stock level operations.
+#### 3. Sequence Quản Lý Tồn Kho
+Quản lý tồn kho kho và các hoạt động mức tồn kho.
 
 ![Inventory Management Sequence](./Img/Warehouse_Management_Inventory_Management_Sequence_Diagram.svg)
 
-#### 4. Inventory Transfer Sequence
-Handles stock transfers between warehouses and stores.
+#### 4. Sequence Chuyển Kho Tồn Kho
+Xử lý chuyển kho giữa các kho và cửa hàng.
 
 ![Inventory Transfer Sequence](./Img/Warehouse_Management_Inventory_Transfer_Sequence_Diagram.svg)
 
-#### 5. Stock Movement Sequence
-Tracks and manages all stock movement operations.
+#### 5. Sequence Chuyển Động Kho
+Theo dõi và quản lý tất cả các hoạt động chuyển động kho.
 
 ![Stock Movement Sequence](./Img/Warehouse_Management_Stock_Movement_Sequence_Diagram.svg)
 
-#### 6. Store Management Sequence
-Manages store/branch operations and configurations.
+#### 6. Sequence Quản Lý Cửa Hàng
+Quản lý hoạt động và cấu hình cửa hàng/chi nhánh.
 
 ![Store Management Sequence](./Img/Warehouse_Management_Store_Management_Sequence_Diagram.svg)
 
-#### 7. Session & Cache Management Sequence
-Handles user sessions and caching mechanisms.
+#### 7. Sequence Quản Lý Session & Cache
+Xử lý phiên người dùng và cơ chế caching.
 
 ![Session Cache Management Sequence](./Img/Warehouse_Management_Session_Cache_Management_Sequence_Diagram.svg)
 
-### 🎯 Use Case Diagram
-Describes the main system functionalities and user interactions with various features.
+### 🎯 Biểu Đồ Use Case
+Mô tả các chức năng chính của hệ thống và tương tác người dùng với các tính năng khác nhau.
 
 ![Use Case Diagram](./Img/Warehouse_Management_Use_Case_Diagram.svg)
 
-## 📞 Contact
+## 📞 Liên Hệ
 
-- **Project Maintainer**: PKA Development Team
+- **Người Duy Trì Dự Án**: AnhPhap
 - **GitHub**: [https://github.com/anhphap0201](https://github.com/anhphap0201)
 - **Repository**: [Warehouse Management System](https://github.com/anhphap0201/Warehouse_Management)
 
-## 📄 Additional Resources
+## 📄 Tài Nguyên Bổ Sung
 
-- **Issues**: [Report bugs or request features](https://github.com/anhphap0201/Warehouse_Management/issues)
-- **Discussions**: [Community discussions and Q&A](https://github.com/anhphap0201/Warehouse_Management/discussions)
-- **Wiki**: [Detailed documentation and guides](https://github.com/anhphap0201/Warehouse_Management/wiki)
+- **Issues**: [Báo cáo lỗi hoặc yêu cầu tính năng](https://github.com/anhphap0201/Warehouse_Management/issues)
 
 ---
 
-**Built with ❤️ using Laravel Framework**
+**Được xây dựng với ❤️ sử dụng Laravel Framework**
 
-> 🚀 **Success with installation and usage!** If you encounter any issues, don't hesitate to create an [Issue](https://github.com/anhphap0201/Warehouse_Management/issues) or check the documentation.
+> 🚀 **Thành công với việc cài đặt và sử dụng!** Nếu bạn gặp bất kỳ vấn đề nào, đừng ngần ngại tạo một [Issue](https://github.com/anhphap0201/Warehouse_Management/issues) hoặc kiểm tra tài liệu.
