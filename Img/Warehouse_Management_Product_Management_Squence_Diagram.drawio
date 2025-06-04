@@ -1,54 +1,430 @@
 <mxfile host="65bd71144e">
     <diagram id="8UJkZ9n5Q8soOCdwgCeh" name="Page-1">
-        <mxGraphModel dx="1483" dy="784" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1850" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1400" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="actor_user" value="Người dùng" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="100" y="80" width="30" height="60" as="geometry"/>
+                <!-- Actors and Classes -->
+                <mxCell id="actor_user" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="50" width="30" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="UI_class" value="&lt;b&gt;:Giao diện&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
-                    <mxGeometry x="220" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="UI_class" value="&lt;b&gt;:Web UI&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="50" width="100" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="Product_controller_class" value="&lt;b&gt;:ProductController&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="380" y="80" width="120" height="50" as="geometry"/>
+                <mxCell id="Product_controller" value="&lt;b&gt;:ProductController&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="50" width="140" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="Product_class" value="&lt;b&gt;:Product&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
-                    <mxGeometry x="560" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="Category_controller" value="&lt;b&gt;:CategoryController&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="50" width="140" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="Category_class" value="&lt;b&gt;:Category&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
-                    <mxGeometry x="720" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="Product_model" value="&lt;b&gt;:Product&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="50" width="100" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="Inventory_class" value="&lt;b&gt;:Inventory&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
-                    <mxGeometry x="880" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="Category_model" value="&lt;b&gt;:Category&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="50" width="100" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="DB_class" value="&lt;b&gt;:Database&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="1040" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="Inventory_model" value="&lt;b&gt;:Inventory&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="50" width="100" height="50" as="geometry"/>
                 </mxCell>
+                  <!-- Lifelines -->
                 <mxCell id="User_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="115" y="160" width="10" height="920" as="geometry"/>
+                    <mxGeometry x="65" y="130" width="10" height="1200" as="geometry"/>
                 </mxCell>
                 <mxCell id="UI_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="265" y="160" width="10" height="930" as="geometry"/>
+                    <mxGeometry x="195" y="130" width="10" height="1200" as="geometry"/>
                 </mxCell>
                 <mxCell id="Product_controller_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-                    <mxGeometry x="435" y="160" width="10" height="920" as="geometry"/>
+                    <mxGeometry x="365" y="130" width="10" height="1200" as="geometry"/>
+                </mxCell>
+                <mxCell id="Category_controller_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="545" y="130" width="10" height="1200" as="geometry"/>
                 </mxCell>
                 <mxCell id="Product_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="605" y="160" width="10" height="910" as="geometry"/>
+                    <mxGeometry x="705" y="130" width="10" height="1200" as="geometry"/>
                 </mxCell>
                 <mxCell id="Category_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="765" y="160" width="10" height="850" as="geometry"/>
+                    <mxGeometry x="845" y="130" width="10" height="1200" as="geometry"/>
                 </mxCell>
                 <mxCell id="Inventory_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="925" y="160" width="10" height="850" as="geometry"/>
+                    <mxGeometry x="985" y="130" width="10" height="1200" as="geometry"/>
                 </mxCell>
-                <mxCell id="DB_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-                    <mxGeometry x="1085" y="160" width="10" height="840" as="geometry"/>
+                <mxCell id="StockMovement_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+                    <mxGeometry x="1175" y="130" width="10" height="900" as="geometry"/>
                 </mxCell>
-                <mxCell id="User_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_user" target="User_line">
+                
+                <!-- Lifeline connectors -->
+                <mxCell id="User_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="actor_user" target="User_line">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="390" y="340" as="sourcePoint"/>
+                        <mxPoint x="65" y="110" as="sourcePoint"/>
+                        <mxPoint x="65" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>                <mxCell id="UI_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="UI_class" target="UI_line">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="200" y="100" as="sourcePoint"/>
+                        <mxPoint x="200" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Product_controller_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="Product_controller" target="Product_controller_line">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="370" y="100" as="sourcePoint"/>
+                        <mxPoint x="370" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Category_controller_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="Category_controller" target="Category_controller_line">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="550" y="100" as="sourcePoint"/>
+                        <mxPoint x="550" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                        <mxPoint x="740" y="100" as="sourcePoint"/>
+                        <mxPoint x="740" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Product_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="Product_model" target="Product_line">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="890" y="100" as="sourcePoint"/>
+                        <mxPoint x="890" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Inventory_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="Inventory_model" target="Inventory_line">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1030" y="100" as="sourcePoint"/>
+                        <mxPoint x="1030" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="StockMovement_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="StockMovement_model" target="StockMovement_line">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1180" y="100" as="sourcePoint"/>
+                        <mxPoint x="1180" y="130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                  <!-- PRODUCT LISTING WORKFLOW -->
+                <mxCell id="separator1" value="Product Listing Workflow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontWeight=bold;fontSize=14;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="150" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg1" value="1: View Products" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="190" as="sourcePoint"/>
+                        <mxPoint x="195" y="190" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg2" value="2: GET /products" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="210" as="sourcePoint"/>
+                        <mxPoint x="365" y="210" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg3" value="3: index()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="230" as="sourcePoint"/>
+                        <mxPoint x="705" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg4" value="4: with('category')->latest()->get()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="250" as="sourcePoint"/>
+                        <mxPoint x="845" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg5" value="5: products with categories" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="845" y="270" as="sourcePoint"/>
+                        <mxPoint x="715" y="270" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg6" value="6: return products list view" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="705" y="290" as="sourcePoint"/>
+                        <mxPoint x="375" y="290" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>                <mxCell id="msg7" value="7: display products list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="310" as="sourcePoint"/>
+                        <mxPoint x="205" y="310" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                
+                <!-- PRODUCT CREATION WORKFLOW -->
+                <mxCell id="separator2" value="Product Creation Workflow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontWeight=bold;fontSize=14;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="340" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg8" value="8: Create New Product" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="380" as="sourcePoint"/>
+                        <mxPoint x="195" y="380" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg9" value="9: GET /products/create" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="400" as="sourcePoint"/>
+                        <mxPoint x="365" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg10" value="10: create()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="420" as="sourcePoint"/>
+                        <mxPoint x="545" y="420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg11" value="11: all()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="555" y="440" as="sourcePoint"/>
+                        <mxPoint x="845" y="440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg12" value="12: categories list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="845" y="460" as="sourcePoint"/>
+                        <mxPoint x="555" y="460" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg13" value="13: return create form view" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="545" y="480" as="sourcePoint"/>
+                        <mxPoint x="375" y="480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg14" value="14: display create form" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="500" as="sourcePoint"/>
+                        <mxPoint x="205" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg15" value="15: Fill form & Submit" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="530" as="sourcePoint"/>
+                        <mxPoint x="195" y="530" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg16" value="16: POST /products" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="550" as="sourcePoint"/>
+                        <mxPoint x="365" y="550" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg17" value="17: store(request)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="570" as="sourcePoint"/>
+                        <mxPoint x="705" y="570" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg18" value="18: validate request" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="590" as="sourcePoint"/>
+                        <mxPoint x="715" y="610" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg19" value="19: create(validated_data)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="630" as="sourcePoint"/>
+                        <mxPoint x="715" y="650" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg20" value="20: product created" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="705" y="670" as="sourcePoint"/>
+                        <mxPoint x="375" y="670" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg21" value="21: redirect to products list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="690" as="sourcePoint"/>
+                        <mxPoint x="205" y="690" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>                
+                <!-- PRODUCT UPDATE WORKFLOW -->
+                <mxCell id="separator3" value="Product Update Workflow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontWeight=bold;fontSize=14;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="720" width="600" height="30" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="msg22" value="22: Edit Product" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="760" as="sourcePoint"/>
+                        <mxPoint x="195" y="760" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg23" value="23: GET /products/{id}/edit" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="780" as="sourcePoint"/>
+                        <mxPoint x="365" y="780" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg24" value="24: edit(id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="800" as="sourcePoint"/>
+                        <mxPoint x="705" y="800" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg25" value="25: findOrFail(id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="820" as="sourcePoint"/>
+                        <mxPoint x="715" y="840" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg26" value="26: get categories" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="860" as="sourcePoint"/>
+                        <mxPoint x="845" y="860" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg27" value="27: categories list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="845" y="880" as="sourcePoint"/>
+                        <mxPoint x="715" y="880" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg28" value="28: return edit form view" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="705" y="900" as="sourcePoint"/>
+                        <mxPoint x="375" y="900" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg29" value="29: display edit form" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="920" as="sourcePoint"/>
+                        <mxPoint x="205" y="920" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg30" value="30: Update & Submit" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="950" as="sourcePoint"/>
+                        <mxPoint x="195" y="950" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg31" value="31: PUT /products/{id}" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="970" as="sourcePoint"/>
+                        <mxPoint x="365" y="970" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg32" value="32: update(request, id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="990" as="sourcePoint"/>
+                        <mxPoint x="705" y="990" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg33" value="33: validate & update" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="1010" as="sourcePoint"/>
+                        <mxPoint x="715" y="1030" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg34" value="34: product updated" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="705" y="1050" as="sourcePoint"/>
+                        <mxPoint x="375" y="1050" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg35" value="35: redirect to products list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="1070" as="sourcePoint"/>
+                        <mxPoint x="205" y="1070" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                
+                <!-- PRODUCT DELETION WORKFLOW -->
+                <mxCell id="separator4" value="Product Deletion Workflow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontWeight=bold;fontSize=14;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="1100" width="600" height="30" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="msg36" value="36: Delete Product" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="1140" as="sourcePoint"/>
+                        <mxPoint x="195" y="1140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg37" value="37: DELETE /products/{id}" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="1160" as="sourcePoint"/>
+                        <mxPoint x="365" y="1160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg38" value="38: destroy(id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="1180" as="sourcePoint"/>
+                        <mxPoint x="985" y="1180" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg39" value="39: check inventory exists" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="995" y="1200" as="sourcePoint"/>
+                        <mxPoint x="995" y="1220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg40" value="40: [if no inventory] delete product" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="985" y="1240" as="sourcePoint"/>
+                        <mxPoint x="705" y="1240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg41" value="41: product deleted" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="705" y="1260" as="sourcePoint"/>
+                        <mxPoint x="375" y="1260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg42" value="42: success message" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="1280" as="sourcePoint"/>
+                        <mxPoint x="205" y="1280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>                
+                <!-- AJAX SEARCH WORKFLOW -->
+                <mxCell id="separator5" value="Real-time Product Search (AJAX)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontWeight=bold;fontSize=14;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="1310" width="600" height="30" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="msg43" value="43: search input change" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="75" y="1350" as="sourcePoint"/>
+                        <mxPoint x="195" y="1350" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg44" value="44: GET /api/products/search?term=..." style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="205" y="1370" as="sourcePoint"/>
+                        <mxPoint x="365" y="1370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg45" value="45: search(term)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="375" y="1390" as="sourcePoint"/>
+                        <mxPoint x="705" y="1390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg46" value="46: where() filter results" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="715" y="1410" as="sourcePoint"/>
+                        <mxPoint x="715" y="1430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg47" value="47: filtered results" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="705" y="1450" as="sourcePoint"/>
+                        <mxPoint x="375" y="1450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg48" value="48: JSON response" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="365" y="1470" as="sourcePoint"/>
+                        <mxPoint x="205" y="1470" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg49" value="49: update search results" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="195" y="1490" as="sourcePoint"/>
+                        <mxPoint x="75" y="1490" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                        <mxPoint x="195" y="1010" as="sourcePoint"/>
+                        <mxPoint x="75" y="1010" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
                         <mxPoint x="440" y="290" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
@@ -98,181 +474,9 @@
                         <Array as="points">
                             <mxPoint x="190" y="200"/>
                         </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg2" value="2: createProduct(name, sku, category_id, unit, description)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="275" y="230" as="sourcePoint"/>
-                        <mxPoint x="435" y="230" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg3" value="3: getCategory(category_id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="445" y="260" as="sourcePoint"/>
-                        <mxPoint x="765" y="260" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg4" value="4: query category" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="775" y="290" as="sourcePoint"/>
-                        <mxPoint x="1085" y="290" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg5" value="5: category data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1085" y="320" as="sourcePoint"/>
-                        <mxPoint x="775" y="320" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg6" value="6: category" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="765" y="350" as="sourcePoint"/>
-                        <mxPoint x="445" y="350" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg7" value="7: create()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="445" y="380" as="sourcePoint"/>
-                        <mxPoint x="605" y="380" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg8" value="8: insert product data" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="615" y="410" as="sourcePoint"/>
-                        <mxPoint x="1085" y="410" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg9" value="9: product created" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1085" y="440" as="sourcePoint"/>
-                        <mxPoint x="615" y="440" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg10" value="10: create initial inventory" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="615" y="470" as="sourcePoint"/>
-                        <mxPoint x="925" y="470" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg11" value="11: product created" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="605" y="500" as="sourcePoint"/>
-                        <mxPoint x="445" y="500" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg12" value="12: product creation successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="435" y="530" as="sourcePoint"/>
-                        <mxPoint x="275" y="530" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg13" value="13: Hiển thị thông báo tạo sản phẩm thành công" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="265" y="560" as="sourcePoint"/>
-                        <mxPoint x="125" y="560" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="update_title" value="&lt;b&gt;Cập nhật sản phẩm&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-                    <mxGeometry x="40" y="590" width="80" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="msg14" value="14: Chọn sản phẩm để cập nhật" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="125" y="620" as="sourcePoint"/>
-                        <mxPoint x="265" y="620" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg15" value="15: getProduct(productId)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="275" y="650" as="sourcePoint"/>
-                        <mxPoint x="435" y="650" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg16" value="16: getProduct(productId)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="445" y="680" as="sourcePoint"/>
-                        <mxPoint x="605" y="680" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg17" value="17: query product" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="615" y="710" as="sourcePoint"/>
-                        <mxPoint x="1085" y="710" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg18" value="18: product data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1085" y="740" as="sourcePoint"/>
-                        <mxPoint x="615" y="740" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg19" value="19: product" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="605" y="770" as="sourcePoint"/>
-                        <mxPoint x="445" y="770" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg20" value="20: product details" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="435" y="800" as="sourcePoint"/>
-                        <mxPoint x="275" y="800" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg21" value="21: Hiển thị form cập nhật với dữ liệu sản phẩm" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="265" y="830" as="sourcePoint"/>
-                        <mxPoint x="125" y="830" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg22" value="22: Nhập thông tin cập nhật" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="125" y="860" as="sourcePoint"/>
-                        <mxPoint x="265" y="860" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg23" value="23: updateProduct(productId, updatedData)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="275" y="890" as="sourcePoint"/>
-                        <mxPoint x="435" y="890" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg24" value="24: update(updatedData)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="445" y="920" as="sourcePoint"/>
-                        <mxPoint x="605" y="920" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg25" value="25: update product data" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="615" y="950" as="sourcePoint"/>
-                        <mxPoint x="1085" y="950" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg26" value="26: update successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1085" y="980" as="sourcePoint"/>
-                        <mxPoint x="615" y="980" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg27" value="27: update successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="605" y="1010" as="sourcePoint"/>
-                        <mxPoint x="445" y="1010" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg28" value="28: product update successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="435" y="1040" as="sourcePoint"/>
-                        <mxPoint x="275" y="1040" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg29" value="29: Hiển thị thông báo cập nhật thành công" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="265" y="1070" as="sourcePoint"/>
-                        <mxPoint x="125" y="1070" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="diagram_title" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;2. ProductManagementSequence&lt;/b&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="500" y="20" width="220" height="30" as="geometry"/>
+                    </mxGeometry>                </mxCell>
+                <mxCell id="diagram_title" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;Product Management Sequence Diagram&lt;/b&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="20" width="300" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

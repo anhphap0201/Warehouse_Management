@@ -1,52 +1,50 @@
 <mxfile host="65bd71144e">
     <diagram id="DwvK9kHHtX1T7axg-5xF" name="Page-1">
-        <mxGraphModel dx="1483" dy="784" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1683" dy="884" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1400" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="actor_user" value="Người dùng" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="100" y="80" width="30" height="60" as="geometry"/>
+                <mxCell id="actor_user" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="30" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="UI_class" value="&lt;b&gt;:Giao diện&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="220" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="UI_class" value="&lt;b&gt;:Blade Template&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="80" width="120" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="Inventory_controller_class" value="&lt;b&gt;:InventoryController&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="380" y="80" width="140" height="50" as="geometry"/>
+                <mxCell id="Warehouse_controller_class" value="&lt;b&gt;:WarehouseController&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="80" width="140" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="Product_class" value="&lt;b&gt;:Product&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
-                    <mxGeometry x="580" y="80" width="100" height="50" as="geometry"/>
+                <mxCell id="StockMovement_controller_class" value="&lt;b&gt;:StockMovementController&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="80" width="160" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="Warehouse_class" value="&lt;b&gt;:Warehouse&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="740" y="80" width="100" height="50" as="geometry"/>
+                    <mxGeometry x="780" y="80" width="100" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="Inventory_class" value="&lt;b&gt;:Inventory&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
-                    <mxGeometry x="900" y="80" width="100" height="50" as="geometry"/>
+                    <mxGeometry x="940" y="80" width="100" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="DB_class" value="&lt;b&gt;:Database&lt;/b&gt;" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
-                    <mxGeometry x="1060" y="80" width="100" height="50" as="geometry"/>
-                </mxCell>
-                <mxCell id="User_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="115" y="160" width="10" height="900" as="geometry"/>
+                <mxCell id="Product_class" value="&lt;b&gt;:Product&lt;/b&gt;" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="80" width="100" height="50" as="geometry"/>
+                </mxCell>                <mxCell id="User_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+                    <mxGeometry x="90" y="160" width="10" height="1000" as="geometry"/>
                 </mxCell>
                 <mxCell id="UI_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-                    <mxGeometry x="265" y="160" width="10" height="910" as="geometry"/>
+                    <mxGeometry x="235" y="160" width="10" height="1000" as="geometry"/>
                 </mxCell>
-                <mxCell id="Inventory_controller_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-                    <mxGeometry x="445" y="160" width="10" height="900" as="geometry"/>
+                <mxCell id="Warehouse_controller_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="425" y="160" width="10" height="1000" as="geometry"/>
                 </mxCell>
-                <mxCell id="Product_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="625" y="160" width="10" height="800" as="geometry"/>
+                <mxCell id="StockMovement_controller_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="635" y="160" width="10" height="1000" as="geometry"/>
                 </mxCell>
                 <mxCell id="Warehouse_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-                    <mxGeometry x="785" y="160" width="10" height="800" as="geometry"/>
+                    <mxGeometry x="825" y="160" width="10" height="900" as="geometry"/>
                 </mxCell>
                 <mxCell id="Inventory_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-                    <mxGeometry x="945" y="160" width="10" height="890" as="geometry"/>
+                    <mxGeometry x="985" y="160" width="10" height="900" as="geometry"/>
                 </mxCell>
-                <mxCell id="DB_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-                    <mxGeometry x="1105" y="160" width="10" height="800" as="geometry"/>
-                </mxCell>
-                <mxCell id="User_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_user" target="User_line">
+                <mxCell id="Product_line" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+                    <mxGeometry x="1145" y="160" width="10" height="900" as="geometry"/>
+                </mxCell>                <mxCell id="User_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="actor_user" target="User_line">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="390" y="340" as="sourcePoint"/>
                         <mxPoint x="440" y="290" as="targetPoint"/>
@@ -58,13 +56,13 @@
                         <mxPoint x="440" y="290" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="Inventory_controller_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="Inventory_controller_class" target="Inventory_controller_line">
+                <mxCell id="Warehouse_controller_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="Warehouse_controller_class" target="Warehouse_controller_line">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="390" y="340" as="sourcePoint"/>
                         <mxPoint x="440" y="290" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="Product_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Product_class" target="Product_line" edge="1">
+                <mxCell id="StockMovement_controller_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="StockMovement_controller_class" target="StockMovement_controller_line">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="390" y="340" as="sourcePoint"/>
                         <mxPoint x="440" y="290" as="targetPoint"/>
@@ -82,191 +80,240 @@
                         <mxPoint x="440" y="290" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="DB_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="DB_class" target="DB_line">
+                <mxCell id="Product_to_line" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Product_class" target="Product_line" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="390" y="340" as="sourcePoint"/>
                         <mxPoint x="440" y="290" as="targetPoint"/>
                     </mxGeometry>
+                </mxCell>                <!-- Viewing Inventory Section -->
+                <mxCell id="view_title" value="&lt;b&gt;View Inventory Dashboard&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="180" width="140" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="view_title" value="&lt;b&gt;Xem tồn kho&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-                    <mxGeometry x="40" y="170" width="80" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="msg1" value="1: Yêu cầu xem tồn kho" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="User_line" target="UI_line" edge="1">
+                <mxCell id="msg1" value="1: GET /warehouses" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="User_line" target="UI_line" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="130" y="200" as="sourcePoint"/>
-                        <mxPoint x="210" y="200" as="targetPoint"/>
+                        <mxPoint x="100" y="210" as="sourcePoint"/>
+                        <mxPoint x="180" y="210" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="190" y="200"/>
+                            <mxPoint x="165" y="210"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg2" value="2: getInventoryList()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg2" value="2: index()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="275" y="230" as="sourcePoint"/>
-                        <mxPoint x="445" y="230" as="targetPoint"/>
+                        <mxPoint x="245" y="240" as="sourcePoint"/>
+                        <mxPoint x="425" y="240" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg3" value="3: getWarehouses()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg3" value="3: Warehouse::with('inventories.product')" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="455" y="260" as="sourcePoint"/>
-                        <mxPoint x="785" y="260" as="targetPoint"/>
+                        <mxPoint x="435" y="270" as="sourcePoint"/>
+                        <mxPoint x="825" y="270" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg4" value="4: query warehouses" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg4" value="4: inventories()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="795" y="290" as="sourcePoint"/>
-                        <mxPoint x="1105" y="290" as="targetPoint"/>
+                        <mxPoint x="835" y="300" as="sourcePoint"/>
+                        <mxPoint x="985" y="300" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg5" value="5: warehouses data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1105" y="320" as="sourcePoint"/>
-                        <mxPoint x="795" y="320" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg6" value="6: warehouses" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="785" y="350" as="sourcePoint"/>
-                        <mxPoint x="455" y="350" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg7" value="7: getAllInventory()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg5" value="5: product()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="455" y="380" as="sourcePoint"/>
-                        <mxPoint x="945" y="380" as="targetPoint"/>
+                        <mxPoint x="995" y="330" as="sourcePoint"/>
+                        <mxPoint x="1145" y="330" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg8" value="8: query inventory" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg6" value="6: product data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1145" y="360" as="sourcePoint"/>
+                        <mxPoint x="995" y="360" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg7" value="7: inventory with products" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="985" y="390" as="sourcePoint"/>
+                        <mxPoint x="835" y="390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg8" value="8: warehouses with inventory" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="825" y="420" as="sourcePoint"/>
+                        <mxPoint x="435" y="420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg9" value="9: compact('warehouses')" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="425" y="450" as="sourcePoint"/>
+                        <mxPoint x="245" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg10" value="10: render warehouses.index with inventory data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="235" y="480" as="sourcePoint"/>
+                        <mxPoint x="100" y="480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Search Inventory Section -->
+                <mxCell id="search_title" value="&lt;b&gt;AJAX Search Inventory&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="520" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg11" value="11: keyup event (search term)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="955" y="410" as="sourcePoint"/>
-                        <mxPoint x="1105" y="410" as="targetPoint"/>
+                        <mxPoint x="100" y="550" as="sourcePoint"/>
+                        <mxPoint x="235" y="550" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg9" value="9: inventory data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1105" y="440" as="sourcePoint"/>
-                        <mxPoint x="955" y="440" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg10" value="10: inventory list" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="945" y="470" as="sourcePoint"/>
-                        <mxPoint x="455" y="470" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg11" value="11: getProductDetails()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg12" value="12: AJAX GET /warehouses?search={term}" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="455" y="500" as="sourcePoint"/>
-                        <mxPoint x="625" y="500" as="targetPoint"/>
+                        <mxPoint x="245" y="580" as="sourcePoint"/>
+                        <mxPoint x="425" y="580" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg12" value="12: query products" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
+                <mxCell id="msg13" value="13: index(Request $request)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="635" y="530" as="sourcePoint"/>
-                        <mxPoint x="1105" y="530" as="targetPoint"/>
+                        <mxPoint x="435" y="610" as="sourcePoint"/>
+                        <mxPoint x="825" y="610" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg13" value="13: products data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1105" y="560" as="sourcePoint"/>
-                        <mxPoint x="635" y="560" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg14" value="14: product details" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="625" y="590" as="sourcePoint"/>
-                        <mxPoint x="455" y="590" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg15" value="15: inventory with product details" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="445" y="620" as="sourcePoint"/>
-                        <mxPoint x="275" y="620" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg16" value="16: Hiển thị danh sách tồn kho" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="265" y="650" as="sourcePoint"/>
-                        <mxPoint x="125" y="650" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="adjust_title" value="&lt;b&gt;Điều chỉnh tồn kho&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-                    <mxGeometry x="40" y="680" width="80" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="msg17" value="17: Chọn sản phẩm và nhập số lượng điều chỉnh" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg14" value="14: where('name', 'like', '%{search}%')" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="125" y="710" as="sourcePoint"/>
-                        <mxPoint x="265" y="710" as="targetPoint"/>
+                        <mxPoint x="835" y="640" as="sourcePoint"/>
+                        <mxPoint x="985" y="640" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg18" value="18: adjustInventory(productId, warehouseId, quantity)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg15" value="15: filtered inventory data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="985" y="670" as="sourcePoint"/>
+                        <mxPoint x="835" y="670" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg16" value="16: JSON response" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="825" y="700" as="sourcePoint"/>
+                        <mxPoint x="435" y="700" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg17" value="17: return response()->json($warehouses)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="425" y="730" as="sourcePoint"/>
+                        <mxPoint x="245" y="730" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg18" value="18: update DOM with filtered results" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="235" y="760" as="sourcePoint"/>
+                        <mxPoint x="100" y="760" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Stock Movement Recording Section -->
+                <mxCell id="stock_title" value="&lt;b&gt;Record Stock Movement&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="800" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg19" value="19: POST /stock-movements" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="275" y="740" as="sourcePoint"/>
-                        <mxPoint x="445" y="740" as="targetPoint"/>
+                        <mxPoint x="100" y="830" as="sourcePoint"/>
+                        <mxPoint x="235" y="830" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg19" value="19: getInventory(productId, warehouseId)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg20" value="20: store(StockMovementRequest $request)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="455" y="770" as="sourcePoint"/>
-                        <mxPoint x="945" y="770" as="targetPoint"/>
+                        <mxPoint x="245" y="860" as="sourcePoint"/>
+                        <mxPoint x="635" y="860" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg20" value="20: query inventory" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg21" value="21: $request->validate()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="955" y="800" as="sourcePoint"/>
-                        <mxPoint x="1105" y="800" as="targetPoint"/>
+                        <mxPoint x="635" y="890" as="sourcePoint"/>
+                        <mxPoint x="985" y="890" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg21" value="21: inventory data" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1105" y="830" as="sourcePoint"/>
-                        <mxPoint x="955" y="830" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg22" value="22: inventory" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="945" y="860" as="sourcePoint"/>
-                        <mxPoint x="455" y="860" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="msg23" value="23: adjustQuantity(quantity)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg22" value="22: updateOrCreate()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="455" y="890" as="sourcePoint"/>
-                        <mxPoint x="945" y="890" as="targetPoint"/>
+                        <mxPoint x="645" y="920" as="sourcePoint"/>
+                        <mxPoint x="985" y="920" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg24" value="24: update inventory" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg23" value="23: StockMovement::create()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry width="80" relative="1" as="geometry">
-                        <mxPoint x="955" y="920" as="sourcePoint"/>
-                        <mxPoint x="1105" y="920" as="targetPoint"/>
+                        <mxPoint x="645" y="950" as="sourcePoint"/>
+                        <mxPoint x="985" y="950" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg25" value="25: update successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg24" value="24: stock movement recorded" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1105" y="950" as="sourcePoint"/>
-                        <mxPoint x="955" y="950" as="targetPoint"/>
+                        <mxPoint x="985" y="980" as="sourcePoint"/>
+                        <mxPoint x="645" y="980" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg26" value="26: adjustment successful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg25" value="25: redirect()->back()->with('success')" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="945" y="980" as="sourcePoint"/>
-                        <mxPoint x="455" y="980" as="targetPoint"/>
+                        <mxPoint x="635" y="1010" as="sourcePoint"/>
+                        <mxPoint x="245" y="1010" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg27" value="27: inventory adjusted" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                <mxCell id="msg26" value="26: flash success message" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="445" y="1010" as="sourcePoint"/>
-                        <mxPoint x="275" y="1010" as="targetPoint"/>
+                        <mxPoint x="235" y="1040" as="sourcePoint"/>
+                        <mxPoint x="100" y="1040" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg28" value="28: Hiển thị thông báo điều chỉnh thành công" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+
+                <!-- Inventory Adjustment Section -->
+                <mxCell id="adjust_title" value="&lt;b&gt;Update Inventory Quantity&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="1080" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="msg27" value="27: PUT /warehouses/{id}" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="100" y="1110" as="sourcePoint"/>
+                        <mxPoint x="235" y="1110" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg28" value="28: update(WarehouseRequest $request, $id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="245" y="1140" as="sourcePoint"/>
+                        <mxPoint x="425" y="1140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg29" value="29: Warehouse::find($id)" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="435" y="1170" as="sourcePoint"/>
+                        <mxPoint x="825" y="1170" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg30" value="30: $warehouse->inventories()->sync()" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="835" y="1200" as="sourcePoint"/>
+                        <mxPoint x="985" y="1200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg31" value="31: pivot table updated" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="265" y="1040" as="sourcePoint"/>
-                        <mxPoint x="125" y="1040" as="targetPoint"/>
+                        <mxPoint x="985" y="1230" as="sourcePoint"/>
+                        <mxPoint x="835" y="1230" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="diagram_title" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;3. InventoryManagementSequence&lt;/b&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="500" y="20" width="250" height="30" as="geometry"/>
+                <mxCell id="msg32" value="32: warehouse updated" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="825" y="1260" as="sourcePoint"/>
+                        <mxPoint x="435" y="1260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg33" value="33: redirect with success message" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="425" y="1290" as="sourcePoint"/>
+                        <mxPoint x="245" y="1290" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg34" value="34: display updated inventory" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="235" y="1320" as="sourcePoint"/>
+                        <mxPoint x="100" y="1320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="diagram_title" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Laravel Warehouse Management - Inventory Management Sequence&lt;/b&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="30" width="400" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
