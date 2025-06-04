@@ -494,18 +494,6 @@ function initializeProductSearch(index) {
         const query = this.value.trim();
         currentSearchIndex = index;
         
-        // Check if user is changing from an already restored product
-        const originalProductName = this.dataset.originalProductName;
-        const originalProductId = this.dataset.originalProductId;
-        
-        if (originalProductName && query !== originalProductName) {
-            // User is changing the product name, clear the stored product_id
-            hiddenInput.value = '';
-            delete this.dataset.originalProductName;
-            delete this.dataset.originalProductId;
-            this.classList.remove('border-red-500', 'bg-red-50');
-        }
-        
         if (query.length < 1) {
             globalDropdown.classList.add('hidden');
             hiddenInput.value = '';
@@ -520,7 +508,7 @@ function initializeProductSearch(index) {
     
     searchInput.addEventListener('focus', function() {
         currentSearchIndex = index;
-        if (this.value.trim().length >= 1 && !this.disabled) {
+        if (this.value.trim().length >= 1) {
             searchProducts(this.value.trim(), index);
         }
     });
