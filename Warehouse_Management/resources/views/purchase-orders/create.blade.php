@@ -3,10 +3,8 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Tạo hóa đơn nhập kho') }}
         </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    </x-slot>    <div class="py-12">
+        <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between items-center mb-6">
@@ -24,11 +22,20 @@
                         <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                             {{ session('success') }}
                         </div>
-                    @endif
-
-                    @if(session('error'))
+                    @endif                    @if(session('error'))
                         <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                             {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            <div class="font-bold">Có lỗi xảy ra:</div>
+                            <ul class="list-disc list-inside mt-2">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
 
@@ -77,9 +84,7 @@
                                     <div class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-gray-50 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-sm">
                                         Sẽ được tự động tạo khi lưu hóa đơn
                                     </div>
-                                </div>
-
-                                <div>
+                                </div>                                <div>
                                     <label for="supplier_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Tên nhà cung cấp <span class="text-red-500">*</span>
                                     </label>
@@ -89,7 +94,8 @@
                                                placeholder="Tìm kiếm nhà cung cấp..."
                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_name') border-red-500 @enderror"
                                                autocomplete="off">
-                                        <input type="hidden" name="supplier_name" id="supplier_name" value="{{ old('supplier_name') }}">                                        <div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
+                                        <input type="hidden" name="supplier_name" id="supplier_name" value="{{ old('supplier_name') }}">
+                                        <input type="hidden" name="supplier_id" id="supplier_id" value="{{ old('supplier_id') }}"><div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
                                             <div id="supplier_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
                                                 <div class="flex items-center">
                                                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
@@ -213,13 +219,26 @@ let searchTimeout;
 // Get CSRF token from meta tag
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+// Get old values if validation failed
+const oldItems = @json(old('items', []));
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize real-time search functionality
     initializeWarehouseSearch();
     initializeSupplierSearch();
     
-    // Add first item by default
-    addItem();
+    // Restore old values for search fields if validation failed
+    restoreSearchFieldValues();
+    
+    // Restore old values if validation failed
+    if (oldItems && oldItems.length > 0) {
+        oldItems.forEach(function(item, index) {
+            addItem(item);
+        });
+    } else {
+        // Add first item by default
+        addItem();
+    }
     
     document.getElementById('addItemBtn').addEventListener('click', function() {
         addItem();
@@ -258,6 +277,43 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', handleRepositioning);
     window.addEventListener('resize', handleRepositioning);
 });
+
+function restoreSearchFieldValues() {
+    // Restore warehouse search field
+    const warehouseId = document.getElementById('warehouse_id').value;
+    const warehouseSearch = document.getElementById('warehouse_search');
+    
+    if (warehouseId && warehouseSearch) {
+        // Make API call to get warehouse name
+        fetch(`/api/warehouses/${warehouseId}`, {
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then(warehouse => {
+            if (warehouse) {
+                warehouseSearch.value = warehouse.name;
+            }
+        }).catch(error => {
+            console.error('Error fetching warehouse:', error);
+        });
+    }
+    
+    // Restore supplier search field
+    const supplierName = document.getElementById('supplier_name').value;
+    const supplierSearch = document.getElementById('supplier_search');
+    
+    if (supplierName && supplierSearch) {
+        supplierSearch.value = supplierName;
+    }
+}
 
 function initializeWarehouseSearch() {
     const searchInput = document.getElementById('warehouse_search');
@@ -376,12 +432,11 @@ function initializeSupplierSearch() {
             
             if (data.length === 0) {
                 results.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy nhà cung cấp nào</div>';
-            } else {
-                results.innerHTML = data.map(supplier => `
+            } else {                results.innerHTML = data.map(supplier => `
                     <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
-                         onclick="selectSupplier('${supplier.name}')">
+                         onclick="selectSupplier(${supplier.id}, '${supplier.name}', '${supplier.phone || ''}', '${supplier.address || ''}')">
                         <div class="font-medium text-gray-900 dark:text-gray-100">${supplier.name}</div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400">${supplier.phone || 'Không có SĐT'}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">${supplier.phone || 'Không có SĐT'} • ${supplier.email || 'Không có email'}</div>
                     </div>
                 `).join('');
             }
@@ -391,10 +446,24 @@ function initializeSupplierSearch() {
             results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
         }
     }
-    
-    window.selectSupplier = function(name) {
-        hiddenInput.value = name;
+      window.selectSupplier = function(id, name, phone, address) {
+        const supplierNameInput = document.getElementById('supplier_name');
+        const supplierIdInput = document.getElementById('supplier_id');
+        const supplierPhoneInput = document.getElementById('supplier_phone');
+        const supplierAddressInput = document.getElementById('supplier_address');
+        
+        supplierIdInput.value = id;
+        supplierNameInput.value = name;
         searchInput.value = name;
+        
+        // Auto-fill other fields if they exist and are empty
+        if (supplierPhoneInput && !supplierPhoneInput.value) {
+            supplierPhoneInput.value = phone;
+        }
+        if (supplierAddressInput && !supplierAddressInput.value) {
+            supplierAddressInput.value = address;
+        }
+        
         dropdown.classList.add('hidden');
     };
 }
@@ -425,6 +494,18 @@ function initializeProductSearch(index) {
         const query = this.value.trim();
         currentSearchIndex = index;
         
+        // Check if user is changing from an already restored product
+        const originalProductName = this.dataset.originalProductName;
+        const originalProductId = this.dataset.originalProductId;
+        
+        if (originalProductName && query !== originalProductName) {
+            // User is changing the product name, clear the stored product_id
+            hiddenInput.value = '';
+            delete this.dataset.originalProductName;
+            delete this.dataset.originalProductId;
+            this.classList.remove('border-red-500', 'bg-red-50');
+        }
+        
         if (query.length < 1) {
             globalDropdown.classList.add('hidden');
             hiddenInput.value = '';
@@ -439,7 +520,7 @@ function initializeProductSearch(index) {
     
     searchInput.addEventListener('focus', function() {
         currentSearchIndex = index;
-        if (this.value.trim().length >= 1) {
+        if (this.value.trim().length >= 1 && !this.disabled) {
             searchProducts(this.value.trim(), index);
         }
     });
@@ -512,7 +593,7 @@ function initializeProductSearch(index) {
     };
 }
 
-function addItem() {
+function addItem(oldItem = null) {
     const itemHtml = `
         <tr class="item-row hover:bg-gray-50 dark:hover:bg-gray-700" data-index="${itemIndex}">
             <td class="px-6 py-4">
@@ -522,13 +603,18 @@ function addItem() {
                 <input type="number" 
                        name="items[${itemIndex}][quantity]" 
                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 quantity-input" 
-                       min="1" required>
+                       min="1" 
+                       value="${oldItem ? oldItem.quantity || '' : ''}"
+                       required>
             </td>
             <td class="px-6 py-4">
                 <input type="number" 
                        name="items[${itemIndex}][unit_price]" 
                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 price-input" 
-                       min="0" step="0.01" required>
+                       min="0" 
+                       step="0.01" 
+                       value="${oldItem ? oldItem.unit_price || '' : ''}"
+                       required>
             </td>
             <td class="px-6 py-4 total-price text-sm font-medium text-gray-900 dark:text-gray-100">0 VNĐ</td>
             <td class="px-6 py-4 text-center">
@@ -537,13 +623,61 @@ function addItem() {
                         ${itemIndex === 0 ? 'disabled' : ''}>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                </button>
+                    </svg>                </button>
             </td>
         </tr>
     `;
     
     document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHtml);
+      // If oldItem data exists, populate the product search field
+    if (oldItem && oldItem.product_id) {
+        const productSearchInput = document.getElementById(`product_search_${itemIndex}`);
+        const productIdInput = document.getElementById(`product_id_${itemIndex}`);
+        
+        if (productSearchInput && productIdInput) {
+            // Disable input while loading to prevent user input
+            productSearchInput.disabled = true;
+            productSearchInput.value = 'Đang tải thông tin sản phẩm...';
+            productSearchInput.classList.add('bg-gray-100', 'text-gray-500');
+            
+            // Set the hidden product_id
+            productIdInput.value = oldItem.product_id;
+            
+            // Try to find and set the product name from the search
+            fetch(`/api/products/${oldItem.product_id}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin'
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error(`HTTP ${response.status}`);
+            }).then(product => {
+                if (product) {
+                    productSearchInput.value = product.name;
+                    productSearchInput.disabled = false;
+                    productSearchInput.classList.remove('bg-gray-100', 'text-gray-500');
+                    
+                    // Store the original product name for validation
+                    productSearchInput.dataset.originalProductName = product.name;
+                    productSearchInput.dataset.originalProductId = oldItem.product_id;
+                }
+            }).catch(error => {
+                console.error('Error fetching product:', error);
+                productSearchInput.value = 'Sản phẩm không tồn tại (ID: ' + oldItem.product_id + ')';
+                productSearchInput.classList.add('border-red-500', 'bg-red-50');
+                productSearchInput.disabled = false;
+                
+                // Clear the product_id since product doesn't exist
+                productIdInput.value = '';
+            });
+        }
+    }
     
     // Initialize product search for this row
     initializeProductSearch(itemIndex);
@@ -551,6 +685,11 @@ function addItem() {
     // Bind events to new row
     const newRow = document.querySelector(`tr[data-index="${itemIndex}"]`);
     bindItemEvents(newRow);
+    
+    // Update row total if there's existing data
+    if (oldItem && oldItem.quantity && oldItem.unit_price) {
+        updateRowTotal(newRow);
+    }
     
     itemIndex++;
     updateRemoveButtons();
@@ -617,4 +756,5 @@ function formatCurrency(amount) {
         currency: 'VND'
     }).format(amount);
 }
+
 </script>

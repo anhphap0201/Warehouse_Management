@@ -9,6 +9,7 @@ use App\Http\Controllers\Inventory\WarehouseController;
 use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Inventory\StockMovementController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SupplierController;
 // Auth controllers
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -71,6 +72,15 @@ Route::middleware('auth')->group(function () {
     Route::put('/stores/{store}', [StoreController::class, 'update'])->name('stores.update');
     Route::delete('/stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
     
+    // Nhà cung cấp - CRUD đầy đủ
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::get('/suppliers/{supplier}', [SupplierController::class, 'show'])->name('suppliers.show');
+    Route::get('/suppliers/{supplier}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+    
     // Lịch sử nhập xuất kho
     Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
     
@@ -92,7 +102,9 @@ Route::middleware('auth')->group(function () {
     
     // API routes for real-time search
     Route::get('/api/products/search', [PurchaseOrderController::class, 'searchProducts'])->name('api.products.search');
+    Route::get('/api/products/{id}', [ProductController::class, 'getProduct'])->name('api.products.get');
     Route::get('/api/warehouses/search', [PurchaseOrderController::class, 'searchWarehouses'])->name('api.warehouses.search'); 
-    Route::get('/api/suppliers/search', [PurchaseOrderController::class, 'searchSuppliers'])->name('api.suppliers.search');
+    Route::get('/api/warehouses/{warehouse}', [WarehouseController::class, 'getWarehouse'])->name('api.warehouses.get');
+    Route::get('/api/suppliers/search', [SupplierController::class, 'search'])->name('api.suppliers.search');
 });
 require __DIR__.'/auth.php';

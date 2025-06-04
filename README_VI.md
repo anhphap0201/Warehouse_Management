@@ -143,7 +143,7 @@ Hệ thống sử dụng cơ sở dữ liệu quan hệ có cấu trúc tốt v�
 - **suppliers** - Thông tin nhà cung cấp và chi tiết liên hệ
 
 ### Hệ Thống Đơn Hàng Mua
-- **purchase_orders** - Bản ghi đơn hàng mua chính
+- **purchase_orders** - Bản ghi đơn hàng mua chính với liên kết đến nhà cung cấp
 - **purchase_order_items** - Các mặt hàng riêng lẻ trong đơn hàng mua
 - **order_statuses** - Theo dõi trạng thái đơn hàng mua
 
@@ -155,6 +155,7 @@ Hệ thống sử dụng cơ sở dữ liệu quan hệ có cấu trúc tốt v�
 ### Mối Quan Hệ Chính
 - Sản phẩm thuộc về Danh mục (Nhiều-đến-Một)
 - Đơn hàng Mua chứa nhiều Mặt hàng (Một-đến-Nhiều)
+- Đơn hàng Mua thuộc về Nhà cung cấp (Nhiều-đến-Một)
 - Chuyển động Kho theo dõi thay đổi Sản phẩm trên các Kho
 - Người dùng có thể tạo và quản lý Đơn hàng Mua
 
@@ -197,6 +198,15 @@ GET    /warehouses/{id}                 # Xem chi tiết kho
 PUT    /warehouses/{id}                 # Cập nhật kho
 DELETE /warehouses/{id}                 # Xóa kho
 GET    /warehouses/{id}/stock           # Xem mức tồn kho của kho
+```
+
+### Quản Lý Nhà Cung Cấp
+```
+GET    /suppliers                       # Liệt kê tất cả nhà cung cấp
+POST   /suppliers                       # Tạo nhà cung cấp mới
+GET    /suppliers/{id}                  # Xem chi tiết nhà cung cấp
+PUT    /suppliers/{id}                  # Cập nhật nhà cung cấp
+DELETE /suppliers/{id}                  # Xóa nhà cung cấp
 ```
 
 ## 🏗️ Tổng Quan Kiến Trúc

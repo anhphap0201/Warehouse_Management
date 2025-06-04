@@ -99,4 +99,16 @@ class WarehouseController extends Controller
         return redirect()->route('warehouses.index')
             ->with('success', 'Kho hàng đã được xóa thành công!');
     }
+
+    /**
+     * Get warehouse details for API calls
+     */
+    public function getWarehouse(Warehouse $warehouse)
+    {
+        return response()->json([
+            'id' => $warehouse->id,
+            'name' => $warehouse->name,
+            'location' => $warehouse->location,
+        ]);
+    }
 }

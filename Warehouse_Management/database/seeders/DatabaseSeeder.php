@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             StoreSeeder::class,
+            SupplierSeeder::class,
             
             // Then inventory-related data
             InventorySeeder::class,

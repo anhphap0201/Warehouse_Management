@@ -99,4 +99,23 @@ class ProductController extends Controller
         return redirect()->route('products.index')
             ->with('success', 'Sản phẩm đã được xóa thành công!');
     }
+
+    /**
+     * Get product details for API
+     */
+    public function getProduct($id)
+    {
+        $product = Product::find($id);
+        
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        return response()->json([
+            'id' => $product->id,
+            'name' => $product->name,
+            'sku' => $product->sku,
+            'unit' => $product->unit
+        ]);
+    }
 }
