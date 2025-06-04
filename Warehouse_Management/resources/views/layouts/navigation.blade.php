@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
                         {{ __('Cửa hàng') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
+                        {{ __('Nhà cung cấp') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
                         {{ __('Hóa đơn nhập') }}
                     </x-nav-link>
@@ -99,6 +102,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
                 Cửa hàng
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
+                Nhà cung cấp
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
                 Hóa đơn nhập

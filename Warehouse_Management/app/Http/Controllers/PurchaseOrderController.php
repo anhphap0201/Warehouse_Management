@@ -8,6 +8,7 @@ use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\Inventory;
 use App\Models\StockMovement;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -99,8 +100,9 @@ class PurchaseOrderController extends Controller
     {
         $warehouses = Warehouse::all();
         $products = Product::all();
+        $suppliers = Supplier::active()->get();
         
-        return view('purchase-orders.create', compact('warehouses', 'products'));
+        return view('purchase-orders.create', compact('warehouses', 'products', 'suppliers'));
     }
 
     /**
@@ -132,6 +134,7 @@ class PurchaseOrderController extends Controller
     {
         $validated = $request->validate([
             'warehouse_id' => 'required|exists:warehouses,id',
+            'supplier_id' => 'nullable|exists:suppliers,id',
             'supplier_name' => 'required|string|max:255',
             'supplier_phone' => 'nullable|string|max:20',
             'supplier_address' => 'nullable|string',
@@ -140,6 +143,21 @@ class PurchaseOrderController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.unit_price' => 'required|numeric|min:0',
+        ], [
+            // Custom error messages
+            'warehouse_id.required' => 'Vui lòng chọn kho hàng.',
+            'warehouse_id.exists' => 'Kho hàng đã chọn không tồn tại.',
+            'supplier_name.required' => 'Vui lòng nhập tên nhà cung cấp.',
+            'items.required' => 'Vui lòng thêm ít nhất một sản phẩm.',
+            'items.min' => 'Hóa đơn phải có ít nhất một sản phẩm.',
+            'items.*.product_id.required' => 'Vui lòng chọn sản phẩm cho dòng :position.',
+            'items.*.product_id.exists' => 'Sản phẩm ở dòng :position không tồn tại trong hệ thống.',
+            'items.*.quantity.required' => 'Vui lòng nhập số lượng cho dòng :position.',
+            'items.*.quantity.integer' => 'Số lượng phải là số nguyên.',
+            'items.*.quantity.min' => 'Số lượng phải lớn hơn 0.',
+            'items.*.unit_price.required' => 'Vui lòng nhập đơn giá cho dòng :position.',
+            'items.*.unit_price.numeric' => 'Đơn giá phải là số.',
+            'items.*.unit_price.min' => 'Đơn giá không được âm.',
         ]);
 
         DB::transaction(function () use ($validated) {
@@ -152,6 +170,7 @@ class PurchaseOrderController extends Controller
             // Create purchase order with auto-generated invoice number
             $purchaseOrder = PurchaseOrder::create([
                 'warehouse_id' => $validated['warehouse_id'],
+                'supplier_id' => $validated['supplier_id'],
                 'supplier_name' => $validated['supplier_name'],
                 'supplier_phone' => $validated['supplier_phone'],
                 'supplier_address' => $validated['supplier_address'],
@@ -223,6 +242,21 @@ class PurchaseOrderController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.unit_price' => 'required|numeric|min:0',
+        ], [
+            // Custom error messages
+            'warehouse_id.required' => 'Vui lòng chọn kho hàng.',
+            'warehouse_id.exists' => 'Kho hàng đã chọn không tồn tại.',
+            'supplier_name.required' => 'Vui lòng nhập tên nhà cung cấp.',
+            'items.required' => 'Vui lòng thêm ít nhất một sản phẩm.',
+            'items.min' => 'Hóa đơn phải có ít nhất một sản phẩm.',
+            'items.*.product_id.required' => 'Vui lòng chọn sản phẩm cho dòng :position.',
+            'items.*.product_id.exists' => 'Sản phẩm ở dòng :position không tồn tại trong hệ thống.',
+            'items.*.quantity.required' => 'Vui lòng nhập số lượng cho dòng :position.',
+            'items.*.quantity.integer' => 'Số lượng phải là số nguyên.',
+            'items.*.quantity.min' => 'Số lượng phải lớn hơn 0.',
+            'items.*.unit_price.required' => 'Vui lòng nhập đơn giá cho dòng :position.',
+            'items.*.unit_price.numeric' => 'Đơn giá phải là số.',
+            'items.*.unit_price.min' => 'Đơn giá không được âm.',
         ]);
 
         DB::transaction(function () use ($validated, $purchaseOrder) {

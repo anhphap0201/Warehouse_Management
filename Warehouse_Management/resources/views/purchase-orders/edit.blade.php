@@ -50,18 +50,30 @@
                                     @error('warehouse_id')
                                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                     @enderror
-                                </div>
-
-                                <div>
+                                </div>                                <div>
                                     <label for="supplier_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                         Tên nhà cung cấp <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" 
-                                           name="supplier_name" 
-                                           id="supplier_name" 
-                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white @error('supplier_name') border-red-500 @enderror" 
-                                           value="{{ old('supplier_name', $purchaseOrder->supplier_name) }}" 
-                                           required>
+                                    <div class="relative">
+                                        <input type="text" 
+                                               id="supplier_search" 
+                                               placeholder="Tìm kiếm nhà cung cấp..."
+                                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white @error('supplier_name') border-red-500 @enderror"
+                                               value="{{ old('supplier_name', $purchaseOrder->supplier_name) }}"
+                                               autocomplete="off">
+                                        <input type="hidden" name="supplier_name" id="supplier_name" value="{{ old('supplier_name', $purchaseOrder->supplier_name) }}">
+                                        <input type="hidden" name="supplier_id" id="supplier_id" value="{{ old('supplier_id', $purchaseOrder->supplier_id) }}">
+                                        
+                                        <div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
+                                            <div id="supplier_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
+                                                <div class="flex items-center">
+                                                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+                                                    Đang tìm kiếm...
+                                                </div>
+                                            </div>
+                                            <div id="supplier_results"></div>
+                                        </div>
+                                    </div>
                                     @error('supplier_name')
                                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                     @enderror
@@ -194,11 +206,12 @@
     <script>
     let itemIndex = 0;
     const products = @json($products);
-    const existingItems = @json($purchaseOrder->items);
-
-    document.addEventListener('DOMContentLoaded', function() {
+    const existingItems = @json($purchaseOrder->items);    document.addEventListener('DOMContentLoaded', function() {
         // Initialize warehouse search
         initializeWarehouseSearch();
+        
+        // Initialize supplier search
+        initializeSupplierSearch();
         
         // Populate existing items
         existingItems.forEach(function(item) {
@@ -214,6 +227,100 @@
             addItem();
         });
     });
+
+    function initializeSupplierSearch() {
+        const searchInput = document.getElementById('supplier_search');
+        const hiddenNameInput = document.getElementById('supplier_name');
+        const hiddenIdInput = document.getElementById('supplier_id');
+        const dropdown = document.getElementById('supplier_dropdown');
+        const loading = document.getElementById('supplier_loading');
+        const results = document.getElementById('supplier_results');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        let searchTimeout;
+        
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            hiddenNameInput.value = query; // Update the hidden input
+            
+            if (query.length < 2) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+            
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchSuppliers(query);
+            }, 300);
+        });
+        
+        // Click outside to close dropdown
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+        
+        async function searchSuppliers(query) {
+            loading.classList.remove('hidden');
+            results.innerHTML = '';
+            dropdown.classList.remove('hidden');
+            
+            try {
+                const response = await fetch(`/api/suppliers/search?q=${encodeURIComponent(query)}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                loading.classList.add('hidden');
+                
+                if (data.length === 0) {
+                    results.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy nhà cung cấp nào</div>';
+                } else {
+                    results.innerHTML = data.map(supplier => `
+                        <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
+                             onclick="selectSupplier(${supplier.id}, '${supplier.name}', '${supplier.phone || ''}', '${supplier.address || ''}')">
+                            <div class="font-medium text-gray-900 dark:text-gray-100">${supplier.name}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">${supplier.phone || 'Không có SĐT'} • ${supplier.email || 'Không có email'}</div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Supplier search error:', error);
+                loading.classList.add('hidden');
+                results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
+            }
+        }
+        
+        window.selectSupplier = function(id, name, phone, address) {
+            const supplierPhoneInput = document.getElementById('supplier_phone');
+            const supplierAddressInput = document.getElementById('supplier_address');
+            
+            hiddenIdInput.value = id;
+            hiddenNameInput.value = name;
+            searchInput.value = name;
+            
+            // Auto-fill other fields if they exist and are empty
+            if (supplierPhoneInput && !supplierPhoneInput.value) {
+                supplierPhoneInput.value = phone;
+            }
+            if (supplierAddressInput && !supplierAddressInput.value) {
+                supplierAddressInput.value = address;
+            }
+            
+            dropdown.classList.add('hidden');
+        };
+    }
 
     function initializeWarehouseSearch() {
         const searchInput = document.getElementById('warehouse_search');

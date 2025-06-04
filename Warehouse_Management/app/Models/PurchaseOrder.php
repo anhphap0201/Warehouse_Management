@@ -10,6 +10,7 @@ class PurchaseOrder extends Model
 {
     protected $fillable = [
         'warehouse_id',
+        'supplier_id',
         'supplier_name',
         'supplier_phone',
         'supplier_address',
@@ -26,6 +27,11 @@ class PurchaseOrder extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function items(): HasMany
