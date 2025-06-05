@@ -6,9 +6,11 @@ use App\Models\Notification;
 use App\Models\Store;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
@@ -17,7 +19,7 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Notification::with(['store', 'approvedBy', 'rejectedBy']);
+        $query = Notification::with(['store', 'warehouse', 'approvedBy', 'rejectedBy']);
         
         // Filter by status if provided
         if ($request->has('status') && $request->status) {
@@ -30,7 +32,10 @@ class NotificationController extends Controller
         // Preserve query parameters in pagination links
         $notifications->appends($request->query());
 
-        return view('notifications.index', compact('notifications'));
+        // Get warehouses for approval modal
+        $warehouses = Warehouse::get(['id', 'name', 'location']);
+
+        return view('notifications.index', compact('notifications', 'warehouses'));
     }
 
     /**
@@ -83,54 +88,73 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        $notification->load(['store', 'approvedBy', 'createdBy']);
+        $notification->load(['store', 'warehouse', 'approvedBy', 'rejectedBy', 'createdBy']);
         
         // Mark as read if not read yet
         if (!$notification->read_at) {
             $notification->update(['read_at' => now()]);
         }
 
-        return view('notifications.show', compact('notification'));
+        // Get warehouses for approval if notification is still pending
+        $warehouses = [];
+        if ($notification->status === 'pending') {
+            $warehouses = Warehouse::get(['id', 'name', 'location']);
+        }
+
+        return view('notifications.show', compact('notification', 'warehouses'));
     }
 
     /**
-     * Approve a notification
+     * Approve a notification with warehouse assignment
      */
-    public function approve(Notification $notification)
+    public function approve(Request $request, Notification $notification)
     {
         if ($notification->status !== 'pending') {
             return redirect()->back()->with('error', 'Chỉ có thể phê duyệt thông báo đang chờ xử lý.');
         }
 
-        DB::transaction(function () use ($notification) {
+        $request->validate([
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'admin_response' => 'nullable|string|max:1000'
+        ]);
+
+        DB::transaction(function () use ($notification, $request) {
             $notification->update([
                 'status' => 'approved',
                 'approved_by' => Auth::id(),
                 'approved_at' => now(),
-                'admin_notes' => request('admin_notes')
+                'warehouse_id' => $request->warehouse_id,
+                'admin_response' => $request->admin_response,
+                'admin_notes' => $request->admin_notes
             ]);
 
             // Here you can add logic to actually process the request
             // For example, create stock movements, update inventory, etc.
+            $this->processApprovedRequest($notification);
         });
 
-        return redirect()->back()->with('success', 'Yêu cầu đã được phê duyệt thành công.');
+        return redirect()->back()->with('success', 'Yêu cầu đã được phê duyệt và kho đã được chỉ định thành công.');
     }
 
     /**
      * Reject a notification
      */
-    public function reject(Notification $notification)
+    public function reject(Request $request, Notification $notification)
     {
         if ($notification->status !== 'pending') {
             return redirect()->back()->with('error', 'Chỉ có thể từ chối thông báo đang chờ xử lý.');
         }
 
+        $request->validate([
+            'rejection_reason' => 'required|string|max:1000'
+        ]);
+
         $notification->update([
             'status' => 'rejected',
-            'approved_by' => Auth::id(),
-            'approved_at' => now(),
-            'admin_notes' => request('admin_notes')
+            'rejected_by' => Auth::id(),
+            'rejected_at' => now(),
+            'rejection_reason' => $request->rejection_reason,
+            'admin_notes' => $request->admin_notes
         ]);
 
         return redirect()->back()->with('success', 'Yêu cầu đã được từ chối.');
@@ -166,5 +190,71 @@ class NotificationController extends Controller
 
         return redirect()->route('notifications.index')
             ->with('success', 'Thông báo đã được xóa thành công.');
+    }
+
+    /**
+     * Get available warehouses for approval
+     */
+    public function getWarehouses()
+    {
+        $warehouses = Warehouse::get(['id', 'name', 'location']);
+        return response()->json($warehouses);
+    }
+
+    /**
+     * Process approved request - create actual inventory movement
+     */
+    private function processApprovedRequest(Notification $notification)
+    {
+        $data = $notification->data;
+        $type = $notification->type;
+        
+        // Based on request type, create appropriate records
+        switch ($type) {
+            case 'receive_goods':
+                // Logic for receiving goods from warehouse to store
+                $this->processReceiveGoods($notification, $data);
+                break;
+                
+            case 'return_goods':
+                // Logic for returning goods from store to warehouse
+                $this->processReturnGoods($notification, $data);
+                break;
+                
+            default:
+                // Log unknown request type
+                Log::warning("Unknown notification type: {$type}", ['notification_id' => $notification->id]);
+                break;
+        }
+    }
+
+    /**
+     * Process receive goods request
+     */
+    private function processReceiveGoods(Notification $notification, array $data)
+    {
+        // This would create stock movement records when goods are received
+        // Implementation depends on your inventory system
+        Log::info("Processing receive goods request", [
+            'notification_id' => $notification->id,
+            'store_id' => $notification->store_id,
+            'warehouse_id' => $notification->warehouse_id,
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Process return goods request
+     */
+    private function processReturnGoods(Notification $notification, array $data)
+    {
+        // This would create stock movement records when goods are returned
+        // Implementation depends on your inventory system
+        Log::info("Processing return goods request", [
+            'notification_id' => $notification->id,
+            'store_id' => $notification->store_id,
+            'warehouse_id' => $notification->warehouse_id,
+            'data' => $data
+        ]);
     }
 }

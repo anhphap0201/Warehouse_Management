@@ -13,6 +13,7 @@ class Notification extends Model
 
     protected $fillable = [
         'store_id',
+        'warehouse_id',
         'type',
         'title',
         'message',
@@ -24,6 +25,7 @@ class Notification extends Model
         'rejected_at',
         'rejection_reason',
         'admin_notes',
+        'admin_response',
         'is_read',
         'read_at',
         'created_by',
@@ -43,6 +45,14 @@ class Notification extends Model
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
+    }
+
+    /**
+     * Get the warehouse assigned to the notification.
+     */
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 
     /**

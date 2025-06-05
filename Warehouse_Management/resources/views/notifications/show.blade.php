@@ -93,11 +93,16 @@
                             <div class="flex justify-between py-1">
                                 <span class="text-gray-600">Địa chỉ:</span>
                                 <span class="font-medium">{{ $notification->store->location }}</span>
-                            </div>
-                            <div class="flex justify-between py-1">
+                            </div>                            <div class="flex justify-between py-1">
                                 <span class="text-gray-600">Người tạo:</span>
                                 <span class="font-medium">{{ $notification->createdBy->name ?? 'N/A' }}</span>
                             </div>
+                            @if($notification->warehouse)
+                                <div class="flex justify-between py-1">
+                                    <span class="text-gray-600">Kho được phân:</span>
+                                    <span class="font-medium text-blue-600">{{ $notification->warehouse->name }}</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     
@@ -136,7 +141,15 @@
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <p class="text-gray-700">{{ $notification->message }}</p>
                     </div>
-                </div>
+                </div>                <!-- Admin Response -->
+                @if($notification->status === 'approved' && $notification->admin_response)
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-green-600 mb-3">Phản hồi quản lý</h3>
+                        <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+                            <p class="text-green-700">{{ $notification->admin_response }}</p>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Rejection Reason -->
                 @if($notification->status === 'rejected' && $notification->rejection_reason)
@@ -226,8 +239,17 @@
                 <form id="approvalForm" action="{{ route('notifications.approve', $notification) }}" method="POST">
                     @csrf
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Ghi chú (tùy chọn)</label>
-                        <textarea name="admin_notes" rows="3" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Nhập ghi chú..."></textarea>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Chọn kho xử lý *</label>
+                        <select name="warehouse_id" class="w-full p-2 border border-gray-300 rounded-md" required>
+                            <option value="">-- Chọn kho --</option>
+                            @foreach($warehouses ?? [] as $warehouse)
+                                <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phản hồi cho cửa hàng *</label>
+                        <textarea name="admin_response" rows="3" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Nhập phản hồi cho cửa hàng..." required></textarea>
                     </div>
                     <div class="flex justify-end space-x-3">
                         <button type="button" onclick="closeApprovalModal()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
@@ -256,7 +278,7 @@
                     @csrf
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Lý do từ chối *</label>
-                        <textarea name="admin_notes" rows="3" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Nhập lý do từ chối..." required></textarea>
+                        <textarea name="rejection_reason" rows="3" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Nhập lý do từ chối..." required></textarea>
                     </div>
                     <div class="flex justify-end space-x-3">
                         <button type="button" onclick="closeRejectionModal()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
