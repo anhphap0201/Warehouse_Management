@@ -1,0 +1,232 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Quản lý thông báo</h1>
+        <div class="flex gap-3">
+            <button id="markAllRead" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                <i class="fas fa-check-double mr-2"></i>Đánh dấu tất cả đã đọc
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="mb-6 border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8">
+            <a href="{{ route('notifications.index') }}" 
+               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === null ? 'border-indigo-500 text-indigo-600' : '' }}">
+                Tất cả
+            </a>
+            <a href="{{ route('notifications.index', ['status' => 'pending']) }}" 
+               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === 'pending' ? 'border-indigo-500 text-indigo-600' : '' }}">
+                Chờ xử lý
+                @if($notifications->where('status', 'pending')->count() > 0)
+                    <span class="bg-red-100 text-red-800 text-xs font-semibold ml-2 px-2.5 py-0.5 rounded-full">
+                        {{ $notifications->where('status', 'pending')->count() }}
+                    </span>
+                @endif
+            </a>
+            <a href="{{ route('notifications.index', ['status' => 'approved']) }}" 
+               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === 'approved' ? 'border-indigo-500 text-indigo-600' : '' }}">
+                Đã phê duyệt
+            </a>
+            <a href="{{ route('notifications.index', ['status' => 'rejected']) }}" 
+               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === 'rejected' ? 'border-indigo-500 text-indigo-600' : '' }}">
+                Đã từ chối
+            </a>
+        </nav>
+    </div>
+
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        @forelse($notifications as $notification)
+            <div class="border-b border-gray-200 {{ !$notification->read_at ? 'bg-blue-50' : '' }}">
+                <div class="p-6 hover:bg-gray-50 cursor-pointer" onclick="window.location='{{ route('notifications.show', $notification) }}'">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-4 flex-1">
+                            <!-- Notification Icon -->
+                            <div class="flex-shrink-0">
+                                @if($notification->type === 'receive_request')
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-arrow-down text-green-600"></i>
+                                    </div>
+                                @else
+                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-arrow-up text-orange-600"></i>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Notification Content -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="text-lg font-semibold text-gray-900">{{ $notification->title }}</h3>
+                                    @if(!$notification->read_at)
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            Mới
+                                        </span>
+                                    @endif
+                                </div>
+                                
+                                <p class="text-gray-600 mb-2">{{ Str::limit($notification->message, 100) }}</p>
+                                
+                                <div class="flex items-center text-sm text-gray-500 space-x-4">
+                                    <span>
+                                        <i class="fas fa-store mr-1"></i>
+                                        {{ $notification->store->name }}
+                                    </span>
+                                    <span>
+                                        <i class="fas fa-calendar mr-1"></i>
+                                        {{ $notification->created_at->format('d/m/Y H:i') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Badge -->
+                        <div class="flex-shrink-0 ml-4">
+                            @if($notification->status === 'pending')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Chờ xử lý
+                                </span>
+                            @elseif($notification->status === 'approved')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check mr-1"></i>
+                                    Đã phê duyệt
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                    <i class="fas fa-times mr-1"></i>
+                                    Đã từ chối
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="p-8 text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-bell text-gray-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Không có thông báo</h3>
+                <p class="text-gray-500">Chưa có thông báo nào được tạo.</p>
+            </div>
+        @endforelse
+    </div>    <!-- Pagination -->
+    @if($notifications->hasPages())
+        <div class="mt-6 flex justify-center">
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    @if($notifications->onFirstPage())
+                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
+                            Trước
+                        </span>
+                    @else
+                        <a href="{{ $notifications->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+                            Trước
+                        </a>
+                    @endif
+
+                    @if($notifications->hasMorePages())
+                        <a href="{{ $notifications->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+                            Sau
+                        </a>
+                    @else
+                        <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
+                            Sau
+                        </span>
+                    @endif
+                </div>
+
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700 leading-5">
+                            Hiển thị
+                            <span class="font-medium">{{ $notifications->firstItem() }}</span>
+                            đến
+                            <span class="font-medium">{{ $notifications->lastItem() }}</span>
+                            của
+                            <span class="font-medium">{{ $notifications->total() }}</span>
+                            kết quả
+                        </p>
+                    </div>
+
+                    <div>
+                        <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                            @if($notifications->onFirstPage())
+                                <span aria-disabled="true" aria-label="Trước">
+                                    <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5" aria-hidden="true">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            @else
+                                <a href="{{ $notifications->previousPageUrl() }}" rel="prev" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Trước">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            @endif
+
+                            @foreach ($notifications->getUrlRange(1, $notifications->lastPage()) as $page => $url)
+                                @if ($page == $notifications->currentPage())
+                                    <span aria-current="page">
+                                        <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white bg-blue-600 border border-blue-600 cursor-default leading-5">{{ $page }}</span>
+                                    </span>
+                                @else
+                                    <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150" aria-label="Trang {{ $page }}">{{ $page }}</a>
+                                @endif
+                            @endforeach
+
+                            @if($notifications->hasMorePages())
+                                <a href="{{ $notifications->nextPageUrl() }}" rel="next" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Sau">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            @else
+                                <span aria-disabled="true" aria-label="Sau">
+                                    <span class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-r-md leading-5" aria-hidden="true">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mark all as read functionality
+    document.getElementById('markAllRead').addEventListener('click', function() {
+        fetch('{{ route("api.notifications.mark-all-read") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+@endpush
+@endsection

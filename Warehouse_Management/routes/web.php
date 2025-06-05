@@ -7,9 +7,9 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Inventory\WarehouseController;
 use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\Inventory\StockMovementController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\NotificationController;
 // Auth controllers
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -81,9 +81,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
     
-    // Lịch sử nhập xuất kho
-    Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
-    
     // Hóa đơn nhập kho - CRUD đầy đủ
     Route::get('/purchase-orders', [PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
     Route::get('/purchase-orders/create', [PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
@@ -99,6 +96,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/stores/{store}/receive', [StoreController::class, 'receiveStock'])->name('stores.receive');
     Route::get('/stores/{store}/return', [StoreController::class, 'showReturnForm'])->name('stores.return.form');
     Route::post('/stores/{store}/return', [StoreController::class, 'returnStock'])->name('stores.return');
+    
+    // Notification system routes
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
+    Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::post('/notifications/{notification}/approve', [NotificationController::class, 'approve'])->name('notifications.approve');
+    Route::post('/notifications/{notification}/reject', [NotificationController::class, 'reject'])->name('notifications.reject');
+    
+    // API routes for notifications
+    Route::get('/api/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('api.notifications.unread-count');
+    Route::post('/api/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.mark-all-read');
     
     // API routes for real-time search
     Route::get('/api/products/search', [PurchaseOrderController::class, 'searchProducts'])->name('api.products.search');

@@ -27,15 +27,22 @@ class Store extends Model
      */
     public function inventory(): HasMany
     {
-        return $this->hasMany(StoreInventory::class);
+        return $this->hasMany(StoreInventory::class);    }
+
+    /**
+     * Get the notifications for this store.
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
     }
 
     /**
-     * Get the stock movements for the store.
+     * Get pending notifications for this store.
      */
-    public function stockMovements(): HasMany
+    public function pendingNotifications(): HasMany
     {
-        return $this->hasMany(StockMovement::class);
+        return $this->hasMany(Notification::class)->where('status', 'pending');
     }
 
     /**

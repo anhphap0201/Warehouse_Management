@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             // Then inventory-related data
             InventorySeeder::class,
             StoreInventorySeeder::class,
-            StockMovementSeeder::class,
         ]);
     }
 }
