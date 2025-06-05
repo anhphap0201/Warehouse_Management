@@ -232,7 +232,6 @@ Hệ thống tuân theo mô hình MVC (Model-View-Controller) của Laravel:
 - `PurchaseOrderItem` - Các mặt hàng riêng lẻ trong đơn hàng
 - `Product` - Danh mục sản phẩm với mối quan hệ danh mục
 - `Warehouse` - Quản lý vị trí và công suất kho
-- `StockMovement` - Kiểm toán di chuyển tồn kho
 
 #### Triển Khai Tính Năng Chính
 - **Tìm Kiếm Theo Thời Gian Thực**: Tìm kiếm hỗ trợ AJAX với jQuery

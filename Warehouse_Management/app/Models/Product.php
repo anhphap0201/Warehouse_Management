@@ -36,14 +36,6 @@ class Product extends Model
     }
 
     /**
-     * Get the stock movements for the product.
-     */
-    public function stockMovements(): HasMany
-    {
-        return $this->hasMany(StockMovement::class);
-    }
-
-    /**
      * Get total quantity across all warehouses
      */
     public function getTotalQuantityAttribute(): int

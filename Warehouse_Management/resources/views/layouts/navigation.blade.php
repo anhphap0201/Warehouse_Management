@@ -33,14 +33,21 @@
                     <x-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
                         {{ __('Hóa đơn nhập') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('stock-movements.index')" :active="request()->routeIs('stock-movements.*')">
-                        {{ __('Nhập Xuất Kho') }}
-                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <!-- Notifications with bell icon -->
+                <div class="relative mr-4">
+                    <a href="{{ route('notifications.index') }}" 
+                       class="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 {{ request()->routeIs('notifications.*') ? 'text-gray-900 dark:text-gray-100' : '' }}">
+                        <i class="fas fa-bell text-lg"></i>
+                    </a>
+                    <span id="notificationDot" class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full hidden">
+                        <span id="notificationCount">0</span>
+                    </span>
+                </div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -109,13 +116,21 @@
             <x-responsive-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
                 Hóa đơn nhập
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('stock-movements.index')" :active="request()->routeIs('stock-movements.*')">
-                Nhập Xuất Kho
-            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <!-- Mobile Notifications -->
+            <div class="px-4 mb-3">
+                <a href="{{ route('notifications.index') }}" 
+                   class="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 {{ request()->routeIs('notifications.*') ? 'text-gray-900 dark:text-gray-100' : '' }}">
+                    <i class="fas fa-bell text-lg mr-2"></i>
+                    <span>Thông báo</span>
+                    <span id="mobileNotificationDot" class="inline-flex items-center justify-center px-2 py-1 ml-2 text-xs font-bold leading-none text-white bg-red-600 rounded-full hidden">
+                        <span id="mobileNotificationCount">0</span>
+                    </span>
+                </a>
+            </div>
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>

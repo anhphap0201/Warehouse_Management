@@ -3,8 +3,17 @@
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Chi tiết Cửa hàng: ') . $store->name }}
-            </h2>
-            <div class="flex space-x-2">
+            </h2>            <div class="flex space-x-2">
+                <a href="{{ route('notifications.create', ['store_id' => $store->id, 'type' => 'receive_request']) }}" 
+                   class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <i class="fas fa-arrow-down mr-2"></i>
+                    Yêu cầu nhận hàng
+                </a>
+                <a href="{{ route('notifications.create', ['store_id' => $store->id, 'type' => 'return_request']) }}" 
+                   class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <i class="fas fa-arrow-up mr-2"></i>
+                    Yêu cầu trả hàng
+                </a>
                 <a href="{{ route('stores.edit', $store) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                     Chỉnh sửa
                 </a>
@@ -65,34 +74,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Store Actions -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-semibold mb-4">Thao tác Kho hàng</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <a href="{{ route('stores.receive.form', $store) }}" 
-                           class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded text-center block">
-                            <div class="flex items-center justify-center">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                Nhận hàng từ Kho
-                            </div>
-                        </a>
-                        
-                        <a href="{{ route('stores.return.form', $store) }}" 
-                           class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded text-center block">
-                            <div class="flex items-center justify-center">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                                </svg>
-                                Trả hàng về Kho
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>            <!-- Store Inventory -->
+            <!-- Store Inventory -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between items-center mb-6">

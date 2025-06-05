@@ -7,7 +7,6 @@ use App\Models\PurchaseOrderItem;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\Inventory;
-use App\Models\StockMovement;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -332,17 +331,6 @@ class PurchaseOrderController extends Controller
                 );
 
                 $inventory->increment('quantity', $item->quantity);
-
-                // Create stock movement record
-                StockMovement::create([
-                    'warehouse_id' => $purchaseOrder->warehouse_id,
-                    'product_id' => $item->product_id,
-                    'type' => 'in',
-                    'quantity' => $item->quantity,
-                    'reference_type' => 'purchase_order',
-                    'reference_id' => $purchaseOrder->id,
-                    'notes' => "Nhập hàng theo hóa đơn #{$purchaseOrder->invoice_number}",
-                ]);
             }
 
             // Update purchase order status

@@ -13,21 +13,11 @@ class Warehouse extends Model
     protected $fillable = [
         'name',
         'location',
-    ];
-
-    /**
+    ];    /**
      * Get the inventory records for the warehouse.
      */
     public function inventory(): HasMany
     {
         return $this->hasMany(Inventory:: class);
-    }
-
-    /**
-     * Get the stock movements for the warehouse.
-     */
-    public function stockMovements(): HasMany
-    {
-        return $this->hasMany(StockMovement::class);
     }
 }

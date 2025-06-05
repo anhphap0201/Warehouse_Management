@@ -54,7 +54,7 @@
                                                placeholder="Tìm kiếm kho hàng..."
                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('warehouse_id') border-red-500 @enderror"
                                                autocomplete="off">
-                                        <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ old('warehouse_id') }}">                                        <div id="warehouse_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
+                                        <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ old('warehouse_id') }}">                                        <div id="warehouse_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mb-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important; bottom: 100%;">
                                             <div id="warehouse_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
                                                 <div class="flex items-center">
                                                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
@@ -95,7 +95,7 @@
                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_name') border-red-500 @enderror"
                                                autocomplete="off">
                                         <input type="hidden" name="supplier_name" id="supplier_name" value="{{ old('supplier_name') }}">
-                                        <input type="hidden" name="supplier_id" id="supplier_id" value="{{ old('supplier_id') }}"><div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
+                                        <input type="hidden" name="supplier_id" id="supplier_id" value="{{ old('supplier_id') }}">                                        <div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mb-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important; bottom: 100%;">
                                             <div id="supplier_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
                                                 <div class="flex items-center">
                                                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
@@ -108,9 +108,7 @@
                                     @error('supplier_name')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                </div>
-
-                                <div>
+                                </div>                                <div id="supplier_address_field" style="display: none;">
                                     <label for="supplier_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Địa chỉ nhà cung cấp</label>
                                     <textarea name="supplier_address" id="supplier_address" 
                                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_address') border-red-500 @enderror" 
@@ -391,10 +389,16 @@ function initializeSupplierSearch() {
     const dropdown = document.getElementById('supplier_dropdown');
     const loading = document.getElementById('supplier_loading');
     const results = document.getElementById('supplier_results');
-    
-    searchInput.addEventListener('input', function() {
+      searchInput.addEventListener('input', function() {
         const query = this.value.trim();
+        const supplierAddressField = document.getElementById('supplier_address_field');
+        
         hiddenInput.value = query; // Always update the hidden input
+        
+        // Show address field when user starts typing
+        if (supplierAddressField) {
+            supplierAddressField.style.display = 'block';
+        }
         
         if (query.length < 2) {
             dropdown.classList.add('hidden');
@@ -445,12 +449,12 @@ function initializeSupplierSearch() {
             loading.classList.add('hidden');
             results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
         }
-    }
-      window.selectSupplier = function(id, name, phone, address) {
+    }    window.selectSupplier = function(id, name, phone, address) {
         const supplierNameInput = document.getElementById('supplier_name');
         const supplierIdInput = document.getElementById('supplier_id');
         const supplierPhoneInput = document.getElementById('supplier_phone');
         const supplierAddressInput = document.getElementById('supplier_address');
+        const supplierAddressField = document.getElementById('supplier_address_field');
         
         supplierIdInput.value = id;
         supplierNameInput.value = name;
@@ -462,6 +466,11 @@ function initializeSupplierSearch() {
         }
         if (supplierAddressInput && !supplierAddressInput.value) {
             supplierAddressInput.value = address;
+        }
+        
+        // Hide address field when supplier is selected
+        if (supplierAddressField) {
+            supplierAddressField.style.display = 'none';
         }
         
         dropdown.classList.add('hidden');
