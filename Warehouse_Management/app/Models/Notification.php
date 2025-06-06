@@ -28,7 +28,6 @@ class Notification extends Model
         'admin_response',
         'is_read',
         'read_at',
-        'created_by',
     ];
 
     protected $casts = [
@@ -69,14 +68,6 @@ class Notification extends Model
     public function rejectedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'rejected_by');
-    }
-
-    /**
-     * Get the user who created the notification.
-     */
-    public function createdBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by');
     }
 
     /**

@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Store;
+use App\Models\Product;
+use App\Models\Notification;
+use App\Models\Warehouse;
 
 class AutoGenerationController extends Controller
 {
@@ -18,48 +22,76 @@ class AutoGenerationController extends Controller
     }
 
     /**
-     * Generate random return requests manually
+     * Create test return orders
      */
-    public function generateRandomRequests(Request $request)
+    public function createTestReturnOrders(Request $request)
     {
         $request->validate([
-            'percentage' => 'nullable|integer|min:1|max:100',
-            'min_products' => 'nullable|integer|min:1',
-            'max_products' => 'nullable|integer|min:1',
-            'store_ids' => 'nullable|array',
-            'store_ids.*' => 'exists:stores,id'
+            'count' => 'required|integer|min:1|max:10'
         ]);
 
         try {
-            $options = [];
+            $count = $request->count;
+            $createdOrders = 0;
             
-            if ($request->percentage) {
-                $options['--percentage'] = $request->percentage;
-            }
-            if ($request->min_products) {
-                $options['--min-products'] = $request->min_products;
-            }
-            if ($request->max_products) {
-                $options['--max-products'] = $request->max_products;
-            }
-            if ($request->store_ids) {
-                $options['--stores'] = $request->store_ids;
+            // Get random stores
+            $stores = Store::where('status', true)->inRandomOrder()->limit($count)->get();
+            
+            if ($stores->isEmpty()) {
+                return redirect()->back()->with('error', 'Không có cửa hàng nào để tạo đơn thử nghiệm.');
             }
 
-            // Capture command output
-            $exitCode = Artisan::call('stores:generate-return-requests', $options);
-            $output = Artisan::output();
-
-            if ($exitCode === 0) {
-                return redirect()->back()->with('success', 'Yêu cầu trả hàng ngẫu nhiên đã được tạo thành công!')
-                    ->with('command_output', $output);
-            } else {
-                return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo yêu cầu.')
-                    ->with('command_output', $output);
+            // Get available products
+            $products = Product::all();
+            
+            if ($products->count() < 3) {
+                return redirect()->back()->with('error', 'Cần ít nhất 3 sản phẩm để tạo đơn thử nghiệm.');
             }
+
+            DB::beginTransaction();
+
+            foreach ($stores as $store) {
+                // Add random products (1-3 products per order)
+                $numProducts = rand(1, 3);
+                $selectedProducts = $products->random($numProducts);
+
+                $productsData = [];
+                foreach ($selectedProducts as $product) {
+                    $productsData[] = [
+                        'product_id' => $product->id,
+                        'product_name' => $product->name,
+                        'product_sku' => $product->sku,
+                        'quantity' => rand(1, 10),
+                        'reason' => 'Thử nghiệm',
+                        'notes' => 'Sản phẩm thử nghiệm'
+                    ];
+                }                // Create return request notification
+                Notification::create([
+                    'store_id' => $store->id,
+                    'type' => 'return_request',
+                    'title' => 'Đơn trả hàng thử nghiệm từ ' . $store->name,
+                    'message' => 'Đơn trả hàng thử nghiệm được tạo tự động',
+                    'status' => 'pending',
+                    'data' => [
+                        'products' => $productsData,
+                        'auto_generated' => true,
+                        'generation_type' => 'test_return',
+                        'notes' => 'Đơn trả hàng thử nghiệm được tạo tự động',
+                        'requested_date' => now()->toDateString(),
+                        'expected_date' => now()->addDays(3)->toDateString()
+                    ]
+                ]);
+
+                $createdOrders++;
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', "Đã tạo thành công {$createdOrders} đơn trả hàng thử nghiệm!");
 
         } catch (\Exception $e) {
-            Log::error('Manual random generation failed', [
+            DB::rollback();
+            Log::error('Test return order creation failed', [
                 'error' => $e->getMessage(),
                 'user_id' => auth()->id()
             ]);
@@ -69,205 +101,95 @@ class AutoGenerationController extends Controller
     }
 
     /**
-     * Generate smart return requests manually
+     * Create test shipment orders
      */
-    public function generateSmartRequests(Request $request)
+    public function createTestShipmentOrders(Request $request)
     {
         $request->validate([
-            'dry_run' => 'nullable|boolean',
-            'min_overstock_days' => 'nullable|integer|min:1',
-            'low_turnover_threshold' => 'nullable|numeric|min:0|max:1'
+            'count' => 'required|integer|min:1|max:10'
         ]);
 
         try {
-            $options = [];
+            $count = $request->count;
+            $createdOrders = 0;
             
-            if ($request->dry_run) {
-                $options['--dry-run'] = true;
-            }
-            if ($request->min_overstock_days) {
-                $options['--min-overstock-days'] = $request->min_overstock_days;
-            }
-            if ($request->low_turnover_threshold) {
-                $options['--low-turnover-threshold'] = $request->low_turnover_threshold;
+            // Get random stores
+            $stores = Store::where('status', true)->inRandomOrder()->limit($count)->get();
+            
+            if ($stores->isEmpty()) {
+                return redirect()->back()->with('error', 'Không có cửa hàng nào để tạo đơn thử nghiệm.');
             }
 
-            // Capture command output
-            $exitCode = Artisan::call('stores:smart-return-requests', $options);
-            $output = Artisan::output();
-
-            if ($exitCode === 0) {
-                $message = $request->dry_run ? 
-                    'Phân tích hoàn thành! Xem kết quả dưới đây.' : 
-                    'Yêu cầu trả hàng thông minh đã được tạo thành công!';
-
-                return redirect()->back()->with('success', $message)
-                    ->with('command_output', $output);
-            } else {
-                return redirect()->back()->with('error', 'Có lỗi xảy ra khi thực hiện phân tích.')
-                    ->with('command_output', $output);
+            // Get available products
+            $products = Product::all();
+            
+            if ($products->count() < 5) {
+                return redirect()->back()->with('error', 'Cần ít nhất 5 sản phẩm để tạo đơn thử nghiệm.');
             }
+
+            DB::beginTransaction();
+
+            foreach ($stores as $store) {
+                // Add random products (1-5 products per order)
+                $numProducts = rand(1, 5);
+                $selectedProducts = $products->random($numProducts);
+
+                $productsData = [];
+                $totalValue = 0;
+                foreach ($selectedProducts as $product) {
+                    $quantity = rand(5, 50);
+                    $unitPrice = $product->price ?? rand(50000, 2000000); // Use product price or random if not set
+                    $totalPrice = $unitPrice * $quantity;
+                    
+                    $productsData[] = [
+                        'product_id' => $product->id,
+                        'product_name' => $product->name,
+                        'product_sku' => $product->sku,
+                        'quantity' => $quantity,
+                        'unit_price' => $unitPrice,
+                        'total_price' => $totalPrice,
+                        'notes' => 'Sản phẩm thử nghiệm'
+                    ];
+                    
+                    $totalValue += $totalPrice;
+                }
+
+                // Get warehouse for assignment
+                $warehouse = Warehouse::first();                // Create shipment request notification
+                Notification::create([
+                    'store_id' => $store->id,
+                    'warehouse_id' => $warehouse ? $warehouse->id : null,
+                    'type' => 'receive_request',
+                    'title' => 'Đơn gửi hàng thử nghiệm từ ' . $store->name,
+                    'message' => 'Đơn gửi hàng thử nghiệm được tạo tự động',
+                    'status' => 'pending',
+                    'data' => [
+                        'products' => $productsData,
+                        'total_value' => $totalValue,
+                        'product_count' => count($productsData),
+                        'auto_generated' => true,
+                        'generation_type' => 'test_shipment',
+                        'notes' => 'Đơn gửi hàng thử nghiệm được tạo tự động',
+                        'requested_date' => now()->toDateString(),
+                        'expected_date' => now()->addDays(5)->toDateString()
+                    ]
+                ]);
+
+                $createdOrders++;
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', "Đã tạo thành công {$createdOrders} đơn gửi hàng thử nghiệm!");
 
         } catch (\Exception $e) {
-            Log::error('Manual smart generation failed', [
+            DB::rollback();
+            Log::error('Test shipment order creation failed', [
                 'error' => $e->getMessage(),
                 'user_id' => auth()->id()
             ]);
 
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Generate random shipment requests manually
-     */
-    public function generateRandomShipmentRequests(Request $request)
-    {
-        $request->validate([
-            'percentage' => 'nullable|integer|min:1|max:100',
-            'min_products' => 'nullable|integer|min:1',
-            'max_products' => 'nullable|integer|min:1',
-            'min_quantity' => 'nullable|integer|min:1',
-            'max_quantity' => 'nullable|integer|min:1',
-            'store_ids' => 'nullable|array',
-            'store_ids.*' => 'exists:stores,id'
-        ]);
-
-        try {
-            $options = [];
-            
-            if ($request->percentage) {
-                $options['--percentage'] = $request->percentage;
-            }
-            if ($request->min_products) {
-                $options['--min-products'] = $request->min_products;
-            }
-            if ($request->max_products) {
-                $options['--max-products'] = $request->max_products;
-            }
-            if ($request->min_quantity) {
-                $options['--min-quantity'] = $request->min_quantity;
-            }
-            if ($request->max_quantity) {
-                $options['--max-quantity'] = $request->max_quantity;
-            }
-            if ($request->store_ids) {
-                $options['--stores'] = $request->store_ids;
-            }
-
-            // Capture command output
-            $exitCode = Artisan::call('stores:generate-shipment-requests', $options);
-            $output = Artisan::output();
-
-            if ($exitCode === 0) {
-                return redirect()->back()->with('success', 'Yêu cầu gửi hàng ngẫu nhiên đã được tạo thành công!')
-                    ->with('command_output', $output);
-            } else {
-                return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo yêu cầu gửi hàng.')
-                    ->with('command_output', $output);
-            }
-
-        } catch (\Exception $e) {
-            Log::error('Manual random shipment generation failed', [
-                'error' => $e->getMessage(),
-                'user_id' => auth()->id()
-            ]);
-
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Generate smart shipment requests manually
-     */
-    public function generateSmartShipmentRequests(Request $request)
-    {
-        $request->validate([
-            'dry_run' => 'nullable|boolean',
-            'min_shortage_days' => 'nullable|integer|min:1',
-            'low_stock_threshold' => 'nullable|integer|min:1',
-            'demand_multiplier' => 'nullable|numeric|min:0.1|max:10'
-        ]);
-
-        try {
-            $options = [];
-            
-            if ($request->dry_run) {
-                $options['--dry-run'] = true;
-            }
-            if ($request->min_shortage_days) {
-                $options['--min-shortage-days'] = $request->min_shortage_days;
-            }
-            if ($request->low_stock_threshold) {
-                $options['--low-stock-threshold'] = $request->low_stock_threshold;
-            }
-            if ($request->demand_multiplier) {
-                $options['--demand-multiplier'] = $request->demand_multiplier;
-            }
-
-            // Capture command output
-            $exitCode = Artisan::call('stores:smart-shipment-requests', $options);
-            $output = Artisan::output();
-
-            if ($exitCode === 0) {
-                $message = $request->dry_run ? 
-                    'Phân tích yêu cầu gửi hàng hoàn thành! Xem kết quả dưới đây.' :
-                    'Yêu cầu gửi hàng thông minh đã được tạo thành công!';
-
-                return redirect()->back()->with('success', $message)
-                    ->with('command_output', $output);
-            } else {
-                return redirect()->back()->with('error', 'Có lỗi xảy ra khi thực hiện phân tích gửi hàng.')
-                    ->with('command_output', $output);
-            }
-
-        } catch (\Exception $e) {
-            Log::error('Manual smart shipment generation failed', [
-                'error' => $e->getMessage(),
-                'user_id' => auth()->id()
-            ]);
-
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-        }
-    }    /**
-     * Get generation statistics
-     */
-    public function getStats()
-    {
-        $stats = [
-            'total_auto_generated' => \App\Models\Notification::where('data->auto_generated', true)->count(),
-            'today_generated' => \App\Models\Notification::where('data->auto_generated', true)
-                ->whereDate('created_at', today())->count(),
-            'pending_auto' => \App\Models\Notification::where('data->auto_generated', true)
-                ->where('status', 'pending')->count(),
-            'last_generation' => \App\Models\Notification::where('data->auto_generated', true)
-                ->latest()->first()?->created_at,
-            
-            // Return request statistics
-            'return_requests' => [
-                'total' => \App\Models\Notification::where('data->auto_generated', true)
-                    ->where('data->generation_type', 'like', '%return%')->count(),
-                'today' => \App\Models\Notification::where('data->auto_generated', true)
-                    ->where('data->generation_type', 'like', '%return%')
-                    ->whereDate('created_at', today())->count(),
-                'pending' => \App\Models\Notification::where('data->auto_generated', true)
-                    ->where('data->generation_type', 'like', '%return%')
-                    ->where('status', 'pending')->count(),
-            ],
-            
-            // Shipment request statistics
-            'shipment_requests' => [
-                'total' => \App\Models\Notification::where('data->auto_generated', true)
-                    ->where('data->generation_type', 'like', '%shipment%')->count(),
-                'today' => \App\Models\Notification::where('data->auto_generated', true)
-                    ->where('data->generation_type', 'like', '%shipment%')
-                    ->whereDate('created_at', today())->count(),
-                'pending' => \App\Models\Notification::where('data->auto_generated', true)
-                    ->where('data->generation_type', 'like', '%shipment%')
-                    ->where('status', 'pending')->count(),
-            ]
-        ];
-
-        return response()->json($stats);
     }
 }

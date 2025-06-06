@@ -76,7 +76,6 @@ class NotificationController extends Controller
                 'priority' => $request->priority ?? 'normal'
             ]),
             'status' => 'pending',
-            'created_by' => Auth::id(),
         ]);
 
         // Clear notifications cache
@@ -91,11 +90,14 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        $notification->load(['store', 'warehouse', 'approvedBy', 'rejectedBy', 'createdBy']);
+        $notification->load(['store', 'warehouse', 'approvedBy', 'rejectedBy']);
         
         // Mark as read if not read yet
         if (!$notification->read_at) {
-            $notification->update(['read_at' => now()]);
+            $notification->update([
+                'read_at' => now(),
+                'is_read' => true
+            ]);
             // Clear notifications cache when marking as read
             cache()->forget('unread_notifications_count');
         }
@@ -187,7 +189,10 @@ class NotificationController extends Controller
     public function markAllAsRead()
     {
         Notification::whereNull('read_at')
-            ->update(['read_at' => now()]);
+            ->update([
+                'read_at' => now(),
+                'is_read' => true
+            ]);
 
         // Clear notifications cache
         cache()->forget('unread_notifications_count');
