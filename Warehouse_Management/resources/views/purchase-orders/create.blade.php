@@ -387,15 +387,11 @@ function initializeSupplierSearch() {
     const hiddenInput = document.getElementById('supplier_name');
     const dropdown = document.getElementById('supplier_dropdown');
     const loading = document.getElementById('supplier_loading');
-    const results = document.getElementById('supplier_results');      searchInput.addEventListener('input', function() {
-        const query = this.value.trim();
+    const results = document.getElementById('supplier_results');      searchInput.addEventListener('input', function() {        const query = this.value.trim();
         const supplierAddressField = document.getElementById('supplier_address_field');
         
         hiddenInput.value = query; // Always update the hidden input
-          // Show address field only when user is typing manually (not selecting from dropdown)
-        if (supplierAddressField && query.length > 0) {
-            supplierAddressField.style.display = 'block';
-        }
+        // Removed automatic display of supplier address field
         
         if (query.length < 1) {
             dropdown.classList.add('hidden');

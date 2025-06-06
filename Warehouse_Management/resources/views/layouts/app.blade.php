@@ -25,11 +25,12 @@
         @stack('styles')
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col">
-            @include('layouts.navigation')            <!-- Page Heading -->
+        <div class="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col">            @include('layouts.navigation')
+
+            <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white dark:bg-slate-800 shadow-sm">
-                    <div class="container-70 py-4 px-4 sm:px-6 lg:px-8">
+                    <div class="container-70 py-3 sm:py-4 px-2 sm:px-4 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
@@ -37,41 +38,41 @@
             
             @hasSection('header')
                 <header class="bg-white dark:bg-slate-800 shadow-sm">
-                    <div class="container-70 py-4 px-4 sm:px-6 lg:px-8">
+                    <div class="container-70 py-3 sm:py-4 px-2 sm:px-4 lg:px-8">
                         @yield('header')
                     </div>
                 </header>
+            @endif            <!-- Flash Messages -->
+            @if(session('success'))
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-3 sm:p-4 container-70 mt-2 sm:mt-4 mx-2 sm:mx-auto rounded shadow-sm flex items-start sm:items-center" role="alert">
+                    <i class="fas fa-check-circle mr-2 sm:mr-3 text-emerald-500 flex-shrink-0 mt-0.5 sm:mt-0"></i>
+                    <span class="block text-sm sm:text-base font-medium">{{ session('success') }}</span>
+                </div>
             @endif
 
-            <!-- Flash Messages -->
-            @if(session('success'))
-                <div class="bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-4 container-70 mt-4 rounded shadow-sm flex items-center" role="alert">
-                    <i class="fas fa-check-circle mr-3 text-emerald-500"></i>
-                    <span class="block sm:inline font-medium">{{ session('success') }}</span>
-                </div>
-            @endif            @if(session('error'))
-                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 container-70 mt-4 rounded shadow-sm flex items-center" role="alert">
-                    <i class="fas fa-exclamation-circle mr-3 text-red-500"></i>
-                    <span class="block sm:inline font-medium">{{ session('error') }}</span>
+            @if(session('error'))
+                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-3 sm:p-4 container-70 mt-2 sm:mt-4 mx-2 sm:mx-auto rounded shadow-sm flex items-start sm:items-center" role="alert">
+                    <i class="fas fa-exclamation-circle mr-2 sm:mr-3 text-red-500 flex-shrink-0 mt-0.5 sm:mt-0"></i>
+                    <span class="block text-sm sm:text-base font-medium">{{ session('error') }}</span>
                 </div>
             @endif
 
             <!-- Page Content -->
-            <main class="flex-grow py-6 container-70 px-4 sm:px-6 lg:px-8">
+            <main class="flex-grow py-4 sm:py-6 container-70 px-2 sm:px-4 lg:px-8">
                 @hasSection('content')
                     @yield('content')
                 @else
                     {{ $slot ?? '' }}
                 @endif
             </main>
-            
-            <!-- Footer -->
-            <footer class="bg-white dark:bg-slate-800 py-4 border-t border-gray-200 dark:border-slate-700 shadow-inner mt-auto">                <div class="container-70 px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center">
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
+              <!-- Footer -->
+            <footer class="bg-white dark:bg-slate-800 py-3 sm:py-4 border-t border-gray-200 dark:border-slate-700 shadow-inner mt-auto">
+                <div class="container-70 px-2 sm:px-4 lg:px-8">
+                    <div class="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+                        <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left">
                             Warehouse Management System © {{ date('Y') }}
                         </div>
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                        <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                             Version 1.0
                         </div>
                     </div>

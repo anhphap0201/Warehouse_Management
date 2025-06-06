@@ -1,4 +1,4 @@
-@props(['align' => 'left', 'highlight' => false])
+@props(['align' => 'left', 'highlight' => false, 'mobile' => true])
 
 @php
     $alignmentClasses = [
@@ -7,11 +7,12 @@
         'right' => 'text-right',
     ][$align] ?? 'text-left';
 
-    $baseClasses = "px-4 py-3 {$alignmentClasses}";
+    $baseClasses = "px-3 py-3 sm:px-4 sm:py-4 {$alignmentClasses} text-sm text-gray-900 dark:text-gray-100";
+    $responsiveClasses = $mobile ? '' : 'table-col-mobile-hidden';
     
     $classes = $highlight 
-        ? "{$baseClasses} bg-gray-50 dark:bg-slate-700"
-        : $baseClasses;
+        ? "{$baseClasses} {$responsiveClasses} bg-gray-50 dark:bg-slate-700"
+        : "{$baseClasses} {$responsiveClasses}";
 @endphp
 
 <td {{ $attributes->merge(['class' => $classes]) }}>

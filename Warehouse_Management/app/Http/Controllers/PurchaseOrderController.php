@@ -161,7 +161,7 @@ class PurchaseOrderController extends Controller
             'items.*.unit_price.max' => 'Đơn giá không được vượt quá 9,999,999,999,999.99 VNĐ.',
         ]);
 
-        DB::transaction(function () use ($validated) {
+        $purchaseOrder = DB::transaction(function () use ($validated) {
             // Calculate total amount
             $totalAmount = 0;
             foreach ($validated['items'] as $item) {
@@ -173,7 +173,7 @@ class PurchaseOrderController extends Controller
                 throw new \Exception('Tổng tiền vượt quá giới hạn cho phép (9,999,999,999,999.99 VNĐ). Vui lòng giảm số lượng hoặc đơn giá.');
             }
 
-            // Create purchase order with auto-generated invoice number
+            // Create purchase order with auto-generated invoice number and confirmed status
             $purchaseOrder = PurchaseOrder::create([
                 'warehouse_id' => $validated['warehouse_id'],
                 'supplier_id' => $validated['supplier_id'],
@@ -182,6 +182,7 @@ class PurchaseOrderController extends Controller
                 'supplier_address' => $validated['supplier_address'],
                 'invoice_number' => $this->generateInvoiceNumber(),
                 'total_amount' => $totalAmount,
+                'status' => 'confirmed', // Auto-confirm since user is admin
                 'notes' => $validated['notes'],
             ]);
 
@@ -195,10 +196,26 @@ class PurchaseOrderController extends Controller
                     'total_price' => $item['quantity'] * $item['unit_price'],
                 ]);
             }
+
+            // Automatically update inventory since user is admin - no confirmation needed
+            foreach ($validated['items'] as $item) {
+                // Update or create inventory record
+                $inventory = Inventory::firstOrCreate(
+                    [
+                        'warehouse_id' => $validated['warehouse_id'],
+                        'product_id' => $item['product_id'],
+                    ],
+                    ['quantity' => 0]
+                );
+
+                $inventory->increment('quantity', $item['quantity']);
+            }
+
+            return $purchaseOrder;
         });
 
-        return redirect()->route('purchase-orders.index')
-            ->with('success', 'Hóa đơn nhập đã được tạo thành công!');
+        return redirect()->route('purchase-orders.show', $purchaseOrder)
+            ->with('success', 'Hóa đơn nhập đã được tạo và hàng hóa đã được cập nhật vào kho thành công!');
     }
 
     /**
@@ -213,146 +230,32 @@ class PurchaseOrderController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * Since all orders are auto-confirmed, editing is no longer allowed.
      */
     public function edit(PurchaseOrder $purchaseOrder)
     {
-        if (!$purchaseOrder->isPending()) {
-            return redirect()->route('purchase-orders.show', $purchaseOrder)
-                ->with('error', 'Chỉ có thể chỉnh sửa hóa đơn ở trạng thái chờ xử lý!');
-        }
-
-        $purchaseOrder->load('items');
-        $warehouses = Warehouse::all();
-        $products = Product::all();
-        
-        return view('purchase-orders.edit', compact('purchaseOrder', 'warehouses', 'products'));
+        return redirect()->route('purchase-orders.show', $purchaseOrder)
+            ->with('error', 'Không thể chỉnh sửa hóa đơn đã được xác nhận và cập nhật vào kho!');
     }
 
     /**
      * Update the specified resource in storage.
+     * Since all orders are auto-confirmed, updates are not allowed.
      */
     public function update(Request $request, PurchaseOrder $purchaseOrder)
     {
-        if (!$purchaseOrder->isPending()) {
-            return redirect()->route('purchase-orders.show', $purchaseOrder)
-                ->with('error', 'Chỉ có thể chỉnh sửa hóa đơn ở trạng thái chờ xử lý!');
-        }
-
-        $validated = $request->validate([
-            'warehouse_id' => 'required|exists:warehouses,id',
-            'supplier_name' => 'required|string|max:255',
-            'supplier_phone' => 'nullable|string|max:20',
-            'supplier_address' => 'nullable|string',
-            'notes' => 'nullable|string',
-            'items' => 'required|array|min:1',
-            'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1|max:999999999',
-            'items.*.unit_price' => 'required|numeric|min:0|max:9999999999999.99',
-        ], [
-            // Custom error messages
-            'warehouse_id.required' => 'Vui lòng chọn kho hàng.',
-            'warehouse_id.exists' => 'Kho hàng đã chọn không tồn tại.',
-            'supplier_name.required' => 'Vui lòng nhập tên nhà cung cấp.',
-            'items.required' => 'Vui lòng thêm ít nhất một sản phẩm.',
-            'items.min' => 'Hóa đơn phải có ít nhất một sản phẩm.',
-            'items.*.product_id.required' => 'Vui lòng chọn sản phẩm cho dòng :position.',
-            'items.*.product_id.exists' => 'Sản phẩm ở dòng :position không tồn tại trong hệ thống.',
-            'items.*.quantity.required' => 'Vui lòng nhập số lượng cho dòng :position.',
-            'items.*.quantity.integer' => 'Số lượng phải là số nguyên.',
-            'items.*.quantity.min' => 'Số lượng phải lớn hơn 0.',
-            'items.*.quantity.max' => 'Số lượng không được vượt quá 999,999,999.',
-            'items.*.unit_price.required' => 'Vui lòng nhập đơn giá cho dòng :position.',
-            'items.*.unit_price.numeric' => 'Đơn giá phải là số.',
-            'items.*.unit_price.min' => 'Đơn giá không được âm.',
-            'items.*.unit_price.max' => 'Đơn giá không được vượt quá 9,999,999,999,999.99 VNĐ.',
-        ]);
-
-        DB::transaction(function () use ($validated, $purchaseOrder) {
-            // Calculate total amount
-            $totalAmount = 0;
-            foreach ($validated['items'] as $item) {
-                $totalAmount += $item['quantity'] * $item['unit_price'];
-            }
-
-            // Validate total amount against database limit
-            if ($totalAmount > 9999999999999.99) {
-                throw new \Exception('Tổng tiền vượt quá giới hạn cho phép (9,999,999,999,999.99 VNĐ). Vui lòng giảm số lượng hoặc đơn giá.');
-            }
-
-            // Update purchase order (keep existing invoice number)
-            $purchaseOrder->update([
-                'warehouse_id' => $validated['warehouse_id'],
-                'supplier_name' => $validated['supplier_name'],
-                'supplier_phone' => $validated['supplier_phone'],
-                'supplier_address' => $validated['supplier_address'],
-                'total_amount' => $totalAmount,
-                'notes' => $validated['notes'],
-            ]);
-
-            // Delete existing items and create new ones
-            $purchaseOrder->items()->delete();
-            
-            foreach ($validated['items'] as $item) {
-                PurchaseOrderItem::create([
-                    'purchase_order_id' => $purchaseOrder->id,
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'unit_price' => $item['unit_price'],
-                    'total_price' => $item['quantity'] * $item['unit_price'],
-                ]);
-            }
-        });
-
         return redirect()->route('purchase-orders.show', $purchaseOrder)
-            ->with('success', 'Hóa đơn nhập đã được cập nhật thành công!');
+            ->with('error', 'Không thể chỉnh sửa hóa đơn đã được xác nhận và cập nhật vào kho!');
     }
 
     /**
      * Remove the specified resource from storage.
+     * Since all orders are auto-confirmed, deletion is not allowed.
      */
     public function destroy(PurchaseOrder $purchaseOrder)
     {
-        if (!$purchaseOrder->isPending()) {
-            return redirect()->route('purchase-orders.index')
-                ->with('error', 'Chỉ có thể xóa hóa đơn ở trạng thái chờ xử lý!');
-        }
-
-        $purchaseOrder->delete();
-
         return redirect()->route('purchase-orders.index')
-            ->with('success', 'Hóa đơn nhập đã được xóa thành công!');
-    }
-
-    /**
-     * Confirm purchase order and update inventory
-     */
-    public function confirm(PurchaseOrder $purchaseOrder)
-    {
-        if (!$purchaseOrder->isPending()) {
-            return redirect()->route('purchase-orders.show', $purchaseOrder)
-                ->with('error', 'Hóa đơn này đã được xác nhận hoặc hoàn thành!');
-        }
-
-        DB::transaction(function () use ($purchaseOrder) {
-            foreach ($purchaseOrder->items as $item) {
-                // Update or create inventory record
-                $inventory = Inventory::firstOrCreate(
-                    [
-                        'warehouse_id' => $purchaseOrder->warehouse_id,
-                        'product_id' => $item->product_id,
-                    ],
-                    ['quantity' => 0]
-                );
-
-                $inventory->increment('quantity', $item->quantity);
-            }
-
-            // Update purchase order status
-            $purchaseOrder->update(['status' => 'confirmed']);
-        });
-
-        return redirect()->route('purchase-orders.show', $purchaseOrder)
-            ->with('success', 'Hóa đơn nhập đã được xác nhận và cập nhật vào kho!');
+            ->with('error', 'Không thể xóa hóa đơn đã được xác nhận và cập nhật vào kho!');
     }
 
     /**
