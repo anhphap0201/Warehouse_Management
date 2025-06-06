@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="w-9/12 mx-auto sm:px-6 lg:px-8">
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <!-- Total Products Card -->

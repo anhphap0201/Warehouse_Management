@@ -15,7 +15,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="w-9/12 mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="{{ route('purchase-orders.update', $purchaseOrder) }}" method="POST" id="purchaseOrderForm">
@@ -102,15 +102,14 @@
                                         {{ $purchaseOrder->invoice_number }}
                                     </div>
                                     <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Số hóa đơn không thể thay đổi</p>
-                                </div>
-
-                                <div>
+                                </div>                                <div>
                                     <label for="supplier_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                         Địa chỉ nhà cung cấp
                                     </label>
                                     <textarea name="supplier_address" 
                                               id="supplier_address" 
                                               rows="3"
+                                              placeholder="Nhập địa chỉ nhà cung cấp..."
                                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white @error('supplier_address') border-red-500 @enderror">{{ old('supplier_address', $purchaseOrder->supplier_address) }}</textarea>
                                     @error('supplier_address')
                                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -301,21 +300,20 @@
                 results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
             }
         }
-        
-        window.selectSupplier = function(id, name, phone, address) {
+          window.selectSupplier = function(id, name, phone, address) {
             const supplierPhoneInput = document.getElementById('supplier_phone');
             const supplierAddressInput = document.getElementById('supplier_address');
             
-            hiddenIdInput.value = id;
-            hiddenNameInput.value = name;
-            searchInput.value = name;
+            hiddenIdInput.value = id || '';
+            hiddenNameInput.value = name || '';
+            searchInput.value = name || '';
             
             // Auto-fill other fields if they exist and are empty
             if (supplierPhoneInput && !supplierPhoneInput.value) {
-                supplierPhoneInput.value = phone;
+                supplierPhoneInput.value = phone || '';
             }
             if (supplierAddressInput && !supplierAddressInput.value) {
-                supplierAddressInput.value = address;
+                supplierAddressInput.value = address || '';
             }
             
             dropdown.classList.add('hidden');
@@ -495,17 +493,37 @@
             updateRemoveButtons();
             updateGrandTotal();
         });
-    }
-
-    function updateRowTotal(row) {
+    }    function updateRowTotal(row) {
         const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
         const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
+        
+        // Validate quantity and unit price to prevent database overflow
+        const maxQuantity = 999999999; // 9 digits max for quantity
+        const maxUnitPrice = 9999999999999.99; // 13 digits + 2 decimals max for unit price
+        
+        if (quantity > maxQuantity) {
+            row.querySelector('.quantity-input').value = maxQuantity;
+            alert('Số lượng không được vượt quá ' + maxQuantity.toLocaleString());
+            return;
+        }
+        
+        if (unitPrice > maxUnitPrice) {
+            row.querySelector('.price-input').value = maxUnitPrice;
+            alert('Đơn giá không được vượt quá ' + maxUnitPrice.toLocaleString() + ' VNĐ');
+            return;
+        }
+        
         const total = quantity * unitPrice;
         
+        // Check if total exceeds database limit
+        const maxTotal = 9999999999999.99; // decimal(15,2) limit
+        if (total > maxTotal) {
+            alert('Tổng tiền vượt quá giới hạn cho phép. Vui lòng giảm số lượng hoặc đơn giá.');
+            return;
+        }
+        
         row.querySelector('.total-price').textContent = formatCurrency(total);
-    }
-
-    function updateGrandTotal() {
+    }    function updateGrandTotal() {
         let grandTotal = 0;
         
         document.querySelectorAll('.item-row').forEach(function(row) {
@@ -513,6 +531,16 @@
             const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
             grandTotal += quantity * unitPrice;
         });
+        
+        // Check if grand total exceeds database limit
+        const maxTotal = 9999999999999.99; // decimal(15,2) limit
+        if (grandTotal > maxTotal) {
+            document.getElementById('totalAmount').textContent = 'Vượt quá giới hạn!';
+            document.getElementById('totalAmount').style.color = 'red';
+            return;
+        } else {
+            document.getElementById('totalAmount').style.color = '';
+        }
         
         document.getElementById('totalAmount').textContent = formatCurrency(grandTotal);
     }

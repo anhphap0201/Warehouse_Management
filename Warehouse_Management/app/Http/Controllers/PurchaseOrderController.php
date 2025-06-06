@@ -140,8 +140,8 @@ class PurchaseOrderController extends Controller
             'notes' => 'nullable|string',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.quantity' => 'required|integer|min:1|max:999999999',
+            'items.*.unit_price' => 'required|numeric|min:0|max:9999999999999.99',
         ], [
             // Custom error messages
             'warehouse_id.required' => 'Vui lòng chọn kho hàng.',
@@ -154,9 +154,11 @@ class PurchaseOrderController extends Controller
             'items.*.quantity.required' => 'Vui lòng nhập số lượng cho dòng :position.',
             'items.*.quantity.integer' => 'Số lượng phải là số nguyên.',
             'items.*.quantity.min' => 'Số lượng phải lớn hơn 0.',
+            'items.*.quantity.max' => 'Số lượng không được vượt quá 999,999,999.',
             'items.*.unit_price.required' => 'Vui lòng nhập đơn giá cho dòng :position.',
             'items.*.unit_price.numeric' => 'Đơn giá phải là số.',
             'items.*.unit_price.min' => 'Đơn giá không được âm.',
+            'items.*.unit_price.max' => 'Đơn giá không được vượt quá 9,999,999,999,999.99 VNĐ.',
         ]);
 
         DB::transaction(function () use ($validated) {
@@ -164,6 +166,11 @@ class PurchaseOrderController extends Controller
             $totalAmount = 0;
             foreach ($validated['items'] as $item) {
                 $totalAmount += $item['quantity'] * $item['unit_price'];
+            }
+
+            // Validate total amount against database limit
+            if ($totalAmount > 9999999999999.99) {
+                throw new \Exception('Tổng tiền vượt quá giới hạn cho phép (9,999,999,999,999.99 VNĐ). Vui lòng giảm số lượng hoặc đơn giá.');
             }
 
             // Create purchase order with auto-generated invoice number
@@ -239,8 +246,8 @@ class PurchaseOrderController extends Controller
             'notes' => 'nullable|string',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.quantity' => 'required|integer|min:1|max:999999999',
+            'items.*.unit_price' => 'required|numeric|min:0|max:9999999999999.99',
         ], [
             // Custom error messages
             'warehouse_id.required' => 'Vui lòng chọn kho hàng.',
@@ -253,9 +260,11 @@ class PurchaseOrderController extends Controller
             'items.*.quantity.required' => 'Vui lòng nhập số lượng cho dòng :position.',
             'items.*.quantity.integer' => 'Số lượng phải là số nguyên.',
             'items.*.quantity.min' => 'Số lượng phải lớn hơn 0.',
+            'items.*.quantity.max' => 'Số lượng không được vượt quá 999,999,999.',
             'items.*.unit_price.required' => 'Vui lòng nhập đơn giá cho dòng :position.',
             'items.*.unit_price.numeric' => 'Đơn giá phải là số.',
             'items.*.unit_price.min' => 'Đơn giá không được âm.',
+            'items.*.unit_price.max' => 'Đơn giá không được vượt quá 9,999,999,999,999.99 VNĐ.',
         ]);
 
         DB::transaction(function () use ($validated, $purchaseOrder) {
@@ -263,6 +272,11 @@ class PurchaseOrderController extends Controller
             $totalAmount = 0;
             foreach ($validated['items'] as $item) {
                 $totalAmount += $item['quantity'] * $item['unit_price'];
+            }
+
+            // Validate total amount against database limit
+            if ($totalAmount > 9999999999999.99) {
+                throw new \Exception('Tổng tiền vượt quá giới hạn cho phép (9,999,999,999,999.99 VNĐ). Vui lòng giảm số lượng hoặc đơn giá.');
             }
 
             // Update purchase order (keep existing invoice number)

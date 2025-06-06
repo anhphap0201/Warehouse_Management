@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .container-70 {
+        width: 70%;
+        max-width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@layer base {
+    /* Ensure navigation links are clickable */
+    nav a {
+        pointer-events: auto !important;
+        cursor: pointer !important;
+    }
+    
+    /* Prevent double-click issues */
+    nav a[data-navigating] {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+    
+    /* Improve click targets */
+    nav a, .nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Notification badge improvements */
+    .notification-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: bold;
+        color: white;
+        background-color: #dc2626;
+        border-radius: 50%;
+        border: 2px solid white;
+        z-index: 10;
+    }
+    
+    /* Ensure notification container has enough space */
+    .notification-container {
+        position: relative;
+        display: inline-block;
+        margin: 4px;
+    }
+}

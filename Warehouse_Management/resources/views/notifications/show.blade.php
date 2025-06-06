@@ -169,12 +169,10 @@
                             <p class="text-blue-700">{{ $notification->admin_notes }}</p>
                         </div>
                     </div>
-                @endif
-
-                <!-- Products List -->
-                @if($notification->data && isset(json_decode($notification->data, true)['products']))
+                @endif                <!-- Products List -->
+                @if($notification->data && isset($notification->data['products']))
                     @php
-                        $data = json_decode($notification->data, true);
+                        $data = $notification->data;
                         $products = $data['products'] ?? [];
                     @endphp
                     
