@@ -56,7 +56,7 @@ Hệ thống quản lý kho toàn diện được xây dựng bằng Laravel và
 | **Frontend** | Blade Templates, HTML5, CSS3 |
 | **JavaScript** | jQuery, AJAX cho tính năng thời gian thực |
 | **Xác Thực** | Laravel Breeze/Sanctum |
-| **CSS Framework** | Bootstrap 5 |
+| **CSS Framework** | Tailwin |
 
 ## 📋 Yêu Cầu Hệ Thống
 

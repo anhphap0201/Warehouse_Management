@@ -79,6 +79,9 @@ class NotificationController extends Controller
             'created_by' => Auth::id(),
         ]);
 
+        // Clear notifications cache
+        cache()->forget('unread_notifications_count');
+
         return redirect()->route('stores.show', $request->store_id)
             ->with('success', 'Yêu cầu đã được gửi thành công và đang chờ phê duyệt.');
     }
@@ -93,6 +96,8 @@ class NotificationController extends Controller
         // Mark as read if not read yet
         if (!$notification->read_at) {
             $notification->update(['read_at' => now()]);
+            // Clear notifications cache when marking as read
+            cache()->forget('unread_notifications_count');
         }
 
         // Get warehouses for approval if notification is still pending
@@ -128,6 +133,9 @@ class NotificationController extends Controller
                 'admin_notes' => $request->admin_notes
             ]);
 
+            // Clear notifications cache
+            cache()->forget('unread_notifications_count');
+
             // Here you can add logic to actually process the request
             // For example, create stock movements, update inventory, etc.
             $this->processApprovedRequest($notification);
@@ -157,6 +165,9 @@ class NotificationController extends Controller
             'admin_notes' => $request->admin_notes
         ]);
 
+        // Clear notifications cache
+        cache()->forget('unread_notifications_count');
+
         return redirect()->back()->with('success', 'Yêu cầu đã được từ chối.');
     }
 
@@ -177,6 +188,9 @@ class NotificationController extends Controller
     {
         Notification::whereNull('read_at')
             ->update(['read_at' => now()]);
+
+        // Clear notifications cache
+        cache()->forget('unread_notifications_count');
 
         return response()->json(['success' => true]);
     }

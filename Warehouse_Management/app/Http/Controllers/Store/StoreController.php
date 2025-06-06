@@ -7,13 +7,12 @@ use App\Models\Store;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
-{
-    /**
+{    /**
      * Display a listing of the stores.
      */
     public function index()
     {
-        $stores = Store::latest()->get();
+        $stores = Store::latest()->paginate(15);
         return view('stores.index', compact('stores'));
     }
 

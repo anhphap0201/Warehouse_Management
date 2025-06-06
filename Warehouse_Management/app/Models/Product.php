@@ -36,6 +36,14 @@ class Product extends Model
     }
 
     /**
+     * Get the store inventory records for the product.
+     */
+    public function storeInventories(): HasMany
+    {
+        return $this->hasMany(StoreInventory::class);
+    }
+
+    /**
      * Get total quantity across all warehouses
      */
     public function getTotalQuantityAttribute(): int

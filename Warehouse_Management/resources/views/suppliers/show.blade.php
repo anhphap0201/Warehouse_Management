@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="w-9/12 mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between items-center mb-6">
@@ -149,12 +149,11 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                                 {{ number_format($order->total_amount, 0, ',', '.') }} VNĐ
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
+                                            </td>                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 @switch($order->status)
-                                                    @case('pending')
-                                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
-                                                            Chờ xử lý
+                                                    @case('confirmed')
+                                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                            Đã xác nhận
                                                         </span>
                                                         @break
                                                     @case('ordered')

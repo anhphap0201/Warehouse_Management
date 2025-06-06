@@ -86,10 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase-orders/create', [PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
     Route::post('/purchase-orders', [PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
     Route::get('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
-    Route::get('/purchase-orders/{purchaseOrder}/edit', [PurchaseOrderController::class, 'edit'])->name('purchase-orders.edit');
-    Route::put('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'update'])->name('purchase-orders.update');
     Route::delete('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
-    Route::post('/purchase-orders/{purchaseOrder}/confirm', [PurchaseOrderController::class, 'confirm'])->name('purchase-orders.confirm');
     
     // Store inventory and stock operations
     Route::get('/stores/{store}/receive', [StoreController::class, 'showReceiveForm'])->name('stores.receive.form');
@@ -117,5 +114,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/warehouses/search', [PurchaseOrderController::class, 'searchWarehouses'])->name('api.warehouses.search'); 
     Route::get('/api/warehouses/{warehouse}', [WarehouseController::class, 'getWarehouse'])->name('api.warehouses.get');
     Route::get('/api/suppliers/search', [SupplierController::class, 'search'])->name('api.suppliers.search');
+    
+    // Auto-generation routes
+    Route::prefix('admin/auto-generation')->name('admin.auto-generation.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\AutoGenerationController::class, 'index'])->name('index');
+        
+        // Return requests
+        Route::post('/random', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateRandomRequests'])->name('random');
+        Route::post('/smart', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateSmartRequests'])->name('smart');
+        
+        // Shipment requests
+        Route::post('/random-shipment', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateRandomShipmentRequests'])->name('random-shipment');
+        Route::post('/smart-shipment', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateSmartShipmentRequests'])->name('smart-shipment');
+        
+        Route::get('/stats', [App\Http\Controllers\Admin\AutoGenerationController::class, 'getStats'])->name('stats');
+    });
 });
 require __DIR__.'/auth.php';

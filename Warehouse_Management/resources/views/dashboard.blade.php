@@ -4,76 +4,74 @@
             <i class="fas fa-tachometer-alt mr-2 text-blue-600 dark:text-blue-400"></i>
             {{ __('Dashboard') }}
         </h2>
-    </x-slot>
-
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    </x-slot>    <div class="py-4 sm:py-6">
+        <div class="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
             <!-- Summary Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 <!-- Total Products Card -->
                 <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-4 py-5 sm:p-6 flex justify-between items-center">
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
                         <div>
-                            <dt class="text-sm font-medium truncate">
+                            <dt class="text-xs sm:text-sm font-medium truncate">
                                 {{ __('Total Products') }}
                             </dt>
-                            <dd class="mt-1 text-3xl font-semibold">
+                            <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Product::count() }}
                             </dd>
                         </div>
-                        <div class="rounded-full bg-white bg-opacity-20 p-3">
-                            <i class="fas fa-box text-2xl"></i>
+                        <div class="rounded-full bg-white bg-opacity-20 p-2 sm:p-3">
+                            <i class="fas fa-box text-lg sm:text-xl lg:text-2xl"></i>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Total Categories Card -->
                 <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-4 py-5 sm:p-6 flex justify-between items-center">
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
                         <div>
-                            <dt class="text-sm font-medium truncate">
+                            <dt class="text-xs sm:text-sm font-medium truncate">
                                 {{ __('Categories') }}
                             </dt>
-                            <dd class="mt-1 text-3xl font-semibold">
+                            <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Category::count() }}
                             </dd>
                         </div>
-                        <div class="rounded-full bg-white bg-opacity-20 p-3">
-                            <i class="fas fa-list-ul text-2xl"></i>
+                        <div class="rounded-full bg-white bg-opacity-20 p-2 sm:p-3">
+                            <i class="fas fa-list-ul text-lg sm:text-xl lg:text-2xl"></i>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Total Warehouses Card -->
                 <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-4 py-5 sm:p-6 flex justify-between items-center">
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
                         <div>
-                            <dt class="text-sm font-medium truncate">
+                            <dt class="text-xs sm:text-sm font-medium truncate">
                                 {{ __('Warehouses') }}
                             </dt>
-                            <dd class="mt-1 text-3xl font-semibold">
+                            <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Warehouse::count() }}
                             </dd>
                         </div>
-                        <div class="rounded-full bg-white bg-opacity-20 p-3">
-                            <i class="fas fa-warehouse text-2xl"></i>
+                        <div class="rounded-full bg-white bg-opacity-20 p-2 sm:p-3">
+                            <i class="fas fa-warehouse text-lg sm:text-xl lg:text-2xl"></i>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Total Stores Card -->
                 <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-4 py-5 sm:p-6 flex justify-between items-center">
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
                         <div>
-                            <dt class="text-sm font-medium truncate">
+                            <dt class="text-xs sm:text-sm font-medium truncate">
                                 {{ __('Stores') }}
                             </dt>
-                            <dd class="mt-1 text-3xl font-semibold">
+                            <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Store::count() }}
                             </dd>
                         </div>
-                        <div class="rounded-full bg-white bg-opacity-20 p-3">
-                            <i class="fas fa-store text-2xl"></i>
+                        <div class="rounded-full bg-white bg-opacity-20 p-2 sm:p-3">
+                            <i class="fas fa-store text-lg sm:text-xl lg:text-2xl"></i>
                         </div>
                     </div>
                 </div>

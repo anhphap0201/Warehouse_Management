@@ -4,16 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Chi tiết Cửa hàng: ') . $store->name }}
             </h2>            <div class="flex space-x-2">
-                <a href="{{ route('notifications.create', ['store_id' => $store->id, 'type' => 'receive_request']) }}" 
-                   class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center">
-                    <i class="fas fa-arrow-down mr-2"></i>
-                    Yêu cầu nhận hàng
-                </a>
-                <a href="{{ route('notifications.create', ['store_id' => $store->id, 'type' => 'return_request']) }}" 
-                   class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded flex items-center">
-                    <i class="fas fa-arrow-up mr-2"></i>
-                    Yêu cầu trả hàng
-                </a>
                 <a href="{{ route('stores.edit', $store) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                     Chỉnh sửa
                 </a>
@@ -25,7 +15,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="w-9/12 mx-auto sm:px-6 lg:px-8 space-y-6">
             @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                     {{ session('success') }}

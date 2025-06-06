@@ -54,7 +54,7 @@
                                                placeholder="Tìm kiếm kho hàng..."
                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('warehouse_id') border-red-500 @enderror"
                                                autocomplete="off">
-                                        <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ old('warehouse_id') }}">                                        <div id="warehouse_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mb-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important; bottom: 100%;">
+                                        <input type="hidden" name="warehouse_id" id="warehouse_id" value="{{ old('warehouse_id') }}">                                        <div id="warehouse_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
                                             <div id="warehouse_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
                                                 <div class="flex items-center">
                                                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
@@ -95,7 +95,7 @@
                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_name') border-red-500 @enderror"
                                                autocomplete="off">
                                         <input type="hidden" name="supplier_name" id="supplier_name" value="{{ old('supplier_name') }}">
-                                        <input type="hidden" name="supplier_id" id="supplier_id" value="{{ old('supplier_id') }}">                                        <div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mb-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important; bottom: 100%;">
+                                        <input type="hidden" name="supplier_id" id="supplier_id" value="{{ old('supplier_id') }}">                                        <div id="supplier_dropdown" class="absolute z-[9999] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-2xl mt-1 max-h-60 overflow-y-auto hidden" style="z-index: 9999 !important;">
                                             <div id="supplier_loading" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm hidden">
                                                 <div class="flex items-center">
                                                     <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
@@ -112,7 +112,8 @@
                                     <label for="supplier_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Địa chỉ nhà cung cấp</label>
                                     <textarea name="supplier_address" id="supplier_address" 
                                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 @error('supplier_address') border-red-500 @enderror" 
-                                              rows="3">{{ old('supplier_address') }}</textarea>
+                                              rows="3"
+                                              placeholder="Nhập địa chỉ nhà cung cấp...">{{ old('supplier_address') }}</textarea>
                                     @error('supplier_address')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -318,9 +319,7 @@ function initializeWarehouseSearch() {
     const hiddenInput = document.getElementById('warehouse_id');
     const dropdown = document.getElementById('warehouse_dropdown');
     const loading = document.getElementById('warehouse_loading');
-    const results = document.getElementById('warehouse_results');
-    
-    searchInput.addEventListener('input', function() {
+    const results = document.getElementById('warehouse_results');    searchInput.addEventListener('input', function() {
         const query = this.value.trim();
         
         if (query.length < 1) {
@@ -388,19 +387,13 @@ function initializeSupplierSearch() {
     const hiddenInput = document.getElementById('supplier_name');
     const dropdown = document.getElementById('supplier_dropdown');
     const loading = document.getElementById('supplier_loading');
-    const results = document.getElementById('supplier_results');
-      searchInput.addEventListener('input', function() {
-        const query = this.value.trim();
+    const results = document.getElementById('supplier_results');      searchInput.addEventListener('input', function() {        const query = this.value.trim();
         const supplierAddressField = document.getElementById('supplier_address_field');
         
         hiddenInput.value = query; // Always update the hidden input
+        // Removed automatic display of supplier address field
         
-        // Show address field when user starts typing
-        if (supplierAddressField) {
-            supplierAddressField.style.display = 'block';
-        }
-        
-        if (query.length < 2) {
+        if (query.length < 1) {
             dropdown.classList.add('hidden');
             return;
         }
@@ -455,6 +448,7 @@ function initializeSupplierSearch() {
         const supplierPhoneInput = document.getElementById('supplier_phone');
         const supplierAddressInput = document.getElementById('supplier_address');
         const supplierAddressField = document.getElementById('supplier_address_field');
+        const searchInput = document.getElementById('supplier_search');
         
         supplierIdInput.value = id;
         supplierNameInput.value = name;
@@ -462,13 +456,13 @@ function initializeSupplierSearch() {
         
         // Auto-fill other fields if they exist and are empty
         if (supplierPhoneInput && !supplierPhoneInput.value) {
-            supplierPhoneInput.value = phone;
+            supplierPhoneInput.value = phone || '';
         }
         if (supplierAddressInput && !supplierAddressInput.value) {
-            supplierAddressInput.value = address;
+            supplierAddressInput.value = address || '';
         }
         
-        // Hide address field when supplier is selected
+        // Always hide address field when supplier is selected from dropdown
         if (supplierAddressField) {
             supplierAddressField.style.display = 'none';
         }
@@ -716,7 +710,31 @@ function bindItemEvents(row) {
 function updateRowTotal(row) {
     const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
     const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
+    
+    // Validate quantity and unit price to prevent database overflow
+    const maxQuantity = 999999999; // 9 digits max for quantity
+    const maxUnitPrice = 9999999999999.99; // 13 digits + 2 decimals max for unit price
+    
+    if (quantity > maxQuantity) {
+        row.querySelector('.quantity-input').value = maxQuantity;
+        alert('Số lượng không được vượt quá ' + maxQuantity.toLocaleString());
+        return;
+    }
+    
+    if (unitPrice > maxUnitPrice) {
+        row.querySelector('.price-input').value = maxUnitPrice;
+        alert('Đơn giá không được vượt quá ' + maxUnitPrice.toLocaleString() + ' VNĐ');
+        return;
+    }
+    
     const total = quantity * unitPrice;
+    
+    // Check if total exceeds database limit
+    const maxTotal = 9999999999999.99; // decimal(15,2) limit
+    if (total > maxTotal) {
+        alert('Tổng tiền vượt quá giới hạn cho phép. Vui lòng giảm số lượng hoặc đơn giá.');
+        return;
+    }
     
     row.querySelector('.total-price').textContent = formatCurrency(total);
 }
@@ -729,6 +747,16 @@ function updateGrandTotal() {
         const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
         grandTotal += quantity * unitPrice;
     });
+    
+    // Check if grand total exceeds database limit
+    const maxTotal = 9999999999999.99; // decimal(15,2) limit
+    if (grandTotal > maxTotal) {
+        document.getElementById('totalAmount').textContent = 'Vượt quá giới hạn!';
+        document.getElementById('totalAmount').style.color = 'red';
+        return;
+    } else {
+        document.getElementById('totalAmount').style.color = '';
+    }
     
     document.getElementById('totalAmount').textContent = formatCurrency(grandTotal);
 }

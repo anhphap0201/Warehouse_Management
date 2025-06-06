@@ -7,13 +7,12 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
-{
-    /**
+{    /**
      * Display a listing of the warehouses.
      */
     public function index()
     {
-        $warehouses = Warehouse::latest()->get();
+        $warehouses = Warehouse::latest()->paginate(15);
         return view('warehouses.index', compact('warehouses'));
     }
 

@@ -6,12 +6,11 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="w-9/12 mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold">Chi tiết hóa đơn nhập kho #{{ $purchaseOrder->invoice_number }}</h3>
-                        <div class="flex space-x-2">
+                        <h3 class="text-lg font-semibold">Chi tiết hóa đơn nhập kho #{{ $purchaseOrder->invoice_number }}</h3>                        <div class="flex space-x-2">
                             <a href="{{ route('purchase-orders.index') }}" 
                                class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-md transition-colors">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,27 +18,6 @@
                                 </svg>
                                 Quay lại
                             </a>
-                            @if($purchaseOrder->isPending())
-                                <a href="{{ route('purchase-orders.edit', $purchaseOrder) }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-medium rounded-md transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                    Chỉnh sửa
-                                </a>
-                                <form action="{{ route('purchase-orders.confirm', $purchaseOrder) }}" 
-                                      method="POST" class="inline"
-                                      onsubmit="return confirm('Bạn có chắc chắn muốn xác nhận hóa đơn này? Sau khi xác nhận sẽ không thể chỉnh sửa.')">
-                                    @csrf
-                                    <button type="submit" 
-                                            class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md transition-colors">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        Xác nhận hóa đơn
-                                    </button>
-                                </form>
-                            @endif
                         </div>
                     </div>
 
@@ -67,15 +45,10 @@
                                 <div class="flex justify-between">
                                     <span class="text-sm font-medium">Kho hàng:</span>
                                     <span class="text-sm">{{ $purchaseOrder->warehouse->name }}</span>
-                                </div>
-                                <div class="flex justify-between">
+                                </div>                                <div class="flex justify-between">
                                     <span class="text-sm font-medium">Trạng thái:</span>
                                     <span class="text-sm">
-                                        @if($purchaseOrder->status == 'pending')
-                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
-                                                Chờ xử lý
-                                            </span>
-                                        @elseif($purchaseOrder->status == 'confirmed')
+                                        @if($purchaseOrder->status == 'confirmed')
                                             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                                 Đã xác nhận
                                             </span>
@@ -195,32 +168,17 @@
                                 </tfoot>
                             </table>
                         </div>
+                    </div>                    <!-- Status message - all orders are now auto-confirmed -->
+                    <div class="mt-6">
+                        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
+                            <div class="flex">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Hóa đơn đã được xác nhận và các sản phẩm đã được cập nhật vào kho hàng.</span>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Nút hành động bổ sung -->
-                    @if($purchaseOrder->isPending())
-                        <div class="mt-6">
-                            <div class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-md">
-                                <div class="flex">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span>Hóa đơn này đang ở trạng thái chờ xử lý. Bạn có thể chỉnh sửa hoặc xác nhận để cập nhật vào kho.</span>
-                                </div>
-                            </div>
-                        </div>
-                    @elseif($purchaseOrder->isConfirmed())
-                        <div class="mt-6">
-                            <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
-                                <div class="flex">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span>Hóa đơn đã được xác nhận và các sản phẩm đã được cập nhật vào kho hàng.</span>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>

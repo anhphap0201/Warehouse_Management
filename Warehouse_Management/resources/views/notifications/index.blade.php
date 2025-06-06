@@ -1,42 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Quản lý thông báo</h1>
-        <div class="flex gap-3">
-            <button id="markAllRead" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
-                <i class="fas fa-check-double mr-2"></i>Đánh dấu tất cả đã đọc
-            </button>
+<div class="py-4 sm:py-6">
+    <div class="container-70">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200">Quản lý thông báo</h1>
+            <div class="flex gap-3">
+                <button id="markAllRead" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg touch-target">
+                    <i class="fas fa-check-double mr-2"></i>Đánh dấu tất cả đã đọc
+                </button>
+            </div>
+        </div>        <!-- Filter tabs -->
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
+            <nav class="-mb-px flex flex-wrap gap-2 sm:gap-0 sm:space-x-8">
+                <a href="{{ route('notifications.index') }}" 
+                   class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm touch-target {{ request('status') === null ? 'border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : '' }}">
+                    Tất cả
+                </a>
+                <a href="{{ route('notifications.index', ['status' => 'pending']) }}" 
+                   class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm touch-target {{ request('status') === 'pending' ? 'border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : '' }}">
+                    Chờ xử lý
+                    @if($notifications->where('status', 'pending')->count() > 0)
+                        <span class="bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100 text-xs font-semibold ml-2 px-2.5 py-0.5 rounded-full">
+                            {{ $notifications->where('status', 'pending')->count() }}
+                        </span>
+                    @endif
+                </a>
+                <a href="{{ route('notifications.index', ['status' => 'approved']) }}" 
+                   class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm touch-target {{ request('status') === 'approved' ? 'border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : '' }}">
+                    Đã phê duyệt
+                </a>
+                <a href="{{ route('notifications.index', ['status' => 'rejected']) }}" 
+                   class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm touch-target {{ request('status') === 'rejected' ? 'border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : '' }}">
+                    Đã từ chối
+                </a>
+            </nav>
         </div>
-    </div>
-
-    <!-- Filter tabs -->
-    <div class="mb-6 border-b border-gray-200">
-        <nav class="-mb-px flex space-x-8">
-            <a href="{{ route('notifications.index') }}" 
-               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === null ? 'border-indigo-500 text-indigo-600' : '' }}">
-                Tất cả
-            </a>
-            <a href="{{ route('notifications.index', ['status' => 'pending']) }}" 
-               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === 'pending' ? 'border-indigo-500 text-indigo-600' : '' }}">
-                Chờ xử lý
-                @if($notifications->where('status', 'pending')->count() > 0)
-                    <span class="bg-red-100 text-red-800 text-xs font-semibold ml-2 px-2.5 py-0.5 rounded-full">
-                        {{ $notifications->where('status', 'pending')->count() }}
-                    </span>
-                @endif
-            </a>
-            <a href="{{ route('notifications.index', ['status' => 'approved']) }}" 
-               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === 'approved' ? 'border-indigo-500 text-indigo-600' : '' }}">
-                Đã phê duyệt
-            </a>
-            <a href="{{ route('notifications.index', ['status' => 'rejected']) }}" 
-               class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm {{ request('status') === 'rejected' ? 'border-indigo-500 text-indigo-600' : '' }}">
-                Đã từ chối
-            </a>
-        </nav>
-    </div>
 
     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
         @forelse($notifications as $notification)
