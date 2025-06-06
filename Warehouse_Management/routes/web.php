@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     // API routes for notifications
     Route::get('/api/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('api.notifications.unread-count');
     Route::post('/api/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.mark-all-read');
+    Route::get('/api/warehouses', [NotificationController::class, 'getWarehouses'])->name('api.warehouses.list');
     
     // API routes for real-time search
     Route::get('/api/products/search', [PurchaseOrderController::class, 'searchProducts'])->name('api.products.search');

@@ -1,34 +1,34 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-white dark:bg-slate-800 border-b border-gray-100 dark:border-slate-700 shadow-md">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center">
+                        <x-application-logo class="block h-10 w-auto fill-current text-blue-600 dark:text-blue-400 transition duration-300" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-4 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        <i class="fas fa-tachometer-alt mr-1"></i> {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                        {{ __('Danh mục') }}
+                        <i class="fas fa-list-ul mr-1"></i> {{ __('Danh mục') }}
                     </x-nav-link>
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                        {{ __('Sản phẩm') }}
+                        <i class="fas fa-box mr-1"></i> {{ __('Sản phẩm') }}
                     </x-nav-link>
                     <x-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.*')">
-                        {{ __('Kho hàng') }}
+                        <i class="fas fa-warehouse mr-1"></i> {{ __('Kho hàng') }}
                     </x-nav-link>
                     <x-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
-                        {{ __('Cửa hàng') }}
+                        <i class="fas fa-store mr-1"></i> {{ __('Cửa hàng') }}
                     </x-nav-link>
                     <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                        {{ __('Nhà cung cấp') }}
+                        <i class="fas fa-truck mr-1"></i> {{ __('Nhà cung cấp') }}
                     </x-nav-link>
                     <x-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
                         {{ __('Hóa đơn nhập') }}
@@ -82,7 +82,7 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-slate-700 focus:outline-none transition duration-300 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -96,25 +96,25 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                <i class="fas fa-tachometer-alt mr-2"></i> {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                Danh mục
+                <i class="fas fa-list-ul mr-2"></i> Danh mục
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                Sản phẩm
+                <i class="fas fa-box mr-2"></i> Sản phẩm
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.*')">
-                Kho hàng
+                <i class="fas fa-warehouse mr-2"></i> Kho hàng
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('stores.index')" :active="request()->routeIs('stores.*')">
-                Cửa hàng
+                <i class="fas fa-store mr-2"></i> Cửa hàng
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                Nhà cung cấp
+                <i class="fas fa-truck mr-2"></i> Nhà cung cấp
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
-                Hóa đơn nhập
+                <i class="fas fa-file-invoice mr-2"></i> Hóa đơn nhập
             </x-responsive-nav-link>
         </div>
 

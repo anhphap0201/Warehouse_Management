@@ -69,32 +69,54 @@
                                 </div>
                                 
                                 <p class="text-gray-600 mb-2">{{ Str::limit($notification->message, 100) }}</p>
-                                
-                                <div class="flex items-center text-sm text-gray-500 space-x-4">
+                                  <div class="flex items-center text-sm text-gray-500 space-x-4">
                                     <span>
                                         <i class="fas fa-store mr-1"></i>
                                         {{ $notification->store->name }}
                                     </span>
+                                    @if($notification->warehouse)
+                                        <span>
+                                            <i class="fas fa-warehouse mr-1"></i>
+                                            {{ $notification->warehouse->name }}
+                                        </span>
+                                    @endif
                                     <span>
                                         <i class="fas fa-calendar mr-1"></i>
                                         {{ $notification->created_at->format('d/m/Y H:i') }}
                                     </span>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Status Badge -->
+                        </div>                        <!-- Status Badge and Action Buttons -->
                         <div class="flex-shrink-0 ml-4">
                             @if($notification->status === 'pending')
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                                    <i class="fas fa-clock mr-1"></i>
-                                    Chờ xử lý
-                                </span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Chờ xử lý
+                                    </span>
+                                    <div class="flex space-x-1">
+                                        <button type="button" onclick="openApprovalModal({{ $notification->id }})" 
+                                                class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-sm transition duration-200">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button type="button" onclick="openRejectionModal({{ $notification->id }})"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm transition duration-200">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             @elseif($notification->status === 'approved')
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                    <i class="fas fa-check mr-1"></i>
-                                    Đã phê duyệt
-                                </span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check mr-1"></i>
+                                        Đã phê duyệt
+                                    </span>
+                                    @if($notification->warehouse)
+                                        <span class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                                            {{ $notification->warehouse->name }}
+                                        </span>
+                                    @endif
+                                </div>
                             @else
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
                                     <i class="fas fa-times mr-1"></i>
@@ -192,7 +214,6 @@
                                     <span class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-r-md leading-5" aria-hidden="true">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                        </svg>
                                     </span>
                                 </span>
                             @endif
@@ -202,6 +223,107 @@
             </div>
         </div>
     @endif
+</div>
+
+<!-- Approval Modal -->
+<div id="approvalModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity" onclick="closeApprovalModal()"></div>
+        
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <form id="approvalForm" method="POST" action="">
+                @csrf
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                                Phê duyệt yêu cầu
+                            </h3>
+                            
+                            <div class="mb-4">
+                                <label for="warehouse_id" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Chỉ định kho <span class="text-red-500">*</span>
+                                </label>
+                                <select name="warehouse_id" id="warehouse_id" required 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">-- Chọn kho --</option>
+                                    @foreach($warehouses as $warehouse)
+                                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }} - {{ $warehouse->location }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="admin_response" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Phản hồi từ quản lý
+                                </label>
+                                <textarea name="admin_response" id="admin_response" rows="3" 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Ghi chú về việc phê duyệt..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" 
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Phê duyệt
+                    </button>
+                    <button type="button" onclick="closeApprovalModal()" 
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Rejection Modal -->
+<div id="rejectionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity" onclick="closeRejectionModal()"></div>
+        
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <form id="rejectionForm" method="POST" action="">
+                @csrf
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fas fa-times text-red-600"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                                Từ chối yêu cầu
+                            </h3>
+                            
+                            <div class="mb-4">
+                                <label for="rejection_reason" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Lý do từ chối <span class="text-red-500">*</span>
+                                </label>
+                                <textarea name="rejection_reason" id="rejection_reason" rows="4" required
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Nhập lý do từ chối yêu cầu..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" 
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Từ chối
+                    </button>
+                    <button type="button" onclick="closeRejectionModal()" 
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @push('scripts')
@@ -227,6 +349,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Modal functions
+function openApprovalModal(notificationId) {
+    const modal = document.getElementById('approvalModal');
+    const form = document.getElementById('approvalForm');
+    form.action = `/notifications/${notificationId}/approve`;
+    modal.classList.remove('hidden');
+}
+
+function closeApprovalModal() {
+    const modal = document.getElementById('approvalModal');
+    modal.classList.add('hidden');
+    // Reset form
+    document.getElementById('approvalForm').reset();
+}
+
+function openRejectionModal(notificationId) {
+    const modal = document.getElementById('rejectionModal');
+    const form = document.getElementById('rejectionForm');
+    form.action = `/notifications/${notificationId}/reject`;
+    modal.classList.remove('hidden');
+}
+
+function closeRejectionModal() {
+    const modal = document.getElementById('rejectionModal');
+    modal.classList.add('hidden');
+    // Reset form
+    document.getElementById('rejectionForm').reset();
+}
 </script>
 @endpush
 @endsection
