@@ -343,26 +343,24 @@ function initializeSearch() {
             debounceSearch();
         });
     }
-    
-    // Warehouse search
+      // Warehouse search
     const warehouseInput = document.getElementById('warehouse_search');
     if (warehouseInput) {
         warehouseInput.addEventListener('input', function() {
             const query = this.value.trim();
-            if (query.length >= 2) {
+            if (query.length >= 1) {
                 searchWarehouses(query);
             } else {
                 document.getElementById('warehouse_dropdown').classList.add('hidden');
             }
         });
     }
-    
-    // Supplier search
+      // Supplier search
     const supplierInput = document.getElementById('supplier_search');
     if (supplierInput) {
         supplierInput.addEventListener('input', function() {
             const query = this.value.trim();
-            if (query.length >= 2) {
+            if (query.length >= 1) {
                 searchSuppliers(query);
             } else {
                 document.getElementById('supplier_dropdown').classList.add('hidden');

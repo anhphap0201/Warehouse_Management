@@ -236,12 +236,11 @@
         const results = document.getElementById('supplier_results');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let searchTimeout;
-        
-        searchInput.addEventListener('input', function() {
+          searchInput.addEventListener('input', function() {
             const query = this.value.trim();
             hiddenNameInput.value = query; // Update the hidden input
             
-            if (query.length < 2) {
+            if (query.length < 1) {
                 dropdown.classList.add('hidden');
                 return;
             }

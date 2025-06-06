@@ -319,11 +319,10 @@ function initializeWarehouseSearch() {
     const hiddenInput = document.getElementById('warehouse_id');
     const dropdown = document.getElementById('warehouse_dropdown');
     const loading = document.getElementById('warehouse_loading');
-    const results = document.getElementById('warehouse_results');
-      searchInput.addEventListener('input', function() {
+    const results = document.getElementById('warehouse_results');    searchInput.addEventListener('input', function() {
         const query = this.value.trim();
         
-        if (query.length < 2) {
+        if (query.length < 1) {
             dropdown.classList.add('hidden');
             hiddenInput.value = '';
             return;
@@ -393,13 +392,12 @@ function initializeSupplierSearch() {
         const supplierAddressField = document.getElementById('supplier_address_field');
         
         hiddenInput.value = query; // Always update the hidden input
-        
-        // Show address field only when user is typing manually (not selecting from dropdown)
+          // Show address field only when user is typing manually (not selecting from dropdown)
         if (supplierAddressField && query.length > 0) {
             supplierAddressField.style.display = 'block';
         }
         
-        if (query.length < 2) {
+        if (query.length < 1) {
             dropdown.classList.add('hidden');
             return;
         }
