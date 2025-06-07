@@ -91,14 +91,36 @@
                     const mobileDot = document.getElementById('mobileNotificationDot');
                     const mobileCountSpan = document.getElementById('mobileNotificationCount');
                     
+                    // Update desktop notification
                     if (count > 0) {
-                        dot?.classList.remove('hidden');
-                        mobileDot?.classList.remove('hidden');
-                        if (countSpan) countSpan.textContent = count;
-                        if (mobileCountSpan) mobileCountSpan.textContent = count;
+                        if (dot) {
+                            dot.classList.remove('hidden');
+                            dot.classList.add('animate-pulse');
+                        }
+                        if (countSpan) {
+                            countSpan.textContent = count > 99 ? '99+' : count;
+                        }
                     } else {
-                        dot?.classList.add('hidden');
-                        mobileDot?.classList.add('hidden');
+                        if (dot) {
+                            dot.classList.add('hidden');
+                            dot.classList.remove('animate-pulse');
+                        }
+                    }
+                    
+                    // Update mobile notification
+                    if (count > 0) {
+                        if (mobileDot) {
+                            mobileDot.classList.remove('hidden');
+                            mobileDot.classList.add('animate-pulse');
+                        }
+                        if (mobileCountSpan) {
+                            mobileCountSpan.textContent = count > 99 ? '99+' : count;
+                        }
+                    } else {
+                        if (mobileDot) {
+                            mobileDot.classList.add('hidden');
+                            mobileDot.classList.remove('animate-pulse');
+                        }
                     }
                 })
                 .catch(error => {

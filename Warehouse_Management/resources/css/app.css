@@ -294,60 +294,83 @@
     /* Ensure notification container has enough space */
     .notification-container {
         position: relative;
-        display: inline-block;
-        margin: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Enhanced notification badge positioning */
+    .notification-icon-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
     }
     
-    /* Enhanced touch-friendly interactions */
-    @media (max-width: 1024px) {
-        button, .btn, a.btn {
-            min-height: 44px;
-            padding: 0.75rem 1rem;
+    .notification-badge-enhanced {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        min-width: 1.25rem;
+        height: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        line-height: 1;
+        color: white;
+        background: linear-gradient(135deg, #dc2626, #991b1b);
+        border-radius: 9999px;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+        z-index: 20;
+        transform: scale(1);
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .notification-badge-enhanced:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.6);
+    }
+    
+    /* Pulse animation for new notifications */
+    .notification-pulse {
+        animation: notification-pulse 2s infinite;
+    }
+    
+    @keyframes notification-pulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
         }
-        
-        input, select, textarea {
-            min-height: 44px;
-            padding: 0.75rem;
-        }
-        
-        .form-control {
-            font-size: 16px; /* Prevents zoom on iOS */
+        50% {
+            transform: scale(1.05);
+            opacity: 0.9;
         }
     }
     
-    /* Responsive table scrolling */
-    .table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    /* Bell icon improvements */
+    .bell-icon {
+        transition: all 0.2s ease-in-out;
     }
     
-    .table-container::-webkit-scrollbar {
-        height: 8px;
+    .bell-icon:hover {
+        transform: rotate(15deg);
     }
     
-    .table-container::-webkit-scrollbar-track {
-        background: rgb(243 244 246);
-        border-radius: 4px;
-    }
-    
-    .table-container::-webkit-scrollbar-thumb {
-        background: rgb(156 163 175);
-        border-radius: 4px;
-    }
-    
-    .table-container::-webkit-scrollbar-thumb:hover {
-        background: rgb(107 114 128);
-    }
-    
-    .dark .table-container::-webkit-scrollbar-track {
-        background: rgb(71 85 105);
-    }
-    
-    .dark .table-container::-webkit-scrollbar-thumb {
-        background: rgb(100 116 139);
-    }
-    
-    .dark .table-container::-webkit-scrollbar-thumb:hover {
-        background: rgb(148 163 184);
+    /* Mobile notification badge positioning */
+    .mobile-notification-badge {
+        min-width: 1.25rem;
+        height: 1.25rem;
+        padding: 0.125rem 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        line-height: 1;
+        background: linear-gradient(135deg, #dc2626, #991b1b);
+        border-radius: 9999px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 }
