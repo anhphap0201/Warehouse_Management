@@ -48,17 +48,16 @@
                   <!-- Notifications -->
                 <div class="relative">
                     <a href="{{ route('notifications.index') }}"
-                       class="relative p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-150 ease-in-out {{ request()->routeIs('notifications.*') ? 'text-indigo-600 dark:text-indigo-400' : '' }}"
+                       class="relative inline-flex items-center justify-center p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-150 ease-in-out {{ request()->routeIs('notifications.*') ? 'text-indigo-600 dark:text-indigo-400' : '' }}"
                        title="Thông báo">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5-5V7a6 6 0 10-12 0v5l-5 5h5m7 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                         </svg>
                         
-                        @if($unreadNotificationsCount > 0)
-                            <span class="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full min-w-[1.25rem] h-5 animate-pulse shadow-lg">
-                                {{ $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount }}
-                            </span>
-                        @endif
+                        <!-- Notification badge/dot -->
+                        <span id="notificationDot" class="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full min-w-[1.25rem] h-5 shadow-lg {{ $unreadNotificationsCount > 0 ? 'animate-pulse' : 'hidden' }}">
+                            <span id="notificationCount">{{ $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount }}</span>
+                        </span>
                     </a>
                 </div>
 
@@ -152,11 +151,10 @@
                 <x-responsive-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.*')">
                     <div class="flex items-center justify-between">
                         <span>{{ __('Thông báo') }}</span>
-                        @if($unreadNotificationsCount > 0)
-                            <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full min-w-[1.25rem] h-5 animate-pulse shadow-lg">
-                                {{ $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount }}
-                            </span>
-                        @endif
+                        <!-- Mobile notification badge -->
+                        <span id="mobileNotificationDot" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full min-w-[1.25rem] h-5 shadow-lg {{ $unreadNotificationsCount > 0 ? 'animate-pulse' : 'hidden' }}">
+                            <span id="mobileNotificationCount">{{ $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount }}</span>
+                        </span>
                     </div>
                 </x-responsive-nav-link>
                 

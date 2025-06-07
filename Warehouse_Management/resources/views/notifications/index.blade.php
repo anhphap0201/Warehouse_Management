@@ -2,15 +2,30 @@
 
 @section('content')
 <div class="py-4 sm:py-6">
-    <div class="container-70">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+    <div class="container-70">        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200">Quản lý thông báo</h1>
             <div class="flex gap-3">
                 <button id="markAllRead" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg touch-target">
                     <i class="fas fa-check-double mr-2"></i>Đánh dấu tất cả đã đọc
                 </button>
             </div>
-        </div>        <!-- Filter tabs -->
+        </div>
+        
+        <!-- Instructions -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-yellow-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        Thông báo sẽ chỉ được đánh dấu đã đọc khi bạn nhấp vào để xem chi tiết. Các thông báo chưa đọc được đánh dấu bằng <span class="font-semibold">nền xanh</span> và <span class="font-semibold">biểu tượng "Chưa đọc"</span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filter tabs -->
         <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="-mb-px flex flex-wrap gap-2 sm:gap-0 sm:space-x-8">
                 <a href="{{ route('notifications.index') }}" 
@@ -37,20 +52,27 @@
             </nav>
         </div>
 
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-        @forelse($notifications as $notification)
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">        @forelse($notifications as $notification)
             <div class="border-b border-gray-200 {{ !$notification->read_at ? 'bg-blue-50' : '' }}">
-                <div class="p-6 hover:bg-gray-50 cursor-pointer" onclick="window.location='{{ route('notifications.show', $notification) }}'">
+                <div class="p-6 hover:bg-gray-50 cursor-pointer relative" onclick="window.location='{{ route('notifications.show', $notification) }}'">
+                    @if(!$notification->read_at)
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <span class="flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                        </div>
+                    @endif
                     <div class="flex items-start justify-between">
                         <div class="flex items-start space-x-4 flex-1">
                             <!-- Notification Icon -->
                             <div class="flex-shrink-0">
                                 @if($notification->type === 'receive_request')
-                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <div class="w-10 h-10 {{ !$notification->read_at ? 'bg-green-200' : 'bg-green-100' }} rounded-full flex items-center justify-center">
                                         <i class="fas fa-arrow-down text-green-600"></i>
                                     </div>
                                 @else
-                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <div class="w-10 h-10 {{ !$notification->read_at ? 'bg-orange-200' : 'bg-orange-100' }} rounded-full flex items-center justify-center">
                                         <i class="fas fa-arrow-up text-orange-600"></i>
                                     </div>
                                 @endif
@@ -59,10 +81,10 @@
                             <!-- Notification Content -->
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <h3 class="text-lg font-semibold text-gray-900">{{ $notification->title }}</h3>
+                                    <h3 class="text-lg font-semibold {{ !$notification->read_at ? 'text-blue-900' : 'text-gray-900' }}">{{ $notification->title }}</h3>
                                     @if(!$notification->read_at)
                                         <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                            Mới
+                                            <i class="fas fa-bell mr-1"></i> Chưa đọc
                                         </span>
                                     @endif
                                 </div>
@@ -328,24 +350,35 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Mark all as read functionality
-    document.getElementById('markAllRead').addEventListener('click', function() {
-        fetch('{{ route("api.notifications.mark-all-read") }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    // Mark all as read functionality    document.getElementById('markAllRead').addEventListener('click', function() {
+        if (confirm('Bạn có chắc chắn muốn đánh dấu tất cả thông báo là đã đọc?')) {
+            fetch('{{ route("api.notifications.mark-all-read") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Hiển thị thông báo
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md z-50';
+                    alertDiv.innerHTML = '<div class="flex items-center"><i class="fas fa-check-circle mr-2"></i><span>Đã đánh dấu tất cả thông báo là đã đọc!</span></div>';
+                    document.body.appendChild(alertDiv);
+                    
+                    // Đóng thông báo sau 3 giây
+                    setTimeout(() => {
+                        alertDiv.remove();
+                        location.reload();
+                    }, 1500);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
     });
 });
 

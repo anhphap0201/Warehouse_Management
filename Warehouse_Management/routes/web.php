@@ -119,15 +119,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin/auto-generation')->name('admin.auto-generation.')->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\AutoGenerationController::class, 'index'])->name('index');
         
-        // Return requests
-        Route::post('/random', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateRandomRequests'])->name('random');
-        Route::post('/smart', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateSmartRequests'])->name('smart');
-        
-        // Shipment requests
-        Route::post('/random-shipment', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateRandomShipmentRequests'])->name('random-shipment');
-        Route::post('/smart-shipment', [App\Http\Controllers\Admin\AutoGenerationController::class, 'generateSmartShipmentRequests'])->name('smart-shipment');
-        
-        Route::get('/stats', [App\Http\Controllers\Admin\AutoGenerationController::class, 'getStats'])->name('stats');
+        // Test order creation (simplified)
+        Route::post('/test-return', [App\Http\Controllers\Admin\AutoGenerationController::class, 'createTestReturnOrders'])->name('test-return');
+        Route::post('/test-shipment', [App\Http\Controllers\Admin\AutoGenerationController::class, 'createTestShipmentOrders'])->name('test-shipment');
     });
 });
 require __DIR__.'/auth.php';

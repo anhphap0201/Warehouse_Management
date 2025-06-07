@@ -1,8 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-gray-800 dark:text-gray-100 leading-tight flex items-center">
+    <x-slot name="header">        <h2 class="font-bold text-2xl text-gray-800 dark:text-gray-100 leading-tight flex items-center">
             <i class="fas fa-tachometer-alt mr-2 text-blue-600 dark:text-blue-400"></i>
-            {{ __('Dashboard') }}
+            {{ __('app.dashboard') }}
         </h2>
     </x-slot>    <div class="py-4 sm:py-6">
         <div class="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -10,10 +9,9 @@
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 <!-- Total Products Card -->
                 <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
-                        <div>
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">                        <div>
                             <dt class="text-xs sm:text-sm font-medium truncate">
-                                {{ __('Total Products') }}
+                                Tổng số sản phẩm
                             </dt>
                             <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Product::count() }}
@@ -27,10 +25,9 @@
                 
                 <!-- Total Categories Card -->
                 <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
-                        <div>
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">                        <div>
                             <dt class="text-xs sm:text-sm font-medium truncate">
-                                {{ __('Categories') }}
+                                Danh mục
                             </dt>
                             <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Category::count() }}
@@ -44,10 +41,9 @@
 
                 <!-- Total Warehouses Card -->
                 <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
-                        <div>
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">                        <div>
                             <dt class="text-xs sm:text-sm font-medium truncate">
-                                {{ __('Warehouses') }}
+                                Kho hàng
                             </dt>
                             <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Warehouse::count() }}
@@ -61,10 +57,9 @@
                 
                 <!-- Total Stores Card -->
                 <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg shadow-lg overflow-hidden text-white">
-                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">
-                        <div>
+                    <div class="px-3 py-4 sm:px-4 sm:py-5 lg:p-6 flex justify-between items-center">                        <div>
                             <dt class="text-xs sm:text-sm font-medium truncate">
-                                {{ __('Stores') }}
+                                Cửa hàng
                             </dt>
                             <dd class="mt-1 text-xl sm:text-2xl lg:text-3xl font-semibold">
                                 {{ App\Models\Store::count() }}

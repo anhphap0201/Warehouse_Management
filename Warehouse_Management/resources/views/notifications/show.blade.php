@@ -89,13 +89,13 @@
                             <div class="flex justify-between py-1">
                                 <span class="text-gray-600">Cửa hàng:</span>
                                 <span class="font-medium">{{ $notification->store->name }}</span>
-                            </div>
-                            <div class="flex justify-between py-1">
+                            </div>                            <div class="flex justify-between py-1">
                                 <span class="text-gray-600">Địa chỉ:</span>
                                 <span class="font-medium">{{ $notification->store->location }}</span>
-                            </div>                            <div class="flex justify-between py-1">
-                                <span class="text-gray-600">Người tạo:</span>
-                                <span class="font-medium">{{ $notification->createdBy->name ?? 'N/A' }}</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">Ngày tạo:</span>
+                                <span class="font-medium">{{ $notification->created_at->format('d/m/Y H:i') }}</span>
                             </div>
                             @if($notification->warehouse)
                                 <div class="flex justify-between py-1">
