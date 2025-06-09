@@ -10,12 +10,12 @@ class StoreSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {        // Clear existing store data
+    {        // Xóa dữ liệu cửa hàng hiện có
         \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Store::truncate();
         \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Create main flagship stores (guaranteed active)
+        // Tạo các cửa hàng chủ lực chính (đảm bảo hoạt động)
         Store::factory()
             ->active()
             ->inCity('TP. Hồ Chí Minh')
@@ -34,7 +34,7 @@ class StoreSeeder extends Seeder
                 'manager' => 'Trần Thị Bình'
             ]);
 
-        // Create regional stores in major cities
+        // Tạo các cửa hàng khu vực tại các thành phố lớn
         $majorCities = [
             'TP. Hồ Chí Minh' => 8,
             'Hà Nội' => 6,
@@ -50,7 +50,7 @@ class StoreSeeder extends Seeder
                 ->create();
         }
 
-        // Create stores in other cities
+        // Tạo cửa hàng tại các thành phố khác
         $otherCities = ['Nha Trang', 'Vũng Tàu', 'Đà Lạt', 'Huế', 'Quy Nhon'];
         foreach ($otherCities as $city) {
             Store::factory()
@@ -59,13 +59,13 @@ class StoreSeeder extends Seeder
                 ->create();
         }
 
-        // Create some inactive stores for testing
+        // Tạo một số cửa hàng ngừng hoạt động để thử nghiệm
         Store::factory()
             ->count(3)
             ->inactive()
             ->create();
 
-        // Create stores with specific types
+        // Tạo cửa hàng với loại hình cụ thể
         Store::factory()
             ->count(2)
             ->type('Showroom')
@@ -78,7 +78,7 @@ class StoreSeeder extends Seeder
             ->active()
             ->create();
 
-        // Display summary
+        // Hiển thị tóm tắt
         $totalStores = Store::count();
         $activeStores = Store::where('status', true)->count();
         $inactiveStores = Store::where('status', false)->count();
@@ -87,7 +87,7 @@ class StoreSeeder extends Seeder
         $this->command->info("- Active: {$activeStores}");
         $this->command->info("- Inactive: {$inactiveStores}");
         
-        // Show stores by city
+        // Hiển thị cửa hàng theo thành phố
         $storesByCity = Store::selectRaw('
             CASE 
                 WHEN location LIKE "%TP. Hồ Chí Minh%" THEN "TP. Hồ Chí Minh"

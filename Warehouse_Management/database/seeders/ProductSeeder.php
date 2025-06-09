@@ -14,10 +14,10 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // First ensure categories exist
+        // Đầu tiên đảm bảo các danh mục tồn tại
         $this->call(CategorySeeder::class);
 
-        // Get categories
+        // Lấy các danh mục
         $electronics = Category::where('name', 'Điện tử')->first();
         $fashion = Category::where('name', 'Thời trang')->first();
         $household = Category::where('name', 'Gia dụng')->first();

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the categories.
+     * Hiển thị danh sách các danh mục.
      */
     public function index()
     {
@@ -18,7 +18,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new category.
+     * Hiển thị form để tạo danh mục mới.
      */
     public function create()
     {
@@ -26,7 +26,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created category in storage.
+     * Lưu danh mục mới được tạo vào storage.
      */
     public function store(Request $request)
     {
@@ -42,7 +42,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified category.
+     * Hiển thị danh mục được chỉ định.
      */
     public function show(Category $category)
     {
@@ -51,7 +51,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified category.
+     * Hiển thị form để chỉnh sửa danh mục được chỉ định.
      */
     public function edit(Category $category)
     {
@@ -59,7 +59,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified category in storage.
+     * Cập nhật danh mục được chỉ định trong storage.
      */
     public function update(Request $request, Category $category)
     {
@@ -75,11 +75,11 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified category from storage.
+     * Xóa danh mục được chỉ định khỏi storage.
      */
     public function destroy(Category $category)
     {
-        // Check if category has products
+        // Kiểm tra xem danh mục có sản phẩm không
         if ($category->products()->exists()) {
             return redirect()->route('categories.index')
                 ->with('error', 'Không thể xóa danh mục vì còn sản phẩm!');

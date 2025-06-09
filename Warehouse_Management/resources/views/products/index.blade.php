@@ -323,9 +323,8 @@
         
         let searchTimeout;
         let allProductRows = [];
-        let allProductMobileCards = [];
-        
-        // Store all product rows and mobile cards
+        let allProductMobileCards = [];        
+        // Lưu trữ tất cả dòng sản phẩm và thẻ di động
         if (tableContainer) {
             allProductRows = Array.from(tableContainer.querySelectorAll('.product-row'));
             allProductMobileCards = Array.from(tableContainer.querySelectorAll('.product-row-mobile'));
@@ -378,8 +377,7 @@
                 const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(term => term.length > 0);
                 let visibleCount = 0;
                 
-                if (searchTerms.length === 0) {
-                    // Show all rows and cards
+                if (searchTerms.length === 0) {                    // Hiển thị tất cả dòng và thẻ
                     allProductRows.forEach(row => {
                         row.style.display = '';
                         visibleCount++;
@@ -392,8 +390,7 @@
                         emptySearchState.style.display = 'none';
                     }
                     tableContainer.style.display = '';
-                } else {
-                    // Filter rows and cards based on search terms
+                } else {                    // Lọc dòng và thẻ dựa trên các từ khóa tìm kiếm
                     allProductRows.forEach(row => {
                         const searchText = row.getAttribute('data-search') || '';
                         const shouldShow = searchTerms.every(term => searchText.includes(term));
@@ -415,9 +412,8 @@
                         } else {
                             card.style.display = 'none';
                         }
-                    });
-                    
-                    // Handle empty state
+                    });                    
+                    // Xử lý trạng thái rỗng
                     if (visibleCount === 0) {
                         if (emptySearchState) {
                             emptySearchState.style.display = '';
@@ -434,36 +430,32 @@
                 updateSearchResults(query, visibleCount, allProductRows.length);
                 hideLoader();
             }, 100);
-        }
-        
-        // Search input event handler with debounce
+        }        
+        // Xử lý sự kiện input tìm kiếm với debounce
         if (searchInput) {
             searchInput.addEventListener('input', function() {
                 const query = this.value;
-                updateClearButton();
-                
-                // Clear previous timeout
+                updateClearButton();                
+                // Xóa timeout trước đó
                 if (searchTimeout) {
                     clearTimeout(searchTimeout);
                 }
                 
-                // Set new timeout for 300ms
+                // Đặt timeout mới cho 300ms
                 searchTimeout = setTimeout(() => {
                     performSearch(query);
                 }, 300);
             });
-        }
-        
-        // Clear search button
+        }        
+        // Nút xóa tìm kiếm
         if (clearSearch) {
             clearSearch.addEventListener('click', function() {
                 searchInput.value = '';
                 updateClearButton();
                 performSearch('');
             });
-        }
-        
-        // Handle search input focus and blur for better UX
+        }        
+        // Xử lý focus và blur của input tìm kiếm để cải thiện UX
         if (searchInput) {
             searchInput.addEventListener('focus', function() {
                 this.parentElement.classList.add('ring-2', 'ring-blue-500', 'border-blue-500');
@@ -472,13 +464,11 @@
             searchInput.addEventListener('blur', function() {
                 this.parentElement.classList.remove('ring-2', 'ring-blue-500', 'border-blue-500');
             });
-        }
-        
-        // Initialize
+        }        
+        // Khởi tạo
         updateClearButton();
-    });
-    
-    // Global function for clearing filters
+    });    
+    // Hàm toàn cục để xóa bộ lọc
     function clearFilters() {
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {

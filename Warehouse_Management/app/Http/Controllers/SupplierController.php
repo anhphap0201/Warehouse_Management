@@ -10,7 +10,7 @@ use Illuminate\View\View;
 class SupplierController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách tài nguyên.
      */
     public function index(): View
     {
@@ -19,7 +19,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form để tạo tài nguyên mới.
      */
     public function create(): View
     {
@@ -27,7 +27,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu tài nguyên mới được tạo vào storage.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -49,7 +49,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Hiển thị tài nguyên được chỉ định.
      */
     public function show(Supplier $supplier): View
     {
@@ -58,7 +58,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form để chỉnh sửa tài nguyên được chỉ định.
      */
     public function edit(Supplier $supplier): View
     {
@@ -66,7 +66,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật tài nguyên được chỉ định trong storage.
      */
     public function update(Request $request, Supplier $supplier): RedirectResponse
     {
@@ -88,11 +88,11 @@ class SupplierController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa tài nguyên được chỉ định khỏi storage.
      */
     public function destroy(Supplier $supplier): RedirectResponse
     {
-        // Kiểm tra xem supplier có purchase orders không
+        // Kiểm tra xem nhà cung cấp có đơn hàng mua không
         if ($supplier->purchaseOrders()->count() > 0) {
             return redirect()->route('suppliers.index')
                 ->with('error', 'Không thể xóa nhà cung cấp có đơn hàng mua.');
@@ -105,7 +105,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Search suppliers (API endpoint)
+     * Tìm kiếm nhà cung cấp (API endpoint)
      */
     public function search(Request $request)
     {

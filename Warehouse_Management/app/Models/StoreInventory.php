@@ -11,12 +11,12 @@ class StoreInventory extends Model
     use HasFactory;
 
     /**
-     * The table associated with the model.
+     * Bảng được liên kết với model.
      */
     protected $table = 'store_inventories';
 
     /**
-     * The attributes that are mass assignable.
+     * Các thuộc tính có thể gán hàng loạt.
      */
     protected $fillable = [
         'store_id',
@@ -27,7 +27,7 @@ class StoreInventory extends Model
     ];
 
     /**
-     * Get the store that owns the inventory.
+     * Lấy cửa hàng sở hữu tồn kho này.
      */
     public function store(): BelongsTo
     {
@@ -35,7 +35,7 @@ class StoreInventory extends Model
     }
 
     /**
-     * Get the product that owns the inventory.
+     * Lấy sản phẩm sở hữu tồn kho này.
      */
     public function product(): BelongsTo
     {
@@ -43,7 +43,7 @@ class StoreInventory extends Model
     }
 
     /**
-     * Check if the stock is low
+     * Kiểm tra xem tồn kho có thấp không
      */
     public function isLowStock(): bool
     {

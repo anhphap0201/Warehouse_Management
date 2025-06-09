@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create a test user
+        // Tạo người dùng thử nghiệm
         User::firstOrCreate(
             ['email' => 'admin@example.com'],
             [

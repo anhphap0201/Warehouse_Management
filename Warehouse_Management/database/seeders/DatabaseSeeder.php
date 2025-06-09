@@ -13,22 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test user
+        // Tạo người dùng thử nghiệm
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        // Seed in correct order to maintain foreign key relationships
+        // Tạo dữ liệu theo thứ tự đúng để duy trì mối quan hệ khóa ngoại
         $this->call([
-            // Basic entities first
+            // Các thực thể cơ bản trước
             WarehouseSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
             StoreSeeder::class,
             SupplierSeeder::class,
             
-            // Then inventory-related data
+            // Sau đó là dữ liệu liên quan đến tồn kho
             InventorySeeder::class,
             StoreInventorySeeder::class,
         ]);

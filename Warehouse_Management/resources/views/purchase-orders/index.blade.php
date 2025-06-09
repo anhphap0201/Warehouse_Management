@@ -319,10 +319,10 @@ let currentFilters = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize search functionality
+    // Khởi tạo chức năng tìm kiếm
     initializeSearch();
     
-    // Close dropdowns when clicking outside
+    // Đóng dropdown khi click bên ngoài
     document.addEventListener('click', function(event) {
         if (!event.target.closest('.relative')) {
             document.querySelectorAll('[id$="_dropdown"]').forEach(dropdown => {
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeSearch() {
-    // Invoice number search
+    // Tìm kiếm theo số hóa đơn
     const invoiceInput = document.getElementById('invoice_search');
     if (invoiceInput) {
         invoiceInput.addEventListener('input', function() {
@@ -341,7 +341,7 @@ function initializeSearch() {
             debounceSearch();
         });
     }
-      // Warehouse search
+      // Tìm kiếm kho hàng
     const warehouseInput = document.getElementById('warehouse_search');
     if (warehouseInput) {
         warehouseInput.addEventListener('input', function() {
@@ -353,7 +353,7 @@ function initializeSearch() {
             }
         });
     }
-      // Supplier search
+      // Tìm kiếm nhà cung cấp
     const supplierInput = document.getElementById('supplier_search');
     if (supplierInput) {
         supplierInput.addEventListener('input', function() {
@@ -366,7 +366,7 @@ function initializeSearch() {
         });
     }
     
-    // Status filter
+    // Lọc theo trạng thái
     const statusSelect = document.getElementById('status_filter');
     if (statusSelect) {
         statusSelect.addEventListener('change', function() {
@@ -409,10 +409,8 @@ async function performSearch() {
         
         const data = await response.json();
         updateTable(data.data);
-        updateSearchSummary(data.total, data.filters);
-        
-    } catch (error) {
-        console.error('Search error:', error);
+        updateSearchSummary(data.total, data.filters);        } catch (error) {
+        console.error('Lỗi tìm kiếm:', error);
         if (tableBody) {
             tableBody.innerHTML = `
                 <tr>
@@ -455,14 +453,13 @@ async function searchWarehouses(query) {
             results.innerHTML = data.map(warehouse => `
                 <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
                      onclick="selectWarehouse('${warehouse.name}')">
-                    <div class="font-medium text-gray-900 dark:text-gray-100">${warehouse.name}</div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">${warehouse.address || 'Không có địa chỉ'}</div>
+                    <div class="font-medium text-gray-900 dark:text-gray-100">${warehouse.name}</div>                    <div class="text-sm text-gray-500 dark:text-gray-400">${warehouse.address || 'Không có địa chỉ'}</div>
                 </div>
             `).join('');
         }
     } catch (error) {
         loading.classList.add('hidden');
-        results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
+        results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm kho hàng</div>';
     }
 }
 
@@ -489,14 +486,13 @@ async function searchSuppliers(query) {
             results.innerHTML = data.map(supplier => `
                 <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
                      onclick="selectSupplier('${supplier.name}')">
-                    <div class="font-medium text-gray-900 dark:text-gray-100">${supplier.name}</div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">${supplier.phone || 'Không có SĐT'}</div>
+                    <div class="font-medium text-gray-900 dark:text-gray-100">${supplier.name}</div>                    <div class="text-sm text-gray-500 dark:text-gray-400">${supplier.phone || 'Không có SĐT'}</div>
                 </div>
             `).join('');
         }
     } catch (error) {
         loading.classList.add('hidden');
-        results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm</div>';
+        results.innerHTML = '<div class="px-4 py-2 text-red-500 text-sm">Lỗi khi tìm kiếm nhà cung cấp</div>';
     }
 }
 
@@ -681,7 +677,7 @@ function updateSearchSummary(total, filters) {
 }
 
 function clearAllFilters() {
-    // Reset all filter values
+    // Đặt lại tất cả giá trị bộ lọc
     currentFilters = {
         invoice_number: '',
         warehouse: '',
@@ -689,7 +685,7 @@ function clearAllFilters() {
         status: ''
     };
     
-    // Clear input fields
+    // Xóa các trường input
     const inputs = ['invoice_search', 'warehouse_search', 'supplier_search', 'status_filter'];
     inputs.forEach(id => {
         const element = document.getElementById(id);

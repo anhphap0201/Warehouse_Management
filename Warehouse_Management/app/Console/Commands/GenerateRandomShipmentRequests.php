@@ -60,7 +60,7 @@ class GenerateRandomShipmentRequests extends Command
             $minQuantity = max(1, (int) $this->option('min-quantity'));
             $maxQuantity = max($minQuantity, (int) $this->option('max-quantity'));
 
-            // Get target stores
+            // Lấy các cửa hàng mục tiêu
             $stores = $this->getTargetStores($storeIds, $percentage);
             
             if ($stores->isEmpty()) {
@@ -98,7 +98,7 @@ class GenerateRandomShipmentRequests extends Command
 
             $this->info("🎉 Hoàn thành! Đã tạo {$totalRequests} yêu cầu gửi hàng từ {$successCount} cửa hàng");
 
-            // Log the activity
+            // Ghi log hoạt động
             Log::info('Random shipment requests generated', [
                 'stores_processed' => $selectedStores->count(),
                 'requests_created' => $totalRequests,
@@ -144,13 +144,13 @@ class GenerateRandomShipmentRequests extends Command
     private function generateShipmentRequestForStore($store, $minProducts, $maxProducts, $minQuantity, $maxQuantity)
     {
         try {
-            // Get available products (those that exist in the system)
+            // Lấy các sản phẩm có sẵn (những sản phẩm tồn tại trong hệ thống)
             $availableProducts = Product::whereHas('storeInventories', function($query) use ($store) {
                 $query->where('store_id', $store->id);
             })->get();
 
             if ($availableProducts->isEmpty()) {
-                // If no store inventory, get any products
+                // Nếu không có tồn kho cửa hàng, lấy bất kỳ sản phẩm nào
                 $availableProducts = Product::take(10)->get();
             }
 
@@ -158,16 +158,16 @@ class GenerateRandomShipmentRequests extends Command
                 return null;
             }
 
-            // Determine number of products to request
+            // Xác định số lượng sản phẩm cần yêu cầu
             $productCount = rand($minProducts, min($maxProducts, $availableProducts->count()));
             $selectedProducts = $availableProducts->random($productCount);
 
-            // Build request data
+            // Xây dựng dữ liệu yêu cầu
             $products = [];
             $totalValue = 0;            foreach ($selectedProducts as $product) {
                 $quantity = rand($minQuantity, $maxQuantity);
-                // Use a random price since products don't have fixed prices
-                $unitPrice = rand(50000, 2000000); // Random price between 50k and 2M VND
+                // Sử dụng giá ngẫu nhiên vì sản phẩm không có giá cố định
+                $unitPrice = rand(50000, 2000000); // Giá ngẫu nhiên từ 50k đến 2M VND
                 $products[] = [
                     'product_id' => $product->id,
                     'product_name' => $product->name,
@@ -179,11 +179,11 @@ class GenerateRandomShipmentRequests extends Command
                 $totalValue += $unitPrice * $quantity;
             }
 
-            // Select random reason
+            // Chọn lý do ngẫu nhiên
             $reason = $this->shipmentReasons[array_rand($this->shipmentReasons)];
 
-            // Get the main warehouse (or first available)
-            $warehouse = Warehouse::first();            // Create notification
+            // Lấy kho chính (hoặc kho đầu tiên có sẵn)
+            $warehouse = Warehouse::first();            // Tạo thông báo
             $notification = Notification::create([
                 'store_id' => $store->id,
                 'title' => "Yêu cầu gửi hàng tự động từ {$store->name}",

@@ -12,17 +12,14 @@ use App\Models\Notification;
 use App\Models\Warehouse;
 
 class AutoGenerationController extends Controller
-{
-    /**
-     * Show the auto-generation dashboard
+{    /**
+     * Hiển thị bảng điều khiển tự động tạo
      */
     public function index()
     {
         return view('admin.auto-generation.index');
-    }
-
-    /**
-     * Create test return orders
+    }    /**
+     * Tạo đơn trả hàng thử nghiệm
      */
     public function createTestReturnOrders(Request $request)
     {
@@ -30,28 +27,25 @@ class AutoGenerationController extends Controller
             'count' => 'required|integer|min:1|max:10'
         ]);
 
-        try {
-            $count = $request->count;
+        try {            $count = $request->count;
             $createdOrders = 0;
             
-            // Get random stores
+            // Lấy các cửa hàng ngẫu nhiên
             $stores = Store::where('status', true)->inRandomOrder()->limit($count)->get();
             
             if ($stores->isEmpty()) {
                 return redirect()->back()->with('error', 'Không có cửa hàng nào để tạo đơn thử nghiệm.');
             }
 
-            // Get available products
+            // Lấy các sản phẩm có sẵn
             $products = Product::all();
             
             if ($products->count() < 3) {
                 return redirect()->back()->with('error', 'Cần ít nhất 3 sản phẩm để tạo đơn thử nghiệm.');
             }
 
-            DB::beginTransaction();
-
-            foreach ($stores as $store) {
-                // Add random products (1-3 products per order)
+            DB::beginTransaction();            foreach ($stores as $store) {
+                // Thêm các sản phẩm ngẫu nhiên (1-3 sản phẩm mỗi đơn)
                 $numProducts = rand(1, 3);
                 $selectedProducts = $products->random($numProducts);
 
@@ -64,8 +58,7 @@ class AutoGenerationController extends Controller
                         'quantity' => rand(1, 10),
                         'reason' => 'Thử nghiệm',
                         'notes' => 'Sản phẩm thử nghiệm'
-                    ];
-                }                // Create return request notification
+                    ];                }                // Tạo thông báo yêu cầu trả hàng
                 Notification::create([
                     'store_id' => $store->id,
                     'type' => 'return_request',
@@ -98,10 +91,8 @@ class AutoGenerationController extends Controller
 
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Create test shipment orders
+    }    /**
+     * Tạo đơn gửi hàng thử nghiệm
      */
     public function createTestShipmentOrders(Request $request)
     {
@@ -112,33 +103,29 @@ class AutoGenerationController extends Controller
         try {
             $count = $request->count;
             $createdOrders = 0;
-            
-            // Get random stores
+              // Lấy cửa hàng ngẫu nhiên
             $stores = Store::where('status', true)->inRandomOrder()->limit($count)->get();
             
             if ($stores->isEmpty()) {
                 return redirect()->back()->with('error', 'Không có cửa hàng nào để tạo đơn thử nghiệm.');
             }
 
-            // Get available products
+            // Lấy sản phẩm có sẵn
             $products = Product::all();
             
             if ($products->count() < 5) {
                 return redirect()->back()->with('error', 'Cần ít nhất 5 sản phẩm để tạo đơn thử nghiệm.');
             }
 
-            DB::beginTransaction();
-
-            foreach ($stores as $store) {
-                // Add random products (1-5 products per order)
+            DB::beginTransaction();            foreach ($stores as $store) {
+                // Thêm các sản phẩm ngẫu nhiên (1-5 sản phẩm mỗi đơn)
                 $numProducts = rand(1, 5);
                 $selectedProducts = $products->random($numProducts);
 
                 $productsData = [];
                 $totalValue = 0;
                 foreach ($selectedProducts as $product) {
-                    $quantity = rand(5, 50);
-                    $unitPrice = $product->price ?? rand(50000, 2000000); // Use product price or random if not set
+                    $quantity = rand(5, 50);                    $unitPrice = $product->price ?? rand(50000, 2000000); // Sử dụng giá sản phẩm hoặc ngẫu nhiên nếu không được đặt
                     $totalPrice = $unitPrice * $quantity;
                     
                     $productsData[] = [
@@ -152,10 +139,8 @@ class AutoGenerationController extends Controller
                     ];
                     
                     $totalValue += $totalPrice;
-                }
-
-                // Get warehouse for assignment
-                $warehouse = Warehouse::first();                // Create shipment request notification
+                }                // Lấy kho để chỉ định
+                $warehouse = Warehouse::first();                // Tạo thông báo yêu cầu gửi hàng
                 Notification::create([
                     'store_id' => $store->id,
                     'warehouse_id' => $warehouse ? $warehouse->id : null,

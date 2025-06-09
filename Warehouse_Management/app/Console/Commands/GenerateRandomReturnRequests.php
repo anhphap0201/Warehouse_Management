@@ -62,13 +62,13 @@ class GenerateRandomReturnRequests extends Command
         $requestsGenerated = 0;
         $totalStores = $stores->count();
 
-        // Calculate how many stores should generate requests
+        // Tính toán có bao nhiêu cửa hàng nên tạo yêu cầu
         $percentage = (int) $this->option('percentage');
         $storesToProcess = max(1, (int) round(($percentage / 100) * $totalStores));
 
         $this->info("🎯 Sẽ tạo yêu cầu cho {$storesToProcess} cửa hàng ({$percentage}%)");
 
-        // Randomly select stores
+        // Chọn ngẫu nhiên các cửa hàng
         $selectedStores = $stores->random($storesToProcess);
 
         foreach ($selectedStores as $store) {
@@ -139,7 +139,7 @@ class GenerateRandomReturnRequests extends Command
         $maxProducts = min((int) $this->option('max-products'), $availableInventory->count());
         $numProducts = rand($minProducts, $maxProducts);
 
-        // Randomly select products to return
+        // Chọn ngẫu nhiên các sản phẩm để trả
         $selectedInventory = $availableInventory->random($numProducts);
         
         $products = [];
@@ -150,7 +150,7 @@ class GenerateRandomReturnRequests extends Command
             $maxQty = min((int) $this->option('max-quantity'), $inventory->quantity);
             
             if ($maxQty < $minQty) {
-                continue; // Skip if not enough quantity
+                continue; // Bỏ qua nếu không đủ số lượng
             }
             
             $quantity = rand($minQty, $maxQty);
@@ -172,12 +172,12 @@ class GenerateRandomReturnRequests extends Command
             return null;
         }
 
-        // Generate title and message
+        // Tạo tiêu đề và thông báo
         $title = "Yêu cầu trả hàng tự động từ {$store->name}";
         $message = "Cửa hàng {$store->name} yêu cầu trả {$totalItems} sản phẩm về kho. " .
                   "Đây là yêu cầu được tạo tự động dựa trên điều kiện kinh doanh của cửa hàng.";
 
-        // Create notification
+        // Tạo thông báo
         $notification = Notification::create([
             'store_id' => $store->id,
             'type' => 'return_request',
@@ -195,7 +195,7 @@ class GenerateRandomReturnRequests extends Command
             'status' => 'pending'
         ]);
 
-        // Log the generation
+        // Ghi log việc tạo
         Log::info('Auto-generated return request', [
             'notification_id' => $notification->id,
             'store_id' => $store->id,

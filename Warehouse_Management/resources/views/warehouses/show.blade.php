@@ -272,7 +272,7 @@
         let allInventoryRows = [];
         let filteredRows = [];
         
-        // Store original inventory data
+        // Lưu trữ dữ liệu tồn kho gốc
         if (inventoryTable) {
             allInventoryRows = Array.from(inventoryTable.querySelectorAll('tr')).map(row => {
                 const productName = row.querySelector('td:nth-child(1) .text-sm.font-medium')?.textContent?.toLowerCase() || '';
@@ -339,7 +339,7 @@
         function performSearch(query) {
             showLoader();
             
-            // Simulate async search with setTimeout
+            // Mô phỏng tìm kiếm async với setTimeout
             setTimeout(() => {
                 if (!inventoryTable) {
                     hideLoader();
@@ -349,7 +349,7 @@
                 const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(term => term.length > 0);
                 
                 if (searchTerms.length === 0) {
-                    // Show all rows
+                    // Hiển thị tất cả dòng
                     filteredRows = [...allInventoryRows];
                     allInventoryRows.forEach(row => {
                         row.element.style.display = '';
@@ -360,18 +360,18 @@
                     }
                     inventoryTable.parentElement.parentElement.style.display = '';
                 } else {
-                    // Filter rows based on search terms
+                    // Lọc dòng dựa trên các từ khóa tìm kiếm
                     filteredRows = allInventoryRows.filter(row => {
                         return searchTerms.every(term => row.searchText.includes(term));
                     });
                     
-                    // Show/hide rows
+                    // Hiển thị/ẩn dòng
                     allInventoryRows.forEach(row => {
                         const shouldShow = filteredRows.includes(row);
                         row.element.style.display = shouldShow ? '' : 'none';
                     });
                     
-                    // Handle empty state
+                    // Xử lý trạng thái rỗng
                     if (filteredRows.length === 0) {
                         if (emptyState) {
                             emptyState.style.display = '';
@@ -395,30 +395,30 @@
             }, 100);
         }
         
-        // Search input event handler with debounce
+        // Xử lý sự kiện input tìm kiếm với debounce
         searchInput.addEventListener('input', function() {
             const query = this.value;
             updateClearButton();
             
-            // Clear previous timeout
+            // Xóa timeout trước đó
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
             }
             
-            // Set new timeout for 300ms
+            // Đặt timeout mới cho 300ms
             searchTimeout = setTimeout(() => {
                 performSearch(query);
             }, 300);
         });
         
-        // Clear search button
+        // Nút xóa tìm kiếm
         clearSearch.addEventListener('click', function() {
             searchInput.value = '';
             updateClearButton();
             performSearch('');
         });
         
-        // Handle search input focus and blur for better UX
+        // Xử lý focus và blur của input tìm kiếm để cải thiện UX
         searchInput.addEventListener('focus', function() {
             this.parentElement.classList.add('ring-2', 'ring-blue-500', 'border-blue-500');
         });
@@ -427,7 +427,7 @@
             this.parentElement.classList.remove('ring-2', 'ring-blue-500', 'border-blue-500');
         });
         
-        // Initialize
+        // Khởi tạo
         updateClearButton();
     });
     </script>

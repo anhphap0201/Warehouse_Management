@@ -15,10 +15,10 @@ class InventorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing inventory data
+        // Xóa dữ liệu tồn kho hiện có
         Inventory::truncate();
 
-        // Get all products and warehouses
+        // Lấy tất cả sản phẩm và kho hàng
         $products = Product::all();
         $warehouses = Warehouse::all();
 
@@ -27,15 +27,15 @@ class InventorySeeder extends Seeder
             return;
         }
 
-        // Create inventory records
+        // Tạo các bản ghi tồn kho
         $inventoryData = [];
 
         foreach ($warehouses as $warehouse) {
-            // Each warehouse will have a random selection of products
+            // Mỗi kho hàng sẽ có lựa chọn sản phẩm ngẫu nhiên
             $warehouseProducts = $products->random(rand(5, min(15, $products->count())));
             
             foreach ($warehouseProducts as $product) {
-                // Random quantity between 10 and 1000
+                // Số lượng ngẫu nhiên từ 10 đến 1000
                 $quantity = rand(10, 1000);
                 
                 $inventoryData[] = [
@@ -48,7 +48,7 @@ class InventorySeeder extends Seeder
             }
         }
 
-        // Insert inventory data in chunks for better performance
+        // Chèn dữ liệu tồn kho theo từng phần để cải thiện hiệu suất
         $chunks = array_chunk($inventoryData, 100);
         foreach ($chunks as $chunk) {
             Inventory::insert($chunk);
@@ -57,7 +57,7 @@ class InventorySeeder extends Seeder
         $totalInventory = Inventory::count();
         $this->command->info("Created {$totalInventory} inventory records");
         
-        // Show inventory by warehouse
+        // Hiển thị tồn kho theo kho hàng
         foreach ($warehouses as $warehouse) {
             $warehouseInventoryCount = $warehouse->inventory->count();
             $totalQuantity = $warehouse->inventory->sum('quantity');

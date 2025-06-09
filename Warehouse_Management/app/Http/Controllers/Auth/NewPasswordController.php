@@ -36,9 +36,9 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
+        // Ở đây chúng ta sẽ thử đặt lại mật khẩu của người dùng. Nếu thành công
+        // chúng ta sẽ cập nhật mật khẩu trên model người dùng thực tế và lưu vào
+        // cơ sở dữ liệu. Nếu không, chúng ta sẽ phân tích lỗi và trả về phản hồi.
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user) use ($request) {
@@ -51,9 +51,9 @@ class NewPasswordController extends Controller
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
+        // Nếu mật khẩu được đặt lại thành công, chúng ta sẽ chuyển hướng người dùng về
+        // trang chủ đã xác thực của ứng dụng. Nếu có lỗi, chúng ta có thể
+        // chuyển hướng họ trở lại nơi họ đến với thông báo lỗi.
         return $status == Password::PASSWORD_RESET
                     ? redirect()->route('login')->with('status', __($status))
                     : back()->withInput($request->only('email'))

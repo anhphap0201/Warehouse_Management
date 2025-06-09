@@ -310,7 +310,7 @@ function closeRejectionModal() {
     document.getElementById('rejectionModal').classList.add('hidden');
 }
 
-// Close modals when clicking outside
+// Đóng modal khi click bên ngoài
 window.onclick = function(event) {
     const approvalModal = document.getElementById('approvalModal');
     const rejectionModal = document.getElementById('rejectionModal');

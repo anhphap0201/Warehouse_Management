@@ -179,7 +179,7 @@
         let searchTimeout;
         let allWarehouseCards = [];
         
-        // Store all warehouse cards
+        // Lưu trữ tất cả thẻ kho hàng
         if (warehousesGrid) {
             allWarehouseCards = Array.from(warehousesGrid.querySelectorAll('.warehouse-card'));
         }
@@ -232,7 +232,7 @@
                 let visibleCount = 0;
                 
                 if (searchTerms.length === 0) {
-                    // Show all cards
+                    // Hiển thị tất cả thẻ
                     allWarehouseCards.forEach(card => {
                         card.style.display = '';
                         visibleCount++;
@@ -243,7 +243,7 @@
                     }
                     warehousesGrid.style.display = '';
                 } else {
-                    // Filter cards based on search terms
+                    // Lọc thẻ dựa trên các từ khóa tìm kiếm
                     allWarehouseCards.forEach(card => {
                         const searchText = card.getAttribute('data-search') || '';
                         const shouldShow = searchTerms.every(term => searchText.includes(term));
@@ -256,7 +256,7 @@
                         }
                     });
                     
-                    // Handle empty state
+                    // Xử lý trạng thái rỗng
                     if (visibleCount === 0) {
                         if (emptySearchState) {
                             emptySearchState.style.display = '';
@@ -275,25 +275,25 @@
             }, 100);
         }
         
-        // Search input event handler with debounce
+        // Xử lý sự kiện input tìm kiếm với debounce
         if (searchInput) {
             searchInput.addEventListener('input', function() {
                 const query = this.value;
                 updateClearButton();
                 
-                // Clear previous timeout
+                // Xóa timeout trước đó
                 if (searchTimeout) {
                     clearTimeout(searchTimeout);
                 }
                 
-                // Set new timeout for 300ms
+                // Đặt timeout mới cho 300ms
                 searchTimeout = setTimeout(() => {
                     performSearch(query);
                 }, 300);
             });
         }
         
-        // Clear search button
+        // Nút xóa tìm kiếm
         if (clearSearch) {
             clearSearch.addEventListener('click', function() {
                 searchInput.value = '';
@@ -302,7 +302,7 @@
             });
         }
         
-        // Handle search input focus and blur for better UX
+        // Xử lý focus và blur của input tìm kiếm để cải thiện UX
         if (searchInput) {
             searchInput.addEventListener('focus', function() {
                 this.parentElement.classList.add('ring-2', 'ring-blue-500', 'border-blue-500');
@@ -313,7 +313,7 @@
             });
         }
         
-        // Initialize
+        // Khởi tạo
         updateClearButton();
     });
     </script>

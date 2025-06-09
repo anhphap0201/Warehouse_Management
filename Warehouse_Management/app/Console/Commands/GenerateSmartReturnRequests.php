@@ -104,7 +104,7 @@ class GenerateSmartReturnRequests extends Command
             $product = $inventory->product;
             $issues_for_product = [];
 
-            // Check if overstocked
+            // Kiểm tra xem có tồn kho quá mức không
             if ($inventory->isOverstocked()) {
                 $overstockAmount = $inventory->quantity - $inventory->max_stock;
                 $issues_for_product[] = "Tồn kho vượt mức cho phép (+{$overstockAmount})";
@@ -118,7 +118,7 @@ class GenerateSmartReturnRequests extends Command
                 ];
             }
 
-            // Check if near expiry (simulated - you might have actual expiry dates)
+            // Kiểm tra xem có sắp hết hạn không (mô phỏng - bạn có thể có ngày hết hạn thực tế)
             if ($this->isNearExpiry($inventory)) {
                 $issues_for_product[] = "Sản phẩm sắp hết hạn";
                 
@@ -131,7 +131,7 @@ class GenerateSmartReturnRequests extends Command
                 ];
             }
 
-            // Check if slow moving (simulated based on quantity vs max stock ratio)
+            // Kiểm tra xem có bán chậm không (mô phỏng dựa trên tỷ lệ số lượng với tồn kho tối đa)
             if ($this->isSlowMoving($inventory)) {
                 $issues_for_product[] = "Sản phẩm bán chậm";
                 
@@ -160,8 +160,8 @@ class GenerateSmartReturnRequests extends Command
      */
     private function isNearExpiry($inventory)
     {
-        // Simulated: assume products that have been in stock for over 90 days are near expiry
-        // In real implementation, you would check actual expiry dates
+        // Mô phỏng: giả sử các sản phẩm đã tồn kho hơn 90 ngày là sắp hết hạn
+        // Trong triển khai thực tế, bạn sẽ kiểm tra ngày hết hạn thực tế
         return $inventory->updated_at < now()->subDays(90) && $inventory->quantity > $inventory->min_stock;
     }
 
@@ -170,7 +170,7 @@ class GenerateSmartReturnRequests extends Command
      */
     private function isSlowMoving($inventory)
     {
-        // Simulated: if quantity is close to max_stock, it might be slow moving
+        // Mô phỏng: nếu số lượng gần với max_stock thì có thể bán chậm
         $threshold = $this->option('low-turnover-threshold');
         $stockRatio = $inventory->quantity / max($inventory->max_stock, 1);
         
@@ -188,7 +188,7 @@ class GenerateSmartReturnRequests extends Command
             return null;
         }
 
-        // Sort by severity
+        // Sắp xếp theo mức độ nghiêm trọng
         usort($problematicProducts, function ($a, $b) {
             $severityOrder = ['urgent' => 3, 'high' => 2, 'medium' => 1, 'low' => 0];
             return ($severityOrder[$b['severity']] ?? 0) - ($severityOrder[$a['severity']] ?? 0);
@@ -222,7 +222,7 @@ class GenerateSmartReturnRequests extends Command
 
             $totalItems += $item['return_quantity'];
 
-            // Determine overall priority
+            // Xác định mức độ ưu tiên tổng thể
             if ($item['severity'] === 'urgent') {
                 $highestSeverity = 'urgent';
             } elseif ($item['severity'] === 'high' && $highestSeverity !== 'urgent') {
@@ -234,7 +234,7 @@ class GenerateSmartReturnRequests extends Command
             return null;
         }
 
-        // Generate title and message
+        // Tạo tiêu đề và thông báo
         $urgentCount = count(array_filter($products, fn($p) => $p['severity'] === 'urgent'));
         $titlePrefix = $urgentCount > 0 ? "🚨 KHẨN CẤP" : "📋 Tối ưu hóa";
         
@@ -248,7 +248,7 @@ class GenerateSmartReturnRequests extends Command
         
         $message .= "Việc thực hiện yêu cầu này sẽ giúp tối ưu hóa tồn kho và giảm rủi ro kinh doanh.";
 
-        // Create notification
+        // Tạo thông báo
         $notification = Notification::create([
             'store_id' => $store->id,
             'type' => 'return_request',
@@ -272,7 +272,7 @@ class GenerateSmartReturnRequests extends Command
             'status' => 'pending'
         ]);
 
-        // Log the generation
+        // Ghi log việc tạo
         Log::info('Smart return request generated', [
             'notification_id' => $notification->id,
             'store_id' => $store->id,
