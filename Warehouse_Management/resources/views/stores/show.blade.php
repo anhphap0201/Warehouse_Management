@@ -210,8 +210,7 @@
         let searchTimeout;
         let allInventoryRows = [];
         let filteredRows = [];
-        
-        // Store original inventory data only if we have a search input
+          // Lưu trữ dữ liệu tồn kho gốc chỉ khi chúng ta có input tìm kiếm
         if (searchInput && inventoryTable) {
             allInventoryRows = Array.from(inventoryTable.querySelectorAll('.inventory-row')).map(row => {
                 const productName = row.dataset.productName || '';
@@ -264,20 +263,19 @@
             if (!searchInput || !inventoryTable) return;
             
             showLoader();
-            
-            // Simulate async search with setTimeout
+              // Mô phỏng tìm kiếm async với setTimeout
             setTimeout(() => {
                 const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(term => term.length > 0);
                 
                 if (searchTerms.length === 0) {
-                    // Show all rows
+                    // Hiển thị tất cả dòng
                     filteredRows = [...allInventoryRows];
                     allInventoryRows.forEach(row => {
                         row.element.style.display = '';
                     });
                     
                     if (emptyState && emptyState.style.display !== 'none') {
-                        // Reset empty state to original if it was modified by search
+                        // Đặt lại trạng thái rỗng về ban đầu nếu đã được sửa đổi bởi tìm kiếm
                         const title = emptyState.querySelector('h3');
                         if (title && title.textContent.includes('Không tìm thấy')) {
                             emptyState.style.display = 'none';
@@ -285,18 +283,18 @@
                         }
                     }
                 } else {
-                    // Filter rows based on search terms
+                    // Lọc dòng dựa trên các từ khóa tìm kiếm
                     filteredRows = allInventoryRows.filter(row => {
                         return searchTerms.every(term => row.searchText.includes(term));
                     });
                     
-                    // Show/hide rows
+                    // Hiển thị/ẩn dòng
                     allInventoryRows.forEach(row => {
                         const shouldShow = filteredRows.includes(row);
                         row.element.style.display = shouldShow ? '' : 'none';
                     });
                     
-                    // Handle empty state
+                    // Xử lý trạng thái rỗng
                     if (filteredRows.length === 0) {
                         if (emptyState) {
                             emptyState.style.display = '';
@@ -322,8 +320,7 @@
                 hideLoader();
             }, 300);
         }
-        
-        // Search input event handler with debounce
+          // Xử lý sự kiện input tìm kiếm với debounce
         if (searchInput) {
             searchInput.addEventListener('input', function() {
                 const query = this.value;
@@ -336,7 +333,7 @@
             });
         }
         
-        // Clear search button
+        // Nút xóa tìm kiếm
         if (clearSearch) {
             clearSearch.addEventListener('click', function() {
                 if (searchInput) {
@@ -344,10 +341,9 @@
                     updateClearButton();
                     performSearch('');
                 }
-            });
-        }
+            });        }
         
-        // Initialize
+        // Khởi tạo
         updateClearButton();
     });
     </script>

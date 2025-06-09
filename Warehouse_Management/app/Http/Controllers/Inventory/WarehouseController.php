@@ -8,24 +8,20 @@ use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {    /**
-     * Display a listing of the warehouses.
+     * Hiển thị danh sách các kho hàng.
      */
     public function index()
     {
         $warehouses = Warehouse::latest()->paginate(15);
         return view('warehouses.index', compact('warehouses'));
-    }
-
-    /**
-     * Show the form for creating a new warehouse.
+    }    /**
+     * Hiển thị form để tạo kho hàng mới.
      */
     public function create()
     {
         return view('warehouses.create');
-    }
-
-    /**
-     * Store a newly created warehouse in storage.
+    }    /**
+     * Lưu kho hàng mới được tạo vào storage.
      */
     public function store(Request $request)
     {
@@ -37,21 +33,19 @@ class WarehouseController extends Controller
         Warehouse::create($request->all());
 
         return redirect()->route('warehouses.index')
-            ->with('success', 'Kho hàng đã được tạo thành công!');
-    }    /**
-     * Display the specified warehouse.
-     */
-    public function show(Request $request, Warehouse $warehouse)
+            ->with('success', 'Kho hàng đã được tạo thành công!');    }    /**
+     * Hiển thị kho hàng được chỉ định.
+     */    public function show(Request $request, Warehouse $warehouse)
     {
-        // Load inventory with product and category relationships
+        // Tải tồn kho với các mối quan hệ sản phẩm và danh mục
         $warehouse->load(['inventory.product.category']);
         
-        // Get all categories that have products in this warehouse
+        // Lấy tất cả danh mục có sản phẩm trong kho này
         $categories = \App\Models\Category::whereHas('products.inventory', function($query) use ($warehouse) {
             $query->where('warehouse_id', $warehouse->id);
         })->get();
         
-        // Filter inventory by category if requested
+        // Lọc tồn kho theo danh mục nếu được yêu cầu
         $categoryFilter = $request->get('category_id');
         $filteredInventory = $warehouse->inventory;
         
@@ -62,18 +56,14 @@ class WarehouseController extends Controller
         }
         
         return view('warehouses.show', compact('warehouse', 'categories', 'filteredInventory', 'categoryFilter'));
-    }
-
-    /**
-     * Show the form for editing the specified warehouse.
+    }    /**
+     * Hiển thị form để chỉnh sửa kho hàng được chỉ định.
      */
     public function edit(Warehouse $warehouse)
     {
         return view('warehouses.edit', compact('warehouse'));
-    }
-
-    /**
-     * Update the specified warehouse in storage.
+    }    /**
+     * Cập nhật kho hàng được chỉ định trong storage.
      */
     public function update(Request $request, Warehouse $warehouse)
     {
@@ -86,10 +76,8 @@ class WarehouseController extends Controller
 
         return redirect()->route('warehouses.index')
             ->with('success', 'Kho hàng đã được cập nhật thành công!');
-    }
-
-    /**
-     * Remove the specified warehouse from storage.
+    }    /**
+     * Xóa kho hàng được chỉ định khỏi storage.
      */
     public function destroy(Warehouse $warehouse)
     {
@@ -97,10 +85,8 @@ class WarehouseController extends Controller
 
         return redirect()->route('warehouses.index')
             ->with('success', 'Kho hàng đã được xóa thành công!');
-    }
-
-    /**
-     * Get warehouse details for API calls
+    }    /**
+     * Lấy thông tin chi tiết kho hàng cho các lời gọi API
      */
     public function getWarehouse(Warehouse $warehouse)
     {

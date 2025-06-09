@@ -350,7 +350,8 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Mark all as read functionality    document.getElementById('markAllRead').addEventListener('click', function() {
+    // Chức năng đánh dấu tất cả đã đọc
+    document.getElementById('markAllRead').addEventListener('click', function() {
         if (confirm('Bạn có chắc chắn muốn đánh dấu tất cả thông báo là đã đọc?')) {
             fetch('{{ route("api.notifications.mark-all-read") }}', {
                 method: 'POST',
@@ -367,8 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alertDiv.className = 'fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md z-50';
                     alertDiv.innerHTML = '<div class="flex items-center"><i class="fas fa-check-circle mr-2"></i><span>Đã đánh dấu tất cả thông báo là đã đọc!</span></div>';
                     document.body.appendChild(alertDiv);
-                    
-                    // Đóng thông báo sau 3 giây
+                      // Đóng thông báo sau 1.5 giây
                     setTimeout(() => {
                         alertDiv.remove();
                         location.reload();
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Modal functions
+// Chức năng modal
 function openApprovalModal(notificationId) {
     const modal = document.getElementById('approvalModal');
     const form = document.getElementById('approvalForm');
@@ -393,7 +393,7 @@ function openApprovalModal(notificationId) {
 function closeApprovalModal() {
     const modal = document.getElementById('approvalModal');
     modal.classList.add('hidden');
-    // Reset form
+    // Đặt lại form
     document.getElementById('approvalForm').reset();
 }
 
@@ -407,7 +407,7 @@ function openRejectionModal(notificationId) {
 function closeRejectionModal() {
     const modal = document.getElementById('rejectionModal');
     modal.classList.add('hidden');
-    // Reset form
+    // Đặt lại form
     document.getElementById('rejectionForm').reset();
 }
 </script>

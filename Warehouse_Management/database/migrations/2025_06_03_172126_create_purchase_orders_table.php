@@ -14,14 +14,28 @@ return new class extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
-            $table->string('supplier_name');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('supplier_name'); // Giữ lại để tương thích ngược
             $table->string('supplier_phone')->nullable();
             $table->text('supplier_address')->nullable();
             $table->string('invoice_number')->unique();
             $table->decimal('total_amount', 15, 2)->default(0);
-            $table->enum('status', ['pending', 'confirmed', 'completed'])->default('pending');
+            $table->decimal('discount_amount', 15, 2)->default(0);
+            $table->decimal('tax_amount', 15, 2)->default(0);
+            $table->decimal('shipping_cost', 15, 2)->default(0);
+            $table->decimal('final_amount', 15, 2)->default(0); // Tổng cuối cùng sau giảm giá và thuế
+            $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
+            $table->enum('payment_status', ['unpaid', 'partial', 'paid'])->default('unpaid');
+            $table->timestamp('expected_delivery_date')->nullable();
+            $table->timestamp('received_at')->nullable();
             $table->text('notes')->nullable();
+            $table->text('internal_notes')->nullable(); // Ghi chú nội bộ
             $table->timestamps();
+            
+            // Index cho performance
+            $table->index(['warehouse_id', 'status']);
+            $table->index(['supplier_id', 'status']);
+            $table->index(['status', 'created_at']);
         });
     }
 

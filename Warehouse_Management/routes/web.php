@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-// Existing controllers only
+// Chỉ sử dụng các controller hiện có
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Inventory\WarehouseController;
@@ -10,11 +10,11 @@ use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\NotificationController;
-// Auth controllers
+// Controllers xác thực
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
-// Landing Page
+// Trang chủ
 Route::get('/', function () {
     return view('welcome');
 });
@@ -25,9 +25,9 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('warehouses', 'stores'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Xác thực - Simplified
+// Xác thực - Đơn giản hóa
 Route::middleware('guest')->group(function () {
-    // Basic auth will be handled by auth.php
+    // Xác thực cơ bản sẽ được xử lý bởi auth.php
 });
 
 // Yêu cầu đăng nhập
@@ -88,13 +88,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
     Route::delete('/purchase-orders/{purchaseOrder}', [PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
     
-    // Store inventory and stock operations
+    // Hoạt động tồn kho và vận hành kho của cửa hàng
     Route::get('/stores/{store}/receive', [StoreController::class, 'showReceiveForm'])->name('stores.receive.form');
     Route::post('/stores/{store}/receive', [StoreController::class, 'receiveStock'])->name('stores.receive');
     Route::get('/stores/{store}/return', [StoreController::class, 'showReturnForm'])->name('stores.return.form');
     Route::post('/stores/{store}/return', [StoreController::class, 'returnStock'])->name('stores.return');
     
-    // Notification system routes
+    // Các route của hệ thống thông báo
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
     Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
@@ -103,23 +103,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/{notification}/approve', [NotificationController::class, 'approve'])->name('notifications.approve');
     Route::post('/notifications/{notification}/reject', [NotificationController::class, 'reject'])->name('notifications.reject');
     
-    // API routes for notifications
+    // Các route API cho thông báo
     Route::get('/api/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('api.notifications.unread-count');
     Route::post('/api/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.mark-all-read');
     Route::get('/api/warehouses', [NotificationController::class, 'getWarehouses'])->name('api.warehouses.list');
     
-    // API routes for real-time search
+    // Các route API cho tìm kiếm thời gian thực
     Route::get('/api/products/search', [PurchaseOrderController::class, 'searchProducts'])->name('api.products.search');
     Route::get('/api/products/{id}', [ProductController::class, 'getProduct'])->name('api.products.get');
     Route::get('/api/warehouses/search', [PurchaseOrderController::class, 'searchWarehouses'])->name('api.warehouses.search'); 
     Route::get('/api/warehouses/{warehouse}', [WarehouseController::class, 'getWarehouse'])->name('api.warehouses.get');
     Route::get('/api/suppliers/search', [SupplierController::class, 'search'])->name('api.suppliers.search');
     
-    // Auto-generation routes
+    // Các route tự động tạo
     Route::prefix('admin/auto-generation')->name('admin.auto-generation.')->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\AutoGenerationController::class, 'index'])->name('index');
         
-        // Test order creation (simplified)
+        // Tạo đơn hàng thử nghiệm (đơn giản hóa)
         Route::post('/test-return', [App\Http\Controllers\Admin\AutoGenerationController::class, 'createTestReturnOrders'])->name('test-return');
         Route::post('/test-shipment', [App\Http\Controllers\Admin\AutoGenerationController::class, 'createTestShipmentOrders'])->name('test-shipment');
     });

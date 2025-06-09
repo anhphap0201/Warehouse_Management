@@ -15,12 +15,12 @@ class StoreInventorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing store inventory data
+        // Xóa dữ liệu tồn kho cửa hàng hiện có
         StoreInventory::truncate();
 
-        // Get all products and stores
+        // Lấy tất cả sản phẩm và cửa hàng
         $products = Product::all();
-        $stores = Store::where('status', true)->get(); // Only active stores
+        $stores = Store::where('status', true)->get(); // Chỉ các cửa hàng hoạt động
 
         if ($products->isEmpty() || $stores->isEmpty()) {
             $this->command->warn('No products or active stores found. Please run ProductSeeder and StoreSeeder first.');
@@ -30,7 +30,7 @@ class StoreInventorySeeder extends Seeder
         $storeInventoryData = [];
 
         foreach ($stores as $store) {
-            // Each store will have a random selection of products (30-70% of all products)
+            // Mỗi cửa hàng sẽ có lựa chọn sản phẩm ngẫu nhiên (30-70% tổng số sản phẩm)
             $productCount = $products->count();
             $storeProductCount = rand(
                 (int)($productCount * 0.3), 
@@ -40,7 +40,7 @@ class StoreInventorySeeder extends Seeder
             $storeProducts = $products->random($storeProductCount);
             
             foreach ($storeProducts as $product) {
-                // Random quantities for store inventory
+                // Số lượng ngẫu nhiên cho tồn kho cửa hàng
                 $quantity = rand(0, 200);
                 $minStock = rand(5, 20);
                 $maxStock = rand($minStock + 50, $minStock + 300);
@@ -57,7 +57,7 @@ class StoreInventorySeeder extends Seeder
             }
         }
 
-        // Insert store inventory data in chunks
+        // Chèn dữ liệu tồn kho cửa hàng theo từng phần
         $chunks = array_chunk($storeInventoryData, 100);
         foreach ($chunks as $chunk) {
             StoreInventory::insert($chunk);
@@ -66,8 +66,8 @@ class StoreInventorySeeder extends Seeder
         $totalStoreInventory = StoreInventory::count();
         $this->command->info("Created {$totalStoreInventory} store inventory records");
         
-        // Show inventory statistics by store
-        foreach ($stores->take(5) as $store) { // Show first 5 stores
+        // Hiển thị thống kê tồn kho theo cửa hàng
+        foreach ($stores->take(5) as $store) { // Hiển thị 5 cửa hàng đầu tiên
             $storeInventoryCount = $store->inventory->count();
             $totalQuantity = $store->inventory->sum('quantity');
             $lowStockCount = $store->inventory->filter(function($inv) {

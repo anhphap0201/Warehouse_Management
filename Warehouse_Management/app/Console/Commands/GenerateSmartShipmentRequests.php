@@ -84,7 +84,7 @@ class GenerateSmartShipmentRequests extends Command
             $this->info("✅ Đã tạo {$totalRequests} yêu cầu gửi hàng cho {$storesWithRequests} cửa hàng");
             $this->info("📦 Tổng cộng {$totalProducts} sản phẩm cần bổ sung");
             
-            // Log the activity
+            // Ghi log hoạt động
             Log::info('Smart shipment requests generated', [
                 'stores_analyzed' => $stores->count(),
                 'stores_with_requests' => $storesWithRequests,
@@ -111,11 +111,11 @@ class GenerateSmartShipmentRequests extends Command
         $urgentCount = 0;
         $reasons = [];
 
-        // Get store inventory
+        // Lấy tồn kho cửa hàng
         $inventory = $store->inventory;
         
         if ($inventory->isEmpty()) {
-            // If no inventory exists, suggest popular products
+            // Nếu không có tồn kho, đề xuất các sản phẩm phổ biến
             $popularProducts = Product::take(5)->get();
             
             foreach ($popularProducts as $product) {
@@ -136,7 +136,7 @@ class GenerateSmartShipmentRequests extends Command
             
             $reasons[] = 'Cửa hàng chưa có tồn kho';
         } else {
-            // Analyze existing inventory
+            // Phân tích tồn kho hiện có
             foreach ($inventory as $item) {
                 $analysis = $this->analyzeProductNeed($item, $lowStockThreshold, $demandMultiplier);
                 
@@ -153,7 +153,7 @@ class GenerateSmartShipmentRequests extends Command
             }
         }
 
-        // Calculate priority based on total value and urgency
+        // Tính toán mức độ ưu tiên dựa trên tổng giá trị và tính cấp thiết
         $priority = 'normal';
         if ($urgentCount > 0 || $totalValue > 2000000) {
             $priority = 'high';
@@ -179,30 +179,28 @@ class GenerateSmartShipmentRequests extends Command
         $product = $inventoryItem->product;
         $currentStock = $inventoryItem->quantity;
         
-        // Determine if restocking is needed
+        // Xác định xem có cần nhập thêm hàng không
         $needsRestock = $currentStock <= $lowStockThreshold;
         
         if (!$needsRestock) {
             return ['needs_restock' => false];
-        }
-
-        // Calculate suggested quantity based on various factors
-        $baseQuantity = $lowStockThreshold * 2; // Basic safety stock
+        }        // Tính toán số lượng đề xuất dựa trên nhiều yếu tố
+        $baseQuantity = $lowStockThreshold * 2; // Tồn kho an toàn cơ bản
         
-        // Simulate demand analysis (in real app, this would use actual sales data)
+        // Mô phỏng phân tích nhu cầu (trong ứng dụng thực tế, điều này sẽ sử dụng dữ liệu bán hàng thực tế)
         $simulatedWeeklyDemand = rand(5, 25);
         $demandBasedQuantity = $simulatedWeeklyDemand * $demandMultiplier;
         
         $suggestedQuantity = max($baseQuantity, $demandBasedQuantity);
         
-        // Determine urgency
+        // Xác định tính cấp thiết
         $urgency = 'normal';
         $reason = 'Bổ sung tồn kho thường xuyên';
         
         if ($currentStock == 0) {
             $urgency = 'high';
             $reason = 'Hết hàng hoàn toàn';
-            $suggestedQuantity *= 1.5; // Increase quantity for out-of-stock items
+            $suggestedQuantity *= 1.5; // Tăng số lượng cho các sản phẩm hết hàng
         } elseif ($currentStock <= $lowStockThreshold / 2) {
             $urgency = 'high';
             $reason = 'Tồn kho cực thấp';

@@ -215,27 +215,27 @@
 let itemIndex = 0;
 let searchTimeout;
 
-// Get CSRF token from meta tag
+// Lấy token CSRF từ meta tag
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-// Get old values if validation failed
+// Lấy giá trị cũ nếu validation thất bại
 const oldItems = @json(old('items', []));
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize real-time search functionality
+    // Khởi tạo chức năng tìm kiếm thời gian thực
     initializeWarehouseSearch();
     initializeSupplierSearch();
     
-    // Restore old values for search fields if validation failed
+    // Khôi phục giá trị cũ cho trường tìm kiếm nếu validation thất bại
     restoreSearchFieldValues();
     
-    // Restore old values if validation failed
+    // Khôi phục giá trị cũ nếu validation thất bại
     if (oldItems && oldItems.length > 0) {
         oldItems.forEach(function(item, index) {
             addItem(item);
         });
     } else {
-        // Add first item by default
+        // Thêm item đầu tiên theo mặc định
         addItem();
     }
     
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addItem();
     });
     
-    // Global click handler to hide product dropdown
+    // Xử lý click toàn cục để ẩn dropdown sản phẩm
     document.addEventListener('click', function(e) {
         const globalDropdown = document.getElementById('globalProductDropdown');
         const isClickInsideDropdown = globalDropdown && globalDropdown.contains(e.target);
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
             globalDropdown && globalDropdown.classList.add('hidden');
         }
         
-        // Close other dropdowns when clicking outside
+        // Đóng các dropdown khác khi click bên ngoài
         if (!e.target.closest('.relative')) {
             document.querySelectorAll('[id$="_dropdown"]').forEach(dropdown => {
                 dropdown.classList.add('hidden');
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle window scroll and resize to reposition dropdown
+    // Xử lý scroll và resize của window để điều chỉnh vị trí dropdown
     let repositionTimeout;
     function handleRepositioning() {
         clearTimeout(repositionTimeout);
@@ -278,12 +278,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function restoreSearchFieldValues() {
-    // Restore warehouse search field
+    // Khôi phục trường tìm kiếm kho hàng
     const warehouseId = document.getElementById('warehouse_id').value;
     const warehouseSearch = document.getElementById('warehouse_search');
     
     if (warehouseId && warehouseSearch) {
-        // Make API call to get warehouse name
+        // Gọi API để lấy tên kho hàng
         fetch(`/api/warehouses/${warehouseId}`, {
             method: 'GET',
             headers: {
@@ -305,7 +305,7 @@ function restoreSearchFieldValues() {
         });
     }
     
-    // Restore supplier search field
+    // Khôi phục trường tìm kiếm nhà cung cấp
     const supplierName = document.getElementById('supplier_name').value;
     const supplierSearch = document.getElementById('supplier_search');
     
@@ -387,11 +387,11 @@ function initializeSupplierSearch() {
     const hiddenInput = document.getElementById('supplier_name');
     const dropdown = document.getElementById('supplier_dropdown');
     const loading = document.getElementById('supplier_loading');
-    const results = document.getElementById('supplier_results');      searchInput.addEventListener('input', function() {        const query = this.value.trim();
+    const results = document.getElementById('supplier_results');    searchInput.addEventListener('input', function() {        const query = this.value.trim();
         const supplierAddressField = document.getElementById('supplier_address_field');
         
-        hiddenInput.value = query; // Always update the hidden input
-        // Removed automatic display of supplier address field
+        hiddenInput.value = query; // Luôn cập nhật giá trị input ẩn
+        // Đã loại bỏ việc tự động hiển thị trường địa chỉ nhà cung cấp
         
         if (query.length < 1) {
             dropdown.classList.add('hidden');
@@ -428,8 +428,7 @@ function initializeSupplierSearch() {
             loading.classList.add('hidden');
             
             if (data.length === 0) {
-                results.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy nhà cung cấp nào</div>';
-            } else {                results.innerHTML = data.map(supplier => `
+                results.innerHTML = '<div class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">Không tìm thấy nhà cung cấp nào</div>';            } else {                results.innerHTML = data.map(supplier => `
                     <div class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-600 last:border-b-0" 
                          onclick="selectSupplier(${supplier.id}, '${supplier.name}', '${supplier.phone || ''}', '${supplier.address || ''}')">
                         <div class="font-medium text-gray-900 dark:text-gray-100">${supplier.name}</div>
@@ -452,9 +451,8 @@ function initializeSupplierSearch() {
         
         supplierIdInput.value = id;
         supplierNameInput.value = name;
-        searchInput.value = name;
-        
-        // Auto-fill other fields if they exist and are empty
+        searchInput.value = name;        
+        // Tự động điền các trường khác nếu chúng tồn tại và trống
         if (supplierPhoneInput && !supplierPhoneInput.value) {
             supplierPhoneInput.value = phone || '';
         }
@@ -462,7 +460,7 @@ function initializeSupplierSearch() {
             supplierAddressInput.value = address || '';
         }
         
-        // Always hide address field when supplier is selected from dropdown
+        // Luôn ẩn trường địa chỉ khi nhà cung cấp được chọn từ dropdown
         if (supplierAddressField) {
             supplierAddressField.style.display = 'none';
         }
@@ -515,18 +513,16 @@ function initializeProductSearch(index) {
             searchProducts(this.value.trim(), index);
         }
     });
-    
-    searchInput.addEventListener('blur', function() {
-        // Hide dropdown after a short delay to allow for clicks
+      searchInput.addEventListener('blur', function() {
+        // Ẩn dropdown sau khoảng thời gian ngắn để cho phép click
         setTimeout(() => {
             if (currentSearchIndex === index) {
                 globalDropdown.classList.add('hidden');
             }
         }, 200);
     });
-    
-    async function searchProducts(query, index) {
-        // Position the dropdown relative to the input
+      async function searchProducts(query, index) {
+        // Định vị dropdown theo vị trí input
         const rect = searchInput.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
@@ -619,22 +615,21 @@ function addItem(oldItem = null) {
         </tr>
     `;
     
-    document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHtml);
-      // If oldItem data exists, populate the product search field
+    document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHtml);      // Nếu dữ liệu oldItem tồn tại, điền vào trường tìm kiếm sản phẩm
     if (oldItem && oldItem.product_id) {
         const productSearchInput = document.getElementById(`product_search_${itemIndex}`);
         const productIdInput = document.getElementById(`product_id_${itemIndex}`);
         
         if (productSearchInput && productIdInput) {
-            // Disable input while loading to prevent user input
+            // Tắt input trong khi tải để ngăn người dùng nhập
             productSearchInput.disabled = true;
             productSearchInput.value = 'Đang tải thông tin sản phẩm...';
             productSearchInput.classList.add('bg-gray-100', 'text-gray-500');
             
-            // Set the hidden product_id
+            // Thiết lập product_id ẩn
             productIdInput.value = oldItem.product_id;
             
-            // Try to find and set the product name from the search
+            // Thử tìm và thiết lập tên sản phẩm từ tìm kiếm
             fetch(`/api/products/${oldItem.product_id}`, {
                 method: 'GET',
                 headers: {
@@ -650,34 +645,31 @@ function addItem(oldItem = null) {
                 throw new Error(`HTTP ${response.status}`);
             }).then(product => {
                 if (product) {
-                    productSearchInput.value = product.name;
-                    productSearchInput.disabled = false;
+                    productSearchInput.value = product.name;                    productSearchInput.disabled = false;
                     productSearchInput.classList.remove('bg-gray-100', 'text-gray-500');
                     
-                    // Store the original product name for validation
+                    // Lưu tên sản phẩm gốc để xác thực
                     productSearchInput.dataset.originalProductName = product.name;
                     productSearchInput.dataset.originalProductId = oldItem.product_id;
                 }
             }).catch(error => {
-                console.error('Error fetching product:', error);
-                productSearchInput.value = 'Sản phẩm không tồn tại (ID: ' + oldItem.product_id + ')';
+                console.error('Error fetching product:', error);                productSearchInput.value = 'Sản phẩm không tồn tại (ID: ' + oldItem.product_id + ')';
                 productSearchInput.classList.add('border-red-500', 'bg-red-50');
                 productSearchInput.disabled = false;
                 
-                // Clear the product_id since product doesn't exist
+                // Xóa product_id vì sản phẩm không tồn tại
                 productIdInput.value = '';
             });
-        }
-    }
+        }    }
     
-    // Initialize product search for this row
+    // Khởi tạo tìm kiếm sản phẩm cho hàng này
     initializeProductSearch(itemIndex);
     
-    // Bind events to new row
+    // Gán sự kiện cho hàng mới
     const newRow = document.querySelector(`tr[data-index="${itemIndex}"]`);
     bindItemEvents(newRow);
     
-    // Update row total if there's existing data
+    // Cập nhật tổng hàng nếu có dữ liệu hiện có
     if (oldItem && oldItem.quantity && oldItem.unit_price) {
         updateRowTotal(newRow);
     }
@@ -707,13 +699,12 @@ function bindItemEvents(row) {
     });
 }
 
-function updateRowTotal(row) {
-    const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+function updateRowTotal(row) {    const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
     const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
     
-    // Validate quantity and unit price to prevent database overflow
-    const maxQuantity = 999999999; // 9 digits max for quantity
-    const maxUnitPrice = 9999999999999.99; // 13 digits + 2 decimals max for unit price
+    // Xác thực số lượng và đơn giá để ngăn tràn cơ sở dữ liệu
+    const maxQuantity = 999999999; // Tối đa 9 chữ số cho số lượng
+    const maxUnitPrice = 9999999999999.99; // Tối đa 13 chữ số + 2 thập phân cho đơn giá
     
     if (quantity > maxQuantity) {
         row.querySelector('.quantity-input').value = maxQuantity;
@@ -726,11 +717,10 @@ function updateRowTotal(row) {
         alert('Đơn giá không được vượt quá ' + maxUnitPrice.toLocaleString() + ' VNĐ');
         return;
     }
+      const total = quantity * unitPrice;
     
-    const total = quantity * unitPrice;
-    
-    // Check if total exceeds database limit
-    const maxTotal = 9999999999999.99; // decimal(15,2) limit
+    // Kiểm tra xem tổng có vượt quá giới hạn cơ sở dữ liệu không
+    const maxTotal = 9999999999999.99; // Giới hạn decimal(15,2)
     if (total > maxTotal) {
         alert('Tổng tiền vượt quá giới hạn cho phép. Vui lòng giảm số lượng hoặc đơn giá.');
         return;
@@ -745,11 +735,10 @@ function updateGrandTotal() {
     document.querySelectorAll('.item-row').forEach(row => {
         const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
         const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
-        grandTotal += quantity * unitPrice;
-    });
+        grandTotal += quantity * unitPrice;    });
     
-    // Check if grand total exceeds database limit
-    const maxTotal = 9999999999999.99; // decimal(15,2) limit
+    // Kiểm tra xem tổng lớn có vượt quá giới hạn cơ sở dữ liệu không
+    const maxTotal = 9999999999999.99; // Giới hạn decimal(15,2)
     if (grandTotal > maxTotal) {
         document.getElementById('totalAmount').textContent = 'Vượt quá giới hạn!';
         document.getElementById('totalAmount').style.color = 'red';

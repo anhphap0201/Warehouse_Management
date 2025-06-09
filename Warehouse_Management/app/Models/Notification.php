@@ -39,7 +39,7 @@ class Notification extends Model
     ];
 
     /**
-     * Get the store that owns the notification.
+     * Lấy cửa hàng sở hữu thông báo này.
      */
     public function store(): BelongsTo
     {
@@ -47,7 +47,7 @@ class Notification extends Model
     }
 
     /**
-     * Get the warehouse assigned to the notification.
+     * Lấy kho hàng được gán cho thông báo này.
      */
     public function warehouse(): BelongsTo
     {
@@ -55,7 +55,7 @@ class Notification extends Model
     }
 
     /**
-     * Get the admin who approved the notification.
+     * Lấy admin đã phê duyệt thông báo này.
      */
     public function approvedBy(): BelongsTo
     {

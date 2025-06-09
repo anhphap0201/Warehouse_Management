@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained('warehouses')->onDelete('set null');
             $table->enum('type', ['receive_request', 'return_request']); // Loại yêu cầu
             $table->string('title'); // Tiêu đề thông báo
             $table->text('message'); // Nội dung thông báo
@@ -21,7 +22,12 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('approved_at')->nullable();
+            $table->foreignId('rejected_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamp('rejected_at')->nullable();
+            $table->text('rejection_reason')->nullable();
+            $table->timestamp('read_at')->nullable();
             $table->text('admin_notes')->nullable(); // Ghi chú của admin
+            $table->text('admin_response')->nullable();
             $table->boolean('is_read')->default(false); // Đã đọc chưa
             $table->timestamps();
             

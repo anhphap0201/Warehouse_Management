@@ -165,7 +165,7 @@
         let searchTimeout;
         let allStoreRows = [];
         
-        // Store all store rows
+        // Lưu trữ tất cả dòng cửa hàng
         if (tableContainer) {
             allStoreRows = Array.from(tableContainer.querySelectorAll('.store-row'));
         }
@@ -196,7 +196,7 @@
             let visibleCount = 0;
             
             if (searchTerms.length === 0) {
-                // Show all rows
+                // Hiển thị tất cả dòng
                 allStoreRows.forEach(row => {
                     row.style.display = '';
                     visibleCount++;
@@ -207,7 +207,7 @@
                 }
                 tableContainer.style.display = '';
             } else {
-                // Filter rows based on search terms
+                // Lọc dòng dựa trên các từ khóa tìm kiếm
                 allStoreRows.forEach(row => {
                     const name = row.dataset.name || '';
                     const location = row.dataset.location || '';
@@ -226,7 +226,7 @@
                     }
                 });
                 
-                // Handle empty state
+                // Xử lý trạng thái rỗng
                 if (visibleCount === 0) {
                     if (emptySearchState) {
                         emptySearchState.style.display = '';
@@ -243,7 +243,7 @@
             updateSearchResults(query, visibleCount, allStoreRows.length);
         }
         
-        // Search input event handler with debounce
+        // Xử lý sự kiện input tìm kiếm với debounce
         if (searchInput) {
             searchInput.addEventListener('input', function() {
                 const query = this.value;

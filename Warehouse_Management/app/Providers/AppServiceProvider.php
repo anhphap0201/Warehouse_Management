@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Register View Composer for navigation notifications
+        // Đăng ký View Composer cho thông báo điều hướng
         View::composer('layouts.navigation', NotificationComposer::class);
     }
 }

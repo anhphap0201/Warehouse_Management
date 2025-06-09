@@ -11,52 +11,49 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
-    {
-        // Return Requests Scheduling
-        // Generate random return requests every day at 9 AM
+    {        // Lập lịch yêu cầu trả hàng
+        // Tạo yêu cầu trả hàng ngẫu nhiên mỗi ngày lúc 9 giờ sáng
         $schedule->command('stores:generate-return-requests')
                  ->dailyAt('09:00')
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Generate random return requests every 4 hours with lower percentage
+        // Tạo yêu cầu trả hàng ngẫu nhiên mỗi 4 giờ với tỷ lệ thấp hơn
         $schedule->command('stores:generate-return-requests', ['--percentage=10'])
                  ->cron('0 */4 * * *')
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Smart return requests based on inventory analysis - runs twice daily
+        // Yêu cầu trả hàng thông minh dựa trên phân tích tồn kho - chạy hai lần mỗi ngày
         $schedule->command('stores:smart-return-requests')
                  ->twiceDaily(8, 16)
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Smart return requests during business hours (every 6 hours)
+        // Yêu cầu trả hàng thông minh trong giờ làm việc (mỗi 6 giờ)
         $schedule->command('stores:smart-return-requests')
                  ->cron('0 6,12,18 * * *')
                  ->withoutOverlapping()
-                 ->runInBackground();
-
-        // Shipment Requests Scheduling
-        // Generate random shipment requests every day at 10 AM
+                 ->runInBackground();        // Lập lịch yêu cầu gửi hàng
+        // Tạo yêu cầu gửi hàng ngẫu nhiên mỗi ngày lúc 10 giờ sáng
         $schedule->command('stores:generate-shipment-requests')
                  ->dailyAt('10:00')
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Generate random shipment requests every 6 hours with lower percentage
+        // Tạo yêu cầu gửi hàng ngẫu nhiên mỗi 6 giờ với tỷ lệ thấp hơn
         $schedule->command('stores:generate-shipment-requests', ['--percentage=15'])
                  ->cron('0 */6 * * *')
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Smart shipment requests based on inventory analysis - runs three times daily
+        // Yêu cầu gửi hàng thông minh dựa trên phân tích tồn kho - chạy ba lần mỗi ngày
         $schedule->command('stores:smart-shipment-requests')
                  ->cron('0 7,13,19 * * *')
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Smart shipment requests for critical stock levels (every 3 hours during business)
+        // Yêu cầu gửi hàng thông minh cho mức tồn kho tới hạn (mỗi 3 giờ trong giờ làm việc)
         $schedule->command('stores:smart-shipment-requests', ['--low-stock-threshold=5'])
                  ->cron('0 8,11,14,17 * * *')
                  ->withoutOverlapping()

@@ -91,7 +91,7 @@
                     const mobileDot = document.getElementById('mobileNotificationDot');
                     const mobileCountSpan = document.getElementById('mobileNotificationCount');
                     
-                    // Update desktop notification
+                    // Cập nhật thông báo máy tính để bàn
                     if (count > 0) {
                         if (dot) {
                             dot.classList.remove('hidden');
@@ -107,7 +107,7 @@
                         }
                     }
                     
-                    // Update mobile notification
+                    // Cập nhật thông báo di động
                     if (count > 0) {
                         if (mobileDot) {
                             mobileDot.classList.remove('hidden');
@@ -128,27 +128,27 @@
                 });
         }
 
-        // Navigation click handler to ensure proper navigation
+        // Xử lý click điều hướng để đảm bảo điều hướng đúng cách
         function enhanceNavigation() {
             const navLinks = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="javascript:"]):not([onclick])');
             
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    // Only proceed if this is a navigation link
+                    // Chỉ tiếp tục nếu đây là liên kết điều hướng
                     if (!this.href || this.href.startsWith('#') || this.href.startsWith('javascript:')) {
                         return;
                     }
                     
-                    // Prevent multiple rapid clicks
+                    // Ngăn chặn nhiều lần click nhanh
                     if (this.hasAttribute('data-navigating')) {
                         e.preventDefault();
                         return;
                     }
                     
-                    // Mark as navigating
+                    // Đánh dấu đang điều hướng
                     this.setAttribute('data-navigating', 'true');
                     
-                    // Clear the flag after a short delay
+                    // Xóa flag sau một thời gian ngắn
                     setTimeout(() => {
                         this.removeAttribute('data-navigating');
                     }, 1000);
@@ -156,11 +156,11 @@
             });
         }
 
-        // Update notification count on page load and every 30 seconds
+        // Cập nhật số lượng thông báo khi tải trang và mỗi 30 giây
         document.addEventListener('DOMContentLoaded', function() {
             updateNotificationCount();
             enhanceNavigation();
-            setInterval(updateNotificationCount, 30000); // 30 seconds
+            setInterval(updateNotificationCount, 30000); // 30 giây
         });
         </script>
         

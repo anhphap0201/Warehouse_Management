@@ -206,12 +206,12 @@ function updateFormLabels() {
     }
 }
 
-// Add at least one product row by default
+// Thêm ít nhất một dòng sản phẩm theo mặc định
 document.addEventListener('DOMContentLoaded', function() {
     addProductRow();
 });
 
-// Form validation
+// Xác thực form
 document.getElementById('notificationForm').addEventListener('submit', function(e) {
     const productRows = document.querySelectorAll('.product-row');
     if (productRows.length === 0) {

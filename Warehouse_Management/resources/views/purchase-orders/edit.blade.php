@@ -206,18 +206,17 @@
     let itemIndex = 0;
     const products = @json($products);
     const existingItems = @json($purchaseOrder->items);    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize warehouse search
+        // Khởi tạo tìm kiếm kho hàng
         initializeWarehouseSearch();
         
-        // Initialize supplier search
+        // Khởi tạo tìm kiếm nhà cung cấp
         initializeSupplierSearch();
         
-        // Populate existing items
+        // Điền các mục đã có
         existingItems.forEach(function(item) {
             addItem(item);
-        });
-        
-        // If no existing items, add one empty item
+        });        
+        // Nếu không có item nào tồn tại, thêm một item trống
         if (existingItems.length === 0) {
             addItem();
         }
@@ -237,9 +236,7 @@
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let searchTimeout;
           searchInput.addEventListener('input', function() {
-            const query = this.value.trim();
-            hiddenNameInput.value = query; // Update the hidden input
-            
+            const query = this.value.trim();            hiddenNameInput.value = query; // Cập nhật input ẩn
             if (query.length < 1) {
                 dropdown.classList.add('hidden');
                 return;
@@ -249,9 +246,8 @@
             searchTimeout = setTimeout(() => {
                 searchSuppliers(query);
             }, 300);
-        });
-        
-        // Click outside to close dropdown
+        });        
+        // Click bên ngoài để đóng dropdown
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
                 dropdown.classList.add('hidden');
@@ -305,9 +301,8 @@
             
             hiddenIdInput.value = id || '';
             hiddenNameInput.value = name || '';
-            searchInput.value = name || '';
-            
-            // Auto-fill other fields if they exist and are empty
+            searchInput.value = name || '';            
+            // Tự động điền các trường khác nếu chúng tồn tại và trống
             if (supplierPhoneInput && !supplierPhoneInput.value) {
                 supplierPhoneInput.value = phone || '';
             }
@@ -325,30 +320,27 @@
         const options = Array.from(selectElement.options);
         
         searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            
-            // Clear current options except the first one
+            const searchTerm = this.value.toLowerCase();            
+            // Xóa các tùy chọn hiện tại trừ tùy chọn đầu tiên
             selectElement.innerHTML = '<option value="">Chọn kho hàng</option>';
             
-            // Filter and add matching options
+            // Lọc và thêm các tùy chọn phù hợp
             options.slice(1).forEach(option => {
                 if (option.textContent.toLowerCase().includes(searchTerm)) {
                     selectElement.appendChild(option.cloneNode(true));
                 }
-            });
-        });
+            });        });
         
-        // Update search input when selection changes
+        // Cập nhật trường tìm kiếm khi thay đổi lựa chọn
         selectElement.addEventListener('change', function() {
             if (this.value) {
                 const selectedOption = this.options[this.selectedIndex];
                 searchInput.value = selectedOption.textContent;
             } else {
                 searchInput.value = '';
-            }
-        });
+            }        });
         
-        // Set initial search value if there's a selected warehouse
+        // Đặt giá trị tìm kiếm ban đầu nếu đã chọn kho hàng
         if (selectElement.value) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             searchInput.value = selectedOption.textContent;
@@ -384,20 +376,18 @@
         const options = Array.from(selectElement.options);
         
         searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            
-            // Clear current options except the first one
+            const searchTerm = this.value.toLowerCase();            
+            // Xóa các tùy chọn hiện tại trừ tùy chọn đầu tiên
             selectElement.innerHTML = '<option value="">Chọn sản phẩm</option>';
             
-            // Filter and add matching options
+            // Lọc và thêm các tùy chọn phù hợp
             options.slice(1).forEach(option => {
                 if (option.textContent.toLowerCase().includes(searchTerm)) {
                     selectElement.appendChild(option.cloneNode(true));
                 }
-            });
-        });
+            });        });
         
-        // Update search input when selection changes
+        // Cập nhật trường tìm kiếm khi thay đổi lựa chọn
         selectElement.addEventListener('change', function() {
             if (this.value) {
                 const selectedOption = this.options[this.selectedIndex];
@@ -405,9 +395,8 @@
             } else {
                 searchInput.value = '';
             }
-        });
-        
-        // Set initial search value if there's a selected product
+        });        
+        // Đặt giá trị tìm kiếm ban đầu nếu có sản phẩm được chọn
         if (selectedProductId) {
             const product = products.find(p => p.id == selectedProductId);
             if (product) {
@@ -452,17 +441,15 @@
                 </td>
             </tr>
         `;
+          document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHtml);
         
-        document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHtml);
-        
-        // Initialize product search for this row
+        // Khởi tạo tìm kiếm sản phẩm cho dòng này
         initializeProductSearch(itemIndex, existingItem ? existingItem.product_id : null);
         
-        // Bind events to new row
+        // Gắn sự kiện cho dòng mới
         const newRow = document.querySelector(`tr[data-index="${itemIndex}"]`);
-        bindItemEvents(newRow);
-        
-        // Update row total if existing item
+        bindItemEvents(newRow);        
+        // Cập nhật tổng dòng nếu có item tồn tại
         if (existingItem) {
             updateRowTotal(newRow);
         }
@@ -494,11 +481,10 @@
         });
     }    function updateRowTotal(row) {
         const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
-        const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
-        
-        // Validate quantity and unit price to prevent database overflow
-        const maxQuantity = 999999999; // 9 digits max for quantity
-        const maxUnitPrice = 9999999999999.99; // 13 digits + 2 decimals max for unit price
+        const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;        
+        // Xác thực số lượng và đơn giá để ngăn chặn tràn database
+        const maxQuantity = 999999999; // Tối đa 9 chữ số cho số lượng
+        const maxUnitPrice = 9999999999999.99; // Tối đa 13 chữ số + 2 chữ số thập phân cho đơn giá
         
         if (quantity > maxQuantity) {
             row.querySelector('.quantity-input').value = maxQuantity;
@@ -512,10 +498,9 @@
             return;
         }
         
-        const total = quantity * unitPrice;
-        
-        // Check if total exceeds database limit
-        const maxTotal = 9999999999999.99; // decimal(15,2) limit
+        const total = quantity * unitPrice;        
+        // Kiểm tra xem tổng có vượt quá giới hạn database không
+        const maxTotal = 9999999999999.99; // Giới hạn decimal(15,2)
         if (total > maxTotal) {
             alert('Tổng tiền vượt quá giới hạn cho phép. Vui lòng giảm số lượng hoặc đơn giá.');
             return;
@@ -529,10 +514,9 @@
             const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
             const unitPrice = parseFloat(row.querySelector('.price-input').value) || 0;
             grandTotal += quantity * unitPrice;
-        });
-        
-        // Check if grand total exceeds database limit
-        const maxTotal = 9999999999999.99; // decimal(15,2) limit
+        });        
+        // Kiểm tra xem tổng lớn có vượt quá giới hạn database không
+        const maxTotal = 9999999999999.99; // Giới hạn decimal(15,2)
         if (grandTotal > maxTotal) {
             document.getElementById('totalAmount').textContent = 'Vượt quá giới hạn!';
             document.getElementById('totalAmount').style.color = 'red';

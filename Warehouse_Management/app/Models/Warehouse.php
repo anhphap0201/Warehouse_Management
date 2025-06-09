@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Warehouse extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
+    use HasFactory;    protected $fillable = [
         'name',
         'location',
-    ];    /**
-     * Get the inventory records for the warehouse.
+    ];
+
+    /**
+     * Lấy các bản ghi tồn kho cho kho hàng.
      */
     public function inventory(): HasMany
     {

@@ -168,7 +168,7 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>                    <!-- Status message - all orders are now auto-confirmed -->
+                    </div>                    <!-- Thông báo trạng thái - tất cả hóa đơn đều được tự động xác nhận -->
                     <div class="mt-6">
                         <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
                             <div class="flex">

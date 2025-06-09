@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Log;
 class NotificationController extends Controller
 {
     /**
-     * Display a listing of notifications for admin/manager
+     * Hiển thị danh sách thông báo cho admin/manager
      */
     public function index(Request $request)
     {
         $query = Notification::with(['store', 'warehouse', 'approvedBy', 'rejectedBy']);
         
-        // Filter by status if provided
+        // Lọc theo trạng thái nếu được cung cấp
         if ($request->has('status') && $request->status) {
             $query->where('status', $request->status);
         }
@@ -29,17 +29,17 @@ class NotificationController extends Controller
         $notifications = $query->orderBy('created_at', 'desc')
             ->paginate(20);
 
-        // Preserve query parameters in pagination links
+        // Bảo tồn tham số truy vấn trong liên kết phân trang
         $notifications->appends($request->query());
 
-        // Get warehouses for approval modal
+        // Lấy danh sách kho hàng cho modal phê duyệt
         $warehouses = Warehouse::get(['id', 'name', 'location']);
 
         return view('notifications.index', compact('notifications', 'warehouses'));
     }
 
     /**
-     * Show the form for creating a new notification (store request)
+     * Hiển thị form để tạo thông báo mới (yêu cầu từ cửa hàng)
      */
     public function create()
     {
@@ -50,7 +50,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Store a newly created notification (store request)
+     * Lưu thông báo mới được tạo (yêu cầu từ cửa hàng)
      */
     public function store(Request $request)
     {
@@ -78,7 +78,7 @@ class NotificationController extends Controller
             'status' => 'pending',
         ]);
 
-        // Clear notifications cache
+        // Xóa cache thông báo
         cache()->forget('unread_notifications_count');
 
         return redirect()->route('stores.show', $request->store_id)
@@ -86,23 +86,23 @@ class NotificationController extends Controller
     }
 
     /**
-     * Display the specified notification
+     * Hiển thị thông báo được chỉ định
      */
     public function show(Notification $notification)
     {
         $notification->load(['store', 'warehouse', 'approvedBy', 'rejectedBy']);
         
-        // Mark as read if not read yet
+        // Đánh dấu là đã đọc nếu chưa đọc
         if (!$notification->read_at) {
             $notification->update([
                 'read_at' => now(),
                 'is_read' => true
             ]);
-            // Clear notifications cache when marking as read
+            // Xóa cache thông báo khi đánh dấu là đã đọc
             cache()->forget('unread_notifications_count');
         }
 
-        // Get warehouses for approval if notification is still pending
+        // Lấy danh sách kho hàng để phê duyệt nếu thông báo vẫn đang chờ xử lý
         $warehouses = [];
         if ($notification->status === 'pending') {
             $warehouses = Warehouse::get(['id', 'name', 'location']);
@@ -112,7 +112,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Approve a notification with warehouse assignment
+     * Phê duyệt thông báo với việc chỉ định kho hàng
      */
     public function approve(Request $request, Notification $notification)
     {
@@ -135,11 +135,11 @@ class NotificationController extends Controller
                 'admin_notes' => $request->admin_notes
             ]);
 
-            // Clear notifications cache
+            // Xóa cache thông báo
             cache()->forget('unread_notifications_count');
 
-            // Here you can add logic to actually process the request
-            // For example, create stock movements, update inventory, etc.
+            // Ở đây bạn có thể thêm logic để thực sự xử lý yêu cầu
+            // Ví dụ: tạo chuyển động kho, cập nhật tồn kho, v.v.
             $this->processApprovedRequest($notification);
         });
 
@@ -147,7 +147,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Reject a notification
+     * Từ chối thông báo
      */
     public function reject(Request $request, Notification $notification)
     {
@@ -167,14 +167,14 @@ class NotificationController extends Controller
             'admin_notes' => $request->admin_notes
         ]);
 
-        // Clear notifications cache
+        // Xóa cache thông báo
         cache()->forget('unread_notifications_count');
 
         return redirect()->back()->with('success', 'Yêu cầu đã được từ chối.');
     }
 
     /**
-     * Get unread notifications count for red dot indicator
+     * Lấy số lượng thông báo chưa đọc cho chấm đỏ thông báo
      */
     public function getUnreadCount()
     {
@@ -184,7 +184,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Mark all notifications as read
+     * Đánh dấu tất cả thông báo là đã đọc
      */
     public function markAllAsRead()
     {
@@ -194,14 +194,14 @@ class NotificationController extends Controller
                 'is_read' => true
             ]);
 
-        // Clear notifications cache
+        // Xóa cache thông báo
         cache()->forget('unread_notifications_count');
 
         return response()->json(['success' => true]);
     }
 
     /**
-     * Remove the specified notification
+     * Xóa thông báo được chỉ định
      */
     public function destroy(Notification $notification)
     {
@@ -212,7 +212,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Get available warehouses for approval
+     * Lấy danh sách kho hàng có sẵn để phê duyệt
      */
     public function getWarehouses()
     {
@@ -221,54 +221,52 @@ class NotificationController extends Controller
     }
 
     /**
-     * Process approved request - create actual inventory movement
+     * Xử lý yêu cầu được phê duyệt - tạo chuyển động tồn kho thực tế
      */
     private function processApprovedRequest(Notification $notification)
     {
         $data = $notification->data;
         $type = $notification->type;
         
-        // Based on request type, create appropriate records
+        // Dựa trên loại yêu cầu, tạo các bản ghi phù hợp
         switch ($type) {
             case 'receive_goods':
-                // Logic for receiving goods from warehouse to store
+                // Logic để nhận hàng từ kho đến cửa hàng
                 $this->processReceiveGoods($notification, $data);
                 break;
                 
             case 'return_goods':
-                // Logic for returning goods from store to warehouse
+                // Logic để trả hàng từ cửa hàng về kho
                 $this->processReturnGoods($notification, $data);
                 break;
                 
             default:
-                // Log unknown request type
+                // Ghi log loại yêu cầu không xác định
                 Log::warning("Unknown notification type: {$type}", ['notification_id' => $notification->id]);
                 break;
         }
     }
 
     /**
-     * Process receive goods request
+     * Xử lý yêu cầu nhận hàng
      */
     private function processReceiveGoods(Notification $notification, array $data)
     {
-        // This would create stock movement records when goods are received
-        // Implementation depends on your inventory system
+        // Điều này sẽ tạo bản ghi chuyển động kho khi hàng hóa được nhận
+        // Việc triển khai phụ thuộc vào hệ thống tồn kho của bạn
         Log::info("Processing receive goods request", [
             'notification_id' => $notification->id,
             'store_id' => $notification->store_id,
             'warehouse_id' => $notification->warehouse_id,
             'data' => $data
         ]);
-    }
-
-    /**
-     * Process return goods request
+    }    /**
+     * Xử lý yêu cầu trả hàng
      */
     private function processReturnGoods(Notification $notification, array $data)
     {
-        // This would create stock movement records when goods are returned
-        // Implementation depends on your inventory system
+        // Điều này sẽ tạo bản ghi chuyển động kho khi hàng hóa được trả lại
+        // Việc triển khai phụ thuộc vào hệ thống tồn kho của bạn
         Log::info("Processing return goods request", [
             'notification_id' => $notification->id,
             'store_id' => $notification->store_id,

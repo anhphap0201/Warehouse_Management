@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the products.
+     * Hiển thị danh sách các sản phẩm.
      */
     public function index()
     {
@@ -19,7 +19,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new product.
+     * Hiển thị form tạo sản phẩm mới.
      */
     public function create()
     {
@@ -28,7 +28,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created product in storage.
+     * Lưu sản phẩm mới được tạo vào storage.
      */
     public function store(Request $request)
     {
@@ -47,7 +47,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified product.
+     * Hiển thị sản phẩm cụ thể.
      */
     public function show(Product $product)
     {
@@ -56,7 +56,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified product.
+     * Hiển thị form chỉnh sửa sản phẩm cụ thể.
      */
     public function edit(Product $product)
     {
@@ -65,7 +65,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified product in storage.
+     * Cập nhật sản phẩm cụ thể trong storage.
      */
     public function update(Request $request, Product $product)
     {
@@ -84,11 +84,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified product from storage.
+     * Xóa sản phẩm cụ thể khỏi storage.
      */
     public function destroy(Product $product)
     {
-        // Check if product has inventory
+        // Kiểm tra xem sản phẩm có tồn kho không
         if ($product->inventory()->exists()) {
             return redirect()->route('products.index')
                 ->with('error', 'Không thể xóa sản phẩm vì còn tồn kho!');
@@ -101,7 +101,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Get product details for API
+     * Lấy thông tin chi tiết sản phẩm cho API
      */
     public function getProduct($id)
     {

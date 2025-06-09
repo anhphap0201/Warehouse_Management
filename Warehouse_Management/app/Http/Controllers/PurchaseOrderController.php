@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\DB;
 class PurchaseOrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách tài nguyên.
      */
     public function index(Request $request)
     {
         $query = PurchaseOrder::with(['warehouse', 'items'])
             ->orderBy('created_at', 'desc');
 
-        // Advanced search filters
+        // Bộ lọc tìm kiếm nâng cao
         $filters = [
             'invoice_number' => $request->input('invoice_number'),
             'warehouse' => $request->input('warehouse'),
@@ -29,7 +29,7 @@ class PurchaseOrderController extends Controller
             'status' => $request->input('status')
         ];
 
-        // Apply filters
+        // Áp dụng các bộ lọc
         if ($filters['invoice_number']) {
             $query->where('invoice_number', 'like', "%{$filters['invoice_number']}%");
         }
@@ -48,7 +48,7 @@ class PurchaseOrderController extends Controller
             $query->where('status', $filters['status']);
         }
 
-        // Legacy search support
+        // Hỗ trợ tìm kiếm legacy
         if ($request->filled('warehouse_id')) {
             $query->where('warehouse_id', $request->warehouse_id);
         }
@@ -61,7 +61,7 @@ class PurchaseOrderController extends Controller
             });
         }
 
-        // Handle AJAX requests for real-time search
+        // Xử lý yêu cầu AJAX cho tìm kiếm thời gian thực
         if ($request->ajax() || $request->wantsJson()) {
             $purchaseOrders = $query->get();
             return response()->json([
@@ -93,7 +93,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form để tạo tài nguyên mới.
      */
     public function create()
     {
@@ -105,7 +105,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Generate a unique invoice number
+     * Tạo số hóa đơn duy nhất
      */
     private function generateInvoiceNumber()
     {
@@ -127,7 +127,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu tài nguyên mới được tạo vào storage.
      */
     public function store(Request $request)
     {
@@ -143,7 +143,7 @@ class PurchaseOrderController extends Controller
             'items.*.quantity' => 'required|integer|min:1|max:999999999',
             'items.*.unit_price' => 'required|numeric|min:0|max:9999999999999.99',
         ], [
-            // Custom error messages
+            // Thông báo lỗi tùy chỉnh
             'warehouse_id.required' => 'Vui lòng chọn kho hàng.',
             'warehouse_id.exists' => 'Kho hàng đã chọn không tồn tại.',
             'supplier_name.required' => 'Vui lòng nhập tên nhà cung cấp.',
@@ -162,18 +162,18 @@ class PurchaseOrderController extends Controller
         ]);
 
         $purchaseOrder = DB::transaction(function () use ($validated) {
-            // Calculate total amount
+            // Tính tổng tiền
             $totalAmount = 0;
             foreach ($validated['items'] as $item) {
                 $totalAmount += $item['quantity'] * $item['unit_price'];
             }
 
-            // Validate total amount against database limit
+            // Xác thực tổng tiền không vượt quá giới hạn database
             if ($totalAmount > 9999999999999.99) {
                 throw new \Exception('Tổng tiền vượt quá giới hạn cho phép (9,999,999,999,999.99 VNĐ). Vui lòng giảm số lượng hoặc đơn giá.');
             }
 
-            // Create purchase order with auto-generated invoice number and confirmed status
+            // Tạo đơn mua hàng với số hóa đơn tự động và trạng thái đã xác nhận
             $purchaseOrder = PurchaseOrder::create([
                 'warehouse_id' => $validated['warehouse_id'],
                 'supplier_id' => $validated['supplier_id'],
@@ -182,11 +182,11 @@ class PurchaseOrderController extends Controller
                 'supplier_address' => $validated['supplier_address'],
                 'invoice_number' => $this->generateInvoiceNumber(),
                 'total_amount' => $totalAmount,
-                'status' => 'confirmed', // Auto-confirm since user is admin
+                'status' => 'confirmed', // Tự động xác nhận vì người dùng là admin
                 'notes' => $validated['notes'],
             ]);
 
-            // Create purchase order items
+            // Tạo các item của đơn mua hàng
             foreach ($validated['items'] as $item) {
                 PurchaseOrderItem::create([
                     'purchase_order_id' => $purchaseOrder->id,
@@ -197,9 +197,9 @@ class PurchaseOrderController extends Controller
                 ]);
             }
 
-            // Automatically update inventory since user is admin - no confirmation needed
+            // Tự động cập nhật tồn kho vì người dùng là admin - không cần xác nhận
             foreach ($validated['items'] as $item) {
-                // Update or create inventory record
+                // Cập nhật hoặc tạo bản ghi tồn kho
                 $inventory = Inventory::firstOrCreate(
                     [
                         'warehouse_id' => $validated['warehouse_id'],
@@ -219,7 +219,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Hiển thị tài nguyên được chỉ định.
      */
     public function show(PurchaseOrder $purchaseOrder)
     {
@@ -229,8 +229,8 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * Since all orders are auto-confirmed, editing is no longer allowed.
+     * Hiển thị form để chỉnh sửa tài nguyên được chỉ định.
+     * Vì tất cả đơn hàng đều được tự động xác nhận, việc chỉnh sửa không còn được phép.
      */
     public function edit(PurchaseOrder $purchaseOrder)
     {
@@ -239,8 +239,8 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * Since all orders are auto-confirmed, updates are not allowed.
+     * Cập nhật tài nguyên được chỉ định trong storage.
+     * Vì tất cả đơn hàng đều được tự động xác nhận, việc cập nhật không được phép.
      */
     public function update(Request $request, PurchaseOrder $purchaseOrder)
     {
@@ -249,8 +249,8 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * Since all orders are auto-confirmed, deletion is not allowed.
+     * Xóa tài nguyên được chỉ định khỏi storage.
+     * Vì tất cả đơn hàng đều được tự động xác nhận, việc xóa không được phép.
      */
     public function destroy(PurchaseOrder $purchaseOrder)
     {
@@ -259,7 +259,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Search products for autocomplete
+     * Tìm kiếm sản phẩm cho autocomplete
      */
     public function searchProducts(Request $request)
     {
@@ -282,7 +282,7 @@ class PurchaseOrderController extends Controller
                     'id' => $product->id,
                     'name' => $product->name,
                     'sku' => $product->sku,
-                    'code' => $product->sku, // Add code field for compatibility
+                    'code' => $product->sku, // Thêm trường code để tương thích
                     'category' => $product->category ? $product->category->name : null,
                     'unit' => $product->unit,
                     'description' => $product->description,
@@ -293,7 +293,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Search warehouses for autocomplete  
+     * Tìm kiếm kho hàng cho autocomplete  
      */
     public function searchWarehouses(Request $request)
     {
@@ -319,7 +319,7 @@ class PurchaseOrderController extends Controller
     }
 
     /**
-     * Search suppliers for autocomplete
+     * Tìm kiếm nhà cung cấp cho autocomplete
      */
     public function searchSuppliers(Request $request)
     {

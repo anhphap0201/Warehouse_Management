@@ -20,25 +20,22 @@ class Store extends Model
 
     protected $casts = [
         'status' => 'boolean',
-    ];
-
-    /**
-     * Get the store inventory records.
+    ];    /**
+     * Lấy các bản ghi tồn kho cửa hàng.
      */
     public function inventory(): HasMany
     {
-        return $this->hasMany(StoreInventory::class);    }
+        return $this->hasMany(StoreInventory::class);
+    }
 
     /**
-     * Get the notifications for this store.
+     * Lấy các thông báo cho cửa hàng này.
      */
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
-    }
-
-    /**
-     * Get pending notifications for this store.
+    }    /**
+     * Lấy các thông báo đang chờ cho cửa hàng này.
      */
     public function pendingNotifications(): HasMany
     {
@@ -46,7 +43,7 @@ class Store extends Model
     }
 
     /**
-     * Check if store is active
+     * Kiểm tra xem cửa hàng có đang hoạt động không
      */
     public function isActive(): bool
     {

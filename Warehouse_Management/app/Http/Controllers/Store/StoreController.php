@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {    /**
-     * Display a listing of the stores.
+     * Hiển thị danh sách các cửa hàng.
      */
     public function index()
     {
@@ -17,7 +17,7 @@ class StoreController extends Controller
     }
 
     /**
-     * Show the form for creating a new store.
+     * Hiển thị form tạo cửa hàng mới.
      */
     public function create()
     {
@@ -25,7 +25,7 @@ class StoreController extends Controller
     }
 
     /**
-     * Store a newly created store in storage.
+     * Lưu cửa hàng mới được tạo vào storage.
      */
     public function store(Request $request)
     {
@@ -41,10 +41,8 @@ class StoreController extends Controller
 
         return redirect()->route('stores.index')
             ->with('success', 'Cửa hàng đã được tạo thành công!');
-    }
-
-    /**
-     * Display the specified store.
+    }    /**
+     * Hiển thị cửa hàng cụ thể.
      */
     public function show(Store $store)
     {
@@ -53,7 +51,7 @@ class StoreController extends Controller
     }
 
     /**
-     * Show the form for editing the specified store.
+     * Hiển thị form chỉnh sửa cửa hàng cụ thể.
      */
     public function edit(Store $store)
     {
@@ -61,7 +59,7 @@ class StoreController extends Controller
     }
 
     /**
-     * Update the specified store in storage.
+     * Cập nhật cửa hàng cụ thể trong storage.
      */
     public function update(Request $request, Store $store)
     {
@@ -77,10 +75,8 @@ class StoreController extends Controller
 
         return redirect()->route('stores.index')
             ->with('success', 'Cửa hàng đã được cập nhật thành công!');
-    }
-
-    /**
-     * Remove the specified store from storage.
+    }    /**
+     * Xóa cửa hàng cụ thể khỏi storage.
      */
     public function destroy(Store $store)
     {
@@ -91,7 +87,7 @@ class StoreController extends Controller
     }
 
     /**
-     * Show the form for receiving stock from warehouse.
+     * Hiển thị form nhận hàng từ kho.
      */
     public function showReceiveForm(Store $store)
     {
@@ -99,17 +95,17 @@ class StoreController extends Controller
     }
 
     /**
-     * Receive stock from warehouse.
+     * Nhận hàng từ kho.
      */
     public function receiveStock(Request $request, Store $store)
     {
-        // Logic for receiving stock
+        // Xử lý logic nhận hàng
         return redirect()->route('stores.show', $store)
             ->with('success', 'Đã nhận hàng thành công!');
     }
 
     /**
-     * Show the form for returning stock to warehouse.
+     * Hiển thị form trả hàng về kho.
      */
     public function showReturnForm(Store $store)
     {
@@ -117,11 +113,11 @@ class StoreController extends Controller
     }
 
     /**
-     * Return stock to warehouse.
+     * Trả hàng về kho.
      */
     public function returnStock(Request $request, Store $store)
     {
-        // Logic for returning stock
+        // Xử lý logic trả hàng
         return redirect()->route('stores.show', $store)
             ->with('success', 'Đã trả hàng về kho thành công!');
     }

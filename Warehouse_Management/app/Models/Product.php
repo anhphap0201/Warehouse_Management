@@ -20,7 +20,7 @@ class Product extends Model
     ];
 
     /**
-     * Get the category that owns the product.
+     * Lấy danh mục sở hữu sản phẩm này.
      */
     public function category(): BelongsTo
     {
@@ -28,7 +28,7 @@ class Product extends Model
     }
 
     /**
-     * Get the inventory records for the product.
+     * Lấy các bản ghi tồn kho cho sản phẩm.
      */
     public function inventory(): HasMany
     {
@@ -36,7 +36,7 @@ class Product extends Model
     }
 
     /**
-     * Get the store inventory records for the product.
+     * Lấy các bản ghi tồn kho cửa hàng cho sản phẩm.
      */
     public function storeInventories(): HasMany
     {
@@ -44,7 +44,7 @@ class Product extends Model
     }
 
     /**
-     * Get total quantity across all warehouses
+     * Lấy tổng số lượng trên tất cả các kho
      */
     public function getTotalQuantityAttribute(): int
     {
