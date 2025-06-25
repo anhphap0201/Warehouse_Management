@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip unzip curl git \
     nodejs npm \
-    libmysqlclient-dev
+    libmariadb-dev
 
 RUN docker-php-ext-install pdo pdo_mysql
 # Cài Composer
