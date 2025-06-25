@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Table Alternating Rows - Fixed</title>
+    
+    <!-- Load CSS theo thứ tự giống app -->
+    <link href="build/assets/app-D8M4i5x4.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/custom-tables.css">
+    <link rel="stylesheet" href="css/table-alternating-fix.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto py-8 px-4">
+        <h1 class="text-3xl font-bold mb-8 text-center text-gray-900">Test Table Modern - Fixed Alternating Rows</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4 text-blue-600">🎯 Table Modern với CSS Fix</h2>
+            
+            <div class="table-container">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>SKU</th>
+                            <th>Danh mục</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái</th>
+                            <th class="text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-box text-blue-600"></i>
+                                    </div>
+                                    Sản phẩm A
+                                </div>
+                            </td>
+                            <td>SKU-001</td>
+                            <td>Danh mục 1</td>
+                            <td>100</td>
+                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Còn hàng</span></td>
+                            <td class="text-center">
+                                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-800 ml-2"><i class="fas fa-edit"></i></button>
+                                <button class="text-red-600 hover:text-red-800 ml-2"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-box text-purple-600"></i>
+                                    </div>
+                                    Sản phẩm B
+                                </div>
+                            </td>
+                            <td>SKU-002</td>
+                            <td>Danh mục 2</td>
+                            <td>50</td>
+                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Còn hàng</span></td>
+                            <td class="text-center">
+                                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-800 ml-2"><i class="fas fa-edit"></i></button>
+                                <button class="text-red-600 hover:text-red-800 ml-2"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-box text-yellow-600"></i>
+                                    </div>
+                                    Sản phẩm C
+                                </div>
+                            </td>
+                            <td>SKU-003</td>
+                            <td>Danh mục 1</td>
+                            <td>25</td>
+                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Sắp hết</span></td>
+                            <td class="text-center">
+                                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-800 ml-2"><i class="fas fa-edit"></i></button>
+                                <button class="text-red-600 hover:text-red-800 ml-2"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-box text-red-600"></i>
+                                    </div>
+                                    Sản phẩm D
+                                </div>
+                            </td>
+                            <td>SKU-004</td>
+                            <td>Danh mục 3</td>
+                            <td>0</td>
+                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Hết hàng</span></td>
+                            <td class="text-center">
+                                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-800 ml-2"><i class="fas fa-edit"></i></button>
+                                <button class="text-red-600 hover:text-red-800 ml-2"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-box text-indigo-600"></i>
+                                    </div>
+                                    Sản phẩm E
+                                </div>
+                            </td>
+                            <td>SKU-005</td>
+                            <td>Danh mục 2</td>
+                            <td>75</td>
+                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Còn hàng</span></td>
+                            <td class="text-center">
+                                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-800 ml-2"><i class="fas fa-edit"></i></button>
+                                <button class="text-red-600 hover:text-red-800 ml-2"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-box text-pink-600"></i>
+                                    </div>
+                                    Sản phẩm F
+                                </div>
+                            </td>
+                            <td>SKU-006</td>
+                            <td>Danh mục 1</td>
+                            <td>120</td>
+                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Còn hàng</span></td>
+                            <td class="text-center">
+                                <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-800 ml-2"><i class="fas fa-edit"></i></button>
+                                <button class="text-red-600 hover:text-red-800 ml-2"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                <h3 class="font-semibold text-gray-900 mb-2">Debug Info:</h3>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li>✅ CSS fix được load từ: <code>css/table-alternating-fix.css</code></li>
+                    <li>✅ Hàng lẻ (1, 3, 5...) nên có màu nền: <code>#f9fafb</code> (xám nhạt)</li>
+                    <li>✅ Hàng chẵn (2, 4, 6...) nên có màu nền: <code>#ffffff</code> (trắng)</li>
+                    <li>✅ Hover effect nên thay đổi màu nền</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

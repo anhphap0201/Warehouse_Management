@@ -1,0 +1,84 @@
+/* 
+ * Table Alternating Rows Fix
+ * Tệp CSS này được tạo riêng để fix vấn đề alternating rows không hoạt động
+ * Độ ưu tiên cao nhất để override tất cả CSS khác
+ */
+
+/* Màu nền cho hàng lẻ (odd) */
+html body table.table-modern tbody tr:nth-child(odd),
+html body .table-container table.table-modern tbody tr:nth-child(odd),
+html body .table-wrapper table.table-modern tbody tr:nth-child(odd),
+html body div table.table-modern tbody tr:nth-child(odd),
+table.table-modern tbody tr:nth-child(odd) {
+    background-color: #f9fafb !important;
+    background: #f9fafb !important;
+}
+
+/* Màu nền cho hàng chẵn (even) */
+html body table.table-modern tbody tr:nth-child(even),
+html body .table-container table.table-modern tbody tr:nth-child(even),
+html body .table-wrapper table.table-modern tbody tr:nth-child(even),
+html body div table.table-modern tbody tr:nth-child(even),
+table.table-modern tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+}
+
+/* Hiệu ứng hover cho hàng lẻ */
+html body table.table-modern tbody tr:nth-child(odd):hover,
+html body .table-container table.table-modern tbody tr:nth-child(odd):hover,
+html body .table-wrapper table.table-modern tbody tr:nth-child(odd):hover,
+html body div table.table-modern tbody tr:nth-child(odd):hover,
+table.table-modern tbody tr:nth-child(odd):hover {
+    background-color: #e5e7eb !important;
+    background: #e5e7eb !important;
+}
+
+/* Hiệu ứng hover cho hàng chẵn */
+html body table.table-modern tbody tr:nth-child(even):hover,
+html body .table-container table.table-modern tbody tr:nth-child(even):hover,
+html body .table-wrapper table.table-modern tbody tr:nth-child(even):hover,
+html body div table.table-modern tbody tr:nth-child(even):hover,
+table.table-modern tbody tr:nth-child(even):hover {
+    background-color: #f3f4f6 !important;
+    background: #f3f4f6 !important;
+}
+
+/* Override cho tất cả các class tương tự */
+.table-modern tbody tr:nth-child(odd),
+.min-w-full tbody tr:nth-child(odd),
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9fafb !important;
+}
+
+.table-modern tbody tr:nth-child(even),
+.min-w-full tbody tr:nth-child(even),
+.table-striped tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+.table-modern tbody tr:nth-child(odd):hover,
+.min-w-full tbody tr:nth-child(odd):hover,
+.table-striped tbody tr:nth-child(odd):hover {
+    background-color: #e5e7eb !important;
+}
+
+.table-modern tbody tr:nth-child(even):hover,
+.min-w-full tbody tr:nth-child(even):hover,
+.table-striped tbody tr:nth-child(even):hover {
+    background-color: #f3f4f6 !important;
+}
+
+/* Đảm bảo override mọi style khác có thể conflict */
+[class*="table"] tbody tr:nth-child(odd) {
+    background-color: #f9fafb !important;
+}
+
+[class*="table"] tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+/* Debug - Để test xem CSS có được load không */
+.table-modern {
+    border: 1px solid #e5e7eb !important;
+}

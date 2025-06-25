@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: laravel-app
+    env: docker
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        value: mysql-xxx.aivencloud.com
+      - key: DB_PORT
+        value: 15335
+      - key: DB_DATABASE
+        value: defaultdb
+      - key: DB_USERNAME
+        value: avnadmin
+      - key: DB_PASSWORD
+        value: your-password

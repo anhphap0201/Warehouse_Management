@@ -1,0 +1,51 @@
+/* 
+ * CSS Alternating Table Rows - Direct Implementation
+ * File: table-alternating-rows.css
+ */
+
+/* Global table alternating rows */
+table tbody tr:nth-child(odd),
+.table tbody tr:nth-child(odd),
+.table-modern tbody tr:nth-child(odd),
+.min-w-full tbody tr:nth-child(odd) {
+    background-color: #f9fafb !important;
+}
+
+table tbody tr:nth-child(even),
+.table tbody tr:nth-child(even),
+.table-modern tbody tr:nth-child(even),
+.min-w-full tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+/* Hover effects */
+table tbody tr:nth-child(odd):hover,
+.table tbody tr:nth-child(odd):hover,
+.table-modern tbody tr:nth-child(odd):hover,
+.min-w-full tbody tr:nth-child(odd):hover {
+    background-color: #e5e7eb !important;
+}
+
+table tbody tr:nth-child(even):hover,
+.table tbody tr:nth-child(even):hover,
+.table-modern tbody tr:nth-child(even):hover,
+.min-w-full tbody tr:nth-child(even):hover {
+    background-color: #f3f4f6 !important;
+}
+
+/* Special styling for table-striped */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f8fafc !important;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+.table-striped tbody tr:nth-child(odd):hover {
+    background-color: #e2e8f0 !important;
+}
+
+.table-striped tbody tr:nth-child(even):hover {
+    background-color: #f1f5f9 !important;
+}

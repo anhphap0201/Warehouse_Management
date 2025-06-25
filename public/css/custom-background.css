@@ -1,0 +1,19 @@
+/* Custom Background Colors */
+body {
+    background-color: #f3f4f6 !important; /* Light gray background */
+}
+
+/* Override any bg-gray-50 or similar classes */
+.bg-gray-50 {
+    background-color: #f3f4f6 !important;
+}
+
+/* Ensure main content areas use the new background */
+.min-h-screen {
+    background-color: #f3f4f6;
+}
+
+/* Card and container backgrounds */
+.bg-white {
+    background-color: #ffffff;
+}
