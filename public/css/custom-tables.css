@@ -1,0 +1,523 @@
+/* Custom Table Styling - Table Modern with Alternating Row Colors */
+.table-modern,
+.min-w-full,
+.table-striped,
+.table-desktop {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+/* Header styling - Black header with white text */
+.table-modern thead,
+.table-desktop thead,
+.min-w-full thead,
+.table-striped thead {
+    background-color: #1f2937 !important; /* Dark gray/black background */
+    border-bottom: 2px solid #1f2937;
+}
+
+.table-modern thead th,
+.table-desktop thead th,
+.min-w-full thead th,
+.table-striped thead th {
+    font-weight: 600 !important;
+    color: #ffffff !important; /* White text */
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 16px !important;
+    border-bottom: 1px solid #000000 !important; /* Black border for header */
+    background-color: #1f2937 !important; /* Ensure dark background */
+}
+
+/* Force header styling with highest specificity */
+html body table thead,
+html body .table-container table thead,
+html body .table-wrapper table thead,
+html body .table-responsive table thead {
+    background-color: #1f2937 !important;
+    background: #1f2937 !important;
+}
+
+html body table thead th,
+html body .table-container table thead th,
+html body .table-wrapper table thead th,
+html body .table-responsive table thead th {
+    background-color: #1f2937 !important;
+    background: #1f2937 !important;
+    color: #ffffff !important;
+}
+
+.table-modern td,
+.min-w-full td,
+.table-striped td,
+.table-desktop td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-modern tbody tr,
+.min-w-full tbody tr,
+.table-striped tbody tr,
+.table-desktop tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+/* Alternating row colors for all table types */
+.table-modern tbody tr:nth-child(odd),
+.min-w-full tbody tr:nth-child(odd),
+.table-striped tbody tr:nth-child(odd),
+.table-desktop tbody tr:nth-child(odd) {
+    background-color: #f9fafb !important;
+}
+
+.table-modern tbody tr:nth-child(even),
+.min-w-full tbody tr:nth-child(even),
+.table-striped tbody tr:nth-child(even),
+.table-desktop tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+.table-modern tbody tr:hover,
+.min-w-full tbody tr:hover,
+.table-striped tbody tr:hover,
+.table-desktop tbody tr:hover {
+    background-color: #f3f4f6 !important;
+}
+
+/* Force alternating row colors with highest specificity */
+html body table.table-modern tbody tr:nth-child(odd),
+html body .table-container table.table-modern tbody tr:nth-child(odd),
+html body .table-wrapper table.table-modern tbody tr:nth-child(odd) {
+    background-color: #f9fafb !important;
+    background: #f9fafb !important;
+}
+
+html body table.table-modern tbody tr:nth-child(even),
+html body .table-container table.table-modern tbody tr:nth-child(even),
+html body .table-wrapper table.table-modern tbody tr:nth-child(even) {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+}
+
+/* Hover effects with highest specificity */
+html body table.table-modern tbody tr:nth-child(odd):hover,
+html body .table-container table.table-modern tbody tr:nth-child(odd):hover,
+html body .table-wrapper table.table-modern tbody tr:nth-child(odd):hover {
+    background-color: #e5e7eb !important;
+    background: #e5e7eb !important;
+}
+
+html body table.table-modern tbody tr:nth-child(even):hover,
+html body .table-container table.table-modern tbody tr:nth-child(even):hover,
+html body .table-wrapper table.table-modern tbody tr:nth-child(even):hover {
+    background-color: #f3f4f6 !important;
+    background: #f3f4f6 !important;
+}
+
+/* Table Modern Responsive Design */
+@media (max-width: 768px) {
+    .table-modern {
+        font-size: 14px;
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+    
+    .table-modern thead {
+        display: none;
+    }
+    
+    .table-modern th {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .table-modern td {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .table-modern tbody tr {
+        display: block;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        padding: 8px;
+    }
+}
+
+/* Ensure proper styling for table containers */
+.table-modern,
+.min-w-full,
+table.w-full {
+    table-layout: auto;
+    border-spacing: 0;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+}
+
+.table-modern th,
+.table-modern td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* Header styling with better contrast */
+/* This section is moved to top of file for better priority */
+
+/* Add black border lines between rows */
+.table-modern td,
+.min-w-full td,
+.table-striped td,
+.table-desktop td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #000000 !important; /* Black border between rows */
+}
+
+/* Dark mode compatibility for header */
+@media (prefers-color-scheme: dark) {
+    .table-modern thead,
+    .table-desktop thead,
+    .min-w-full thead,
+    .table-striped thead,
+    html body table thead,
+    html body .table-container table thead,
+    html body .table-wrapper table thead,
+    html body .table-responsive table thead {
+        background-color: #1f2937 !important; /* Dark background in dark mode */
+        background: #1f2937 !important;
+    }
+    
+    .table-modern thead th,
+    .table-desktop thead th,
+    .min-w-full thead th,
+    .table-striped thead th,
+    html body table thead th,
+    html body .table-container table thead th,
+    html body .table-wrapper table thead th,
+    html body .table-responsive table thead th {
+        color: #ffffff !important; /* White text in dark mode */
+        background-color: #1f2937 !important;
+        background: #1f2937 !important;
+        border-bottom: 1px solid #000000;
+    }
+    
+    /* Dark mode table body */
+    .table-modern,
+    .min-w-full,
+    .table-striped,
+    .table-desktop {
+        background-color: #111827;
+        color: #f9fafb;
+    }
+    
+    .table-modern td,
+    .min-w-full td,
+    .table-striped td,
+    .table-desktop td {
+        color: #f9fafb;
+        border-bottom: 1px solid #374151 !important; /* Lighter border in dark mode */
+    }
+}
+
+/* Dark mode cho badges */
+.dark span.bg-blue-800 {
+    background-color: #1e40af !important;
+    color: #dbeafe !important;
+}
+
+.dark span.bg-gray-600 {
+    background-color: #4b5563 !important;
+    color: #e5e7eb !important;
+}
+
+.dark span.bg-purple-900 {
+    background-color: #581c87 !important;
+    color: #ede9fe !important;
+}
+
+.dark span.bg-green-900 {
+    background-color: #14532d !important;
+    color: #dcfce7 !important;
+}
+
+.dark span.bg-red-900 {
+    background-color: #7f1d1d !important;
+    color: #fee2e2 !important;
+}
+
+/* Dark mode for table headers - keep consistent dark header */
+.dark .table-modern thead,
+.dark .table-desktop thead,
+.dark .min-w-full thead,
+.dark .table-striped thead {
+    background-color: #111827 !important; /* Darker in dark mode */
+    border-bottom: 2px solid #111827;
+}
+
+.dark .table-modern thead th,
+.dark .table-desktop thead th,
+.dark .min-w-full thead th,
+.dark .table-striped thead th {
+    background-color: #111827 !important;
+    color: #ffffff !important; /* Keep white text in dark mode */
+    border-bottom: 1px solid #374151 !important;
+}
+
+/* Dark mode force header styling */
+.dark html body table thead,
+.dark html body .table-container table thead,
+.dark html body .table-wrapper table thead,
+.dark html body .table-responsive table thead {
+    background-color: #111827 !important;
+    background: #111827 !important;
+}
+
+.dark html body table thead th,
+.dark html body .table-container table thead th,
+.dark html body .table-wrapper table thead th,
+.dark html body .table-responsive table thead th {
+    background-color: #111827 !important;
+    background: #111827 !important;
+    color: #ffffff !important;
+}
+
+/* Đảm bảo badges trong flex container hoạt động đúng */
+.flex.flex-wrap.gap-2 .inline-flex.items-center,
+.inline-flex.items-center {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+/* Đường kẻ phân tách các khối nội dung */
+.section-divider {
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.dark .section-divider {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ ngăn cách header và content */
+.page-header-divider {
+    border-bottom: 2px solid #f3f4f6;
+    margin-bottom: 2rem;
+}
+
+.dark .page-header-divider {
+    border-bottom-color: #1f2937;
+}
+
+/* Đường kẻ ngăn cách trong card */
+.card-section-divider {
+    border-bottom: 1px solid #f3f4f6;
+    margin: 1.5rem -1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.dark .card-section-divider {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ phân tách form sections */
+.form-section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.dark .form-section {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ phân tách trong table */
+.table-section-header {
+    background-color: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+    border-top: 1px solid #e5e7eb;
+}
+
+.dark .table-section-header {
+    background-color: #1f2937;
+    border-bottom-color: #374151;
+    border-top-color: #374151;
+}
+
+/* Đường kẻ ngăn cách action buttons */
+.action-divider {
+    border-right: 1px solid #e5e7eb;
+    margin: 0 0.75rem;
+    height: 1.5rem;
+}
+
+.dark .action-divider {
+    border-right-color: #374151;
+}
+
+/* Đường kẻ phân tách trong grid layout */
+.grid-divider-vertical {
+    border-right: 1px solid #e5e7eb;
+    padding-right: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.dark .grid-divider-vertical {
+    border-right-color: #374151;
+}
+
+.grid-divider-horizontal {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.dark .grid-divider-horizontal {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ trong sidebar/navigation */
+.nav-divider {
+    border-bottom: 1px solid #e5e7eb;
+    margin: 0.5rem 0;
+}
+
+.dark .nav-divider {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ phân tách tabs */
+.tab-divider {
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 1rem;
+}
+
+.dark .tab-divider {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ phân tách thông tin trong detail view */
+.info-divider {
+    border-bottom: 1px solid #f3f4f6;
+    margin: 1rem -1rem;
+    padding-bottom: 1rem;
+}
+
+.dark .info-divider {
+    border-bottom-color: #374151;
+}
+
+/* Đường kẻ phân tách trong modal */
+.modal-section-divider {
+    border-bottom: 1px solid #e5e7eb;
+    margin: 1rem -1.5rem 1.5rem -1.5rem;
+    padding-bottom: 1rem;
+}
+
+.dark .modal-section-divider {
+    border-bottom-color: #374151;
+}
+
+/* Action button improvements with dividers */
+.action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.action-buttons .action-btn {
+    transition: all 0.2s ease;
+}
+
+.action-buttons .action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons .action-divider {
+    display: inline-block;
+    width: 1px;
+    height: 1rem;
+    background-color: #e5e7eb;
+    margin: 0 0.25rem;
+}
+
+.dark .action-buttons .action-divider {
+    background-color: #374151;
+}
+
+/* Hover effect cho action groups */
+.action-buttons:hover .action-divider {
+    background-color: #d1d5db;
+    transition: background-color 0.2s ease;
+}
+
+.dark .action-buttons:hover .action-divider {
+    background-color: #4b5563;
+}
+
+/* Enhanced section styling */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.dark .section-header {
+    border-bottom-color: #374151;
+}
+
+.section-header h3 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.section-header .section-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Card với shadow gradient */
+.card-elevated {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .card-elevated {
+    background: linear-gradient(145deg, #1f2937 0%, #111827 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced table container */
+.table-container-modern {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 
+        0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+}
+
+.dark .table-container-modern {
+    background: #1f2937;
+    border-color: #374151;
+}

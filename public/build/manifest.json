@@ -1,0 +1,19 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-D2ZhccMr.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-9gyLvWeZ.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/warehouse-show.js": {
+    "file": "assets/warehouse-show-C8r1T2gP.js",
+    "name": "warehouse-show",
+    "src": "resources/js/warehouse-show.js",
+    "isEntry": true
+  }
+}

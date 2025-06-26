@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Alternating Table Rows</title>
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Ba3E0dDZ.css') }}">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-6">Test Alternating Table Rows</h1>
+        
+        <!-- Test Table 1: table-modern -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-4">Table Modern Class</h2>
+            <div class="table-container">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>SKU</th>
+                            <th>Danh mục</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sản phẩm A</td>
+                            <td>SKU-001</td>
+                            <td>Danh mục 1</td>
+                            <td>100</td>
+                            <td>Còn hàng</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm B</td>
+                            <td>SKU-002</td>
+                            <td>Danh mục 2</td>
+                            <td>50</td>
+                            <td>Còn hàng</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm C</td>
+                            <td>SKU-003</td>
+                            <td>Danh mục 1</td>
+                            <td>25</td>
+                            <td>Sắp hết</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm D</td>
+                            <td>SKU-004</td>
+                            <td>Danh mục 3</td>
+                            <td>0</td>
+                            <td>Hết hàng</td>
+                        </tr>
+                        <tr>
+                            <td>Sản phẩm E</td>
+                            <td>SKU-005</td>
+                            <td>Danh mục 2</td>
+                            <td>75</td>
+                            <td>Còn hàng</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Test Table 2: table-striped -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-4">Table Striped Class</h2>
+            <div class="overflow-x-auto">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tên kho</th>
+                            <th>Địa điểm</th>
+                            <th>Sức chứa</th>
+                            <th>Tình trạng</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kho A</td>
+                            <td>Hà Nội</td>
+                            <td>1000 m²</td>
+                            <td>Hoạt động</td>
+                            <td>
+                                <button class="action-btn action-btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn action-btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kho B</td>
+                            <td>Hồ Chí Minh</td>
+                            <td>1500 m²</td>
+                            <td>Hoạt động</td>
+                            <td>
+                                <button class="action-btn action-btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn action-btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kho C</td>
+                            <td>Đà Nẵng</td>
+                            <td>800 m²</td>
+                            <td>Bảo trì</td>
+                            <td>
+                                <button class="action-btn action-btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn action-btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kho D</td>
+                            <td>Cần Thơ</td>
+                            <td>1200 m²</td>
+                            <td>Hoạt động</td>
+                            <td>
+                                <button class="action-btn action-btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn action-btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Test Table 3: min-w-full -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-4">Min Width Full Class</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nhà cung cấp</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Liên hệ</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">Nhà cung cấp A</td>
+                            <td class="px-6 py-4 whitespace-nowrap">0123-456-789</td>
+                            <td class="px-6 py-4 whitespace-nowrap">suppliea@example.com</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Hoạt động
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">Nhà cung cấp B</td>
+                            <td class="px-6 py-4 whitespace-nowrap">0987-654-321</td>
+                            <td class="px-6 py-4 whitespace-nowrap">supplierb@example.com</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    Tạm dừng
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">Nhà cung cấp C</td>
+                            <td class="px-6 py-4 whitespace-nowrap">0369-147-258</td>
+                            <td class="px-6 py-4 whitespace-nowrap">supplierc@example.com</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Hoạt động
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</body>
+</html>
